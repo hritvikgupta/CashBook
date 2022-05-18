@@ -17,7 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class MainActivity extends AppCompatActivity implements cashBookAdapter.ItemClicked, DialogFragment.dialogClicked, DatePickerDialog.OnDateSetListener {
 
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     String tag;
     Button datebutton;
     TextView setDate;
+    ArrayList<Books>book;
+    Dictionary dict = new Hashtable();
 
 
 
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         fragmentManager = this.getSupportFragmentManager();
         lfrag = (ListFrag) fragmentManager.findFragmentById(R.id.list);
         dfrag = (DialogFragment) fragmentManager.findFragmentById(R.id.Dialog);
+        book = new ArrayList<Books>();
 
         btnAddBook = findViewById(R.id.btnAddBook);
         btnAddBook.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     @Override
     public void onItemClicked(int index) {
         Intent intent = new Intent(MainActivity.this, com.example.cashbook.NoteBookDetails.class);
-        Intent.
+        intent.putExtra("Data", ApplicationClass.book.get(index).getName());
+        //Toast.makeText(MainActivity.this, "Click"+ ApplicationClass.book.get(index).getName(), Toast.LENGTH_SHORT).show();
         startActivity(intent);
 
     }
@@ -100,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             createBook(name, setDate.getText().toString());
         }
         //Here we have used the setDate parameter to set the date of what we taken input from the date
-
 
 
     }
