@@ -10,10 +10,11 @@
         <entry key="app/src/main/res/layout/fragment_balance.xml" value="0.19927536231884058" />
         <entry key="app/src/main/res/layout/fragment_bottom.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/fragment_dialog.xml" value="0.11481481481481481" />
+        <entry key="app/src/main/res/layout/fragment_dialog_inside.xml" value="0.1914306640625" />
         <entry key="app/src/main/res/layout/fragment_list.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/raw_layout.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/raw_layout2.xml" value="0.15534420289855072" />
-        <entry key="app/src/main/res/layout/raw_layout_notebook_details.xml" value="0.28950973731884055" />
+        <entry key="app/src/main/res/layout/raw_layout_notebook_details.xml" value="0.27884615384615385" />
       </map>
     </option>
   </component>

@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import com.example.cashbook.insidenotebook.ApplicationClass;
 
 
 public class ListFrag extends Fragment {
@@ -48,7 +48,7 @@ public class ListFrag extends Fragment {
         list.setLayoutManager(layoutManager);
 
 
-         myadapter = new cashBookAdapter(this.getActivity(),ApplicationClass.book);
+         myadapter = new cashBookAdapter(this.getActivity(), ApplicationClass.book);
          list.setAdapter(myadapter);
 
 

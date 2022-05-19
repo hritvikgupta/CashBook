@@ -17,7 +17,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/expenseAmount"
@@ -52,7 +53,7 @@
                 android:text="TextView" />
 
             <TextView
-                android:id="@+id/balanceExpense"
+                android:id="@+id/totalBalanceRemain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

@@ -3,7 +3,7 @@
     package="com.example.cashbook">
 
     <application
-        android:name=".ApplicationClass"
+        android:name=".insidenotebook.ApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CashBook">
         <activity
-            android:name=".NoteBookDetails"
+            android:name=".insidenotebook.NoteBookDetails"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
