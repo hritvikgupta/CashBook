@@ -4,13 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.cashbook.DialogFragment;
 import com.example.cashbook.R;
 
-public class NoteBookDetails extends AppCompatActivity  {
+public class NoteBookDetails extends AppCompatActivity  implements DialogInsideFragment.dialogInsideClicked, DatePickerDialog.OnDateSetListener {
 
     TextView testing;
     RecyclerView.LayoutManager layoutManager;
@@ -44,11 +51,44 @@ public class NoteBookDetails extends AppCompatActivity  {
         eAdapter = new NoteBookDetailsAdapter(ApplicationClass.ebook);
         recyclerView.setAdapter(eAdapter);
 
+        cashButtonIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showInsideDialog();
+            }
+        });
 
 
 
 
 
+
+
+    }
+
+    public void showInsideDialog()
+    {
+        DialogInsideFragment dialogInsideFragment =  new DialogInsideFragment();
+        dialogInsideFragment.show(getSupportFragmentManager(),"Amount Dialog Fragment");
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onSaveClicked(DialogInsideFragment dialog) {
+                Toast.makeText(NoteBookDetails.this, "Clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancelClicked(DialogInsideFragment dialog) {
+
+    }
+
+    @Override
+    public void dateSetting(Button dateButton2) {
 
     }
 }
