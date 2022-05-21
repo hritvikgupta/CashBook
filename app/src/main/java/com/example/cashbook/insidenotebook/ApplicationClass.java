@@ -11,6 +11,7 @@ public class ApplicationClass extends Application {
 
     public static ArrayList<Books> book;
     public static ArrayList<com.example.cashbook.insidenotebook.expenseBook> ebook;
+    public static ArrayList<com.example.cashbook.insidenotebook.MaintainFinalBalance> mBook;
 
     @Override
     public void onCreate() {
@@ -26,18 +27,9 @@ public class ApplicationClass extends Application {
 
         ebook = new ArrayList<com.example.cashbook.insidenotebook.expenseBook>();
         expenseBook e1 = new expenseBook("shop2", "000","ration","000");
-        expenseBook e2 = new expenseBook("shop2", "000","ration","000");
-        expenseBook e3 = new expenseBook("shop2", "000","ration","000");
-        expenseBook e4 = new expenseBook("shop2", "000","ration","000");
-        expenseBook e5 = new expenseBook("shop2", "000","ration","000");
-
-
         ebook.add(e1);
-        ebook.add(e2);
-        ebook.add(e3);
-        ebook.add(e4);
-        ebook.add(e5);
 
+        mBook = new ArrayList<MaintainFinalBalance>();
 
 
 

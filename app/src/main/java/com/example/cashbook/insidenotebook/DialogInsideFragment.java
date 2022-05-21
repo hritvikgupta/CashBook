@@ -65,19 +65,20 @@ public class DialogInsideFragment extends DialogFragment {
         insideTag = inflatedView.findViewById(R.id.insideTag);
 
         b.setView(inflatedView);
+        activity.dateSetting(dateButton2);
+
 
         b.setCancelable(false)
                 .setPositiveButton("save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         activity.onSaveClicked(DialogInsideFragment.this);
-                        Toast.makeText(getActivity(), "Hola",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                            activity.onCancelClicked(DialogInsideFragment.this);
                     }
                 });
 

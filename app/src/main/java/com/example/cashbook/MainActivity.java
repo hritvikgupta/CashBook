@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.cashbook.insidenotebook.ApplicationClass;
+import com.example.cashbook.insidenotebook.MaintainFinalBalance;
 import com.example.cashbook.insidenotebook.NoteBookDetails;
 
 import java.text.DateFormat;
@@ -73,8 +74,9 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
     @Override
     public void onItemClicked(int index) {
+
         Intent intent = new Intent(MainActivity.this, NoteBookDetails.class);
-        //intent.putExtra("Data", ApplicationClass.book.get(index).getName());
+        intent.putExtra("Index", index);
         //Toast.makeText(MainActivity.this, "Click"+ ApplicationClass.book.get(index).getName(), Toast.LENGTH_SHORT).show();
         startActivity(intent);
 
