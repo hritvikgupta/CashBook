@@ -12,7 +12,7 @@ public class ApplicationClass extends Application {
     public static ArrayList<Books> book;
     public static ArrayList<com.example.cashbook.insidenotebook.expenseBook> ebook;
     public static ArrayList<com.example.cashbook.insidenotebook.MaintainFinalBalance> mBook;
-
+    public static int in;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -29,8 +29,9 @@ public class ApplicationClass extends Application {
 
 
         mBook = new ArrayList<MaintainFinalBalance>();
-        MaintainFinalBalance m1 = new MaintainFinalBalance(0,0,0);
-        mBook.add(m1);
+
+
+
 
 
 

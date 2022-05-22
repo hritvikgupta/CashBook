@@ -193,7 +193,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
 
     public void createExpense(String amount, String tag)
     {
-        expenseBook e1 = new expenseBook(tag,amount,selectedDate, String.valueOf(currentNet));
+        expenseBook e1 = new expenseBook(tag,amount,selectedDate,"");
         ApplicationClass.ebook.add(e1);
         eAdapter.notifyDataSetChanged();
     }

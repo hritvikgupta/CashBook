@@ -4,11 +4,14 @@ public class MaintainFinalBalance {
     private int netBalance;
     private int amountIn;
     private int amountout;
+    private int itemIndex;
 
-    public MaintainFinalBalance(int netBalance, int amountIn, int amountout) {
+    public MaintainFinalBalance(int netBalance, int amountIn, int amountout, int itemIndex) {
         this.netBalance = netBalance;
         this.amountIn = amountIn;
         this.amountout = amountout;
+        this.itemIndex = itemIndex;
+
     }
 
     public int getNetBalance() {
@@ -33,5 +36,13 @@ public class MaintainFinalBalance {
 
     public void setAmountout(int amountout) {
         this.amountout = amountout;
+    }
+
+    public int getItemIndex() {
+        return itemIndex;
+    }
+
+    public void setItemIndex(int itemIndex) {
+        this.itemIndex = itemIndex;
     }
 }

@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     public void onItemClicked(int index) {
 
         //Toast.makeText(MainActivity.this, ApplicationClass.mBook.get(index).getNetBalance(),Toast.LENGTH_SHORT).show();
+        ApplicationClass.mBook.add(new MaintainFinalBalance(0, 0, 0, index));
+        if(ApplicationClass.mBook.get(index).getItemIndex() != index && ApplicationClass.mBook.isEmpty()) {
+            ApplicationClass.mBook.add(new MaintainFinalBalance(0, 0, 0, index));
+        }
         Intent intent = new Intent(MainActivity.this, NoteBookDetails.class);
         intent.putExtra("Index", index);
         //Toast.makeText(MainActivity.this, "Click"+ ApplicationClass.book.get(index).getName(), Toast.LENGTH_SHORT).show();
