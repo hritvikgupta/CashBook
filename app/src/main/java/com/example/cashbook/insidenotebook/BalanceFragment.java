@@ -20,6 +20,9 @@ public class BalanceFragment extends Fragment {
     TextView netBalance, inAmount, outAmount;
     View view;
     mainBalance activity2;
+    int index_clicked;
+    int in, out, ner;
+
 
     public interface mainBalance
     {
@@ -40,6 +43,7 @@ public class BalanceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        index_clicked = getArguments().getInt("Index");
         view =  inflater.inflate(R.layout.fragment_balance, container, false);
         return view;
 
@@ -53,6 +57,8 @@ public class BalanceFragment extends Fragment {
         outAmount = view.findViewById(R.id.outBalance);
 
         activity2.onMainBalance(netBalance,inAmount,outAmount);
+
+        //inAmount.setText(ApplicationClass.mBook.get(index_clicked).getAmountIn());
 
     }
 }

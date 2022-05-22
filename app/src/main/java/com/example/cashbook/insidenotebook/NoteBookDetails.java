@@ -1,5 +1,6 @@
 package com.example.cashbook.insidenotebook;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,12 +34,16 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
     BalanceFragment bf;
     FragmentManager fragmentManager;
     String selectedDate;
+    int currentin = 0;
+    int currentout =0;
+    int currentNet =0;
     int aI = 0;
     int nB = 0;
     int aO = 0;
     int sum = 0;
     int sub =0;
     int index;
+    Bundle bundle;
     int pos;
 
 
@@ -48,9 +53,14 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_book_details);
+        if(savedInstanceState != null)
+        {
+            currentNet = Integer.parseInt(savedInstanceState.getString("Net"));
+        }
 
         fragmentManager = this.getSupportFragmentManager();
         bf = (BalanceFragment) fragmentManager.findFragmentById(R.id.fragmentContainerView);
+
         //eBook = new ArrayList<expenseBook>();
         index = getIntent().getIntExtra("index", 0);
 
@@ -63,10 +73,17 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         layoutManager = new LinearLayoutManager(NoteBookDetails.this);
         recyclerView.setLayoutManager(layoutManager);
 
+        bundle = new Bundle();
+        bundle.putInt("Index", index);
+        bf.setArguments(bundle);
+
+        //When We Pressed Back from the current state then we are not been able to see the
+        //varibles values that has been set earlier
+        //Therefore to display those values when backPressed Also use setText on MainBalance class here along with
+        //setText that was written in saveClick and OtherClick as well
 
 
-        MaintainFinalBalance m1 = new MaintainFinalBalance(0,0,0);
-        ApplicationClass.mBook.add(m1);
+
         //As we can have only one application class in android.manifest file. Therefore to
         //App will stop running when we implement another application class. Therefore,
         //for the app to keep running define new details of book or ebook in one class only
@@ -100,6 +117,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
 
     }
 
+
     public void showInsideDialog()
     {
         DialogInsideFragment dialogInsideFragment =  new DialogInsideFragment();
@@ -127,14 +145,15 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             Tag = dialogview.findViewById(R.id.insideTag);
             createExpense(amountInOut.getText().toString(), Tag.getText().toString());
             aI = Integer.parseInt(amountInOut.getText().toString());
-            int current = ApplicationClass.mBook.get(index).getAmountIn();
-            current = current + aI;
-            ApplicationClass.mBook.get(index).setAmountIn(current);
+            currentin = ApplicationClass.mBook.get(index).getAmountIn();
+            currentin = currentin + aI;
+            ApplicationClass.mBook.get(index).setAmountIn(currentin);
             //Use this Method or below line to set the text live rather clicking back and forth again
             //And don't use the interface method of Balance Fragment that was Created if
             //you want to update value live
-            bf.inAmount.setText(String.valueOf(current));
+            bf.inAmount.setText(String.valueOf(currentin));
             setNetBalanceStatement();
+            //createNetBook();
         }
         else {
             Dialog dV = dialog.getDialog();
@@ -142,14 +161,14 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             Tag = dV.findViewById(R.id.insideTag);
             createExpense(amountInOut.getText().toString(), Tag.getText().toString());
             aO = Integer.parseInt(amountInOut.getText().toString());
-            int current = ApplicationClass.mBook.get(index).getAmountout();
-            current = current - aO;
-            ApplicationClass.mBook.get(index).setAmountout(current);
-            bf.outAmount.setText(String.valueOf(current));
+            //currentout = ApplicationClass.mBook.get(index).getAmountout();
+            currentout = currentout - aO;
+            ApplicationClass.mBook.get(index).setAmountout(currentout);
+            bf.outAmount.setText(String.valueOf(currentout));
             setNetBalanceStatement();
+            //createNetBook();
 
         }
-
     }
 
     @Override
@@ -174,7 +193,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
 
     public void createExpense(String amount, String tag)
     {
-        expenseBook e1 = new expenseBook(tag,amount,selectedDate, "0000");
+        expenseBook e1 = new expenseBook(tag,amount,selectedDate, String.valueOf(currentNet));
         ApplicationClass.ebook.add(e1);
         eAdapter.notifyDataSetChanged();
     }
@@ -188,19 +207,36 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         //This method is initialized once every time we click items on Main Activity
         //Therefore can't be updated always or live
 
-        //nb.setText(String.valueOf(ApplicationClass.mBook.get(index).getNetBalance()));
-        //iA.setText(String.valueOf(ApplicationClass.mBook.get(index).getAmountIn()));
-        //oA.setText(String.valueOf(ApplicationClass.mBook.get(index).getAmountout()));
+
+        //When We Pressed Back from the current state then we are not been able to see the
+        //varibles values that has been set earlier
+        //Therefore to display those values when backPressed Also use this along with
+        //setText that was written in saveClick and OtherClick as well
+        nb.setText(String.valueOf(ApplicationClass.mBook.get(index).getNetBalance()));
+        iA.setText(String.valueOf(ApplicationClass.mBook.get(index).getAmountIn()));
+        oA.setText(String.valueOf(ApplicationClass.mBook.get(index).getAmountout()));
 
     }
 
     public void setNetBalanceStatement()
     {
-        int currentNet = ApplicationClass.mBook.get(index).getNetBalance();
-        int in = ApplicationClass.mBook.get(index).getAmountIn();
-        int out = ApplicationClass.mBook.get(index).getAmountout();
+        //currentNet = ApplicationClass.mBook.get(index).getNetBalance();
+        int in = currentin;
+        int out = currentout;
         currentNet = in + out;
         ApplicationClass.mBook.get(index).setNetBalance(currentNet);
-        bf.netBalance.setText(String.valueOf(currentNet));
+        bf.netBalance.setText(String.valueOf(ApplicationClass.mBook.get(index).getNetBalance()));
+
+
     }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("Net",String.valueOf(currentNet));
+    }
+
+
+
 }

@@ -26,10 +26,11 @@ public class ApplicationClass extends Application {
         book.add(c2);
 
         ebook = new ArrayList<com.example.cashbook.insidenotebook.expenseBook>();
-        expenseBook e1 = new expenseBook("shop2", "000","ration","000");
-        ebook.add(e1);
+
 
         mBook = new ArrayList<MaintainFinalBalance>();
+        MaintainFinalBalance m1 = new MaintainFinalBalance(0,0,0);
+        mBook.add(m1);
 
 
 
