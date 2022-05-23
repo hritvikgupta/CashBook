@@ -3,36 +3,53 @@ package com.example.cashbook.insidenotebook;
 import android.app.Application;
 
 import com.example.cashbook.Books;
+import com.example.cashbook.MainActivity;
 import com.example.cashbook.insidenotebook.expenseBook;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ApplicationClass extends Application {
 
     public static ArrayList<Books> book;
     public static ArrayList<com.example.cashbook.insidenotebook.expenseBook> ebook;
     public static ArrayList<com.example.cashbook.insidenotebook.MaintainFinalBalance> mBook;
-    public static int in;
+    public static ArrayList<Integer> in;
+    //public static List<ArrayList<expenseBook>> lol;
+    public static HashMap<Integer,ArrayList<expenseBook>> lol2;
+    public static int bs;
+
+    public static int getBooksize() {
+        return bs;
+    }
+
+    public static void setBooksize(int booksize) {
+        bs = booksize;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         book = new ArrayList<Books>();
+        lol2 = new HashMap<Integer, ArrayList<expenseBook>>();
+        //ebook = new ArrayList<com.example.cashbook.insidenotebook.expenseBook>();
+        for(int j=0;j<2000;j++){
+            lol2.put(j, new ArrayList<com.example.cashbook.insidenotebook.expenseBook>());
+        }
 
-        Books c1 = new Books("volkawagen", "290499");
-        Books c2 = new Books("nissan","08071970" );
+        //lol.add(ebook);
+        //lol.add(new ArrayList<com.example.cashbook.insidenotebook.expenseBook>());
 
-        book.add(c1);
-        book.add(c2);
+        mBook = new ArrayList<MaintainFinalBalance>(bs);
+        /*
+        for(int i = 0;i<bs;i++)
+        {
+            mBook.add(new MaintainFinalBalance(0,0,0,0));
+        }
 
-        ebook = new ArrayList<com.example.cashbook.insidenotebook.expenseBook>();
-
-
-        mBook = new ArrayList<MaintainFinalBalance>();
-
-
-
-
+         */
 
 
     }

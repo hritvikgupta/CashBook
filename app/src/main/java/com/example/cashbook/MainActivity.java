@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.example.cashbook.insidenotebook.NoteBookDetails;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -36,7 +38,9 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     TextView setDate;
     ArrayList<Books>book;
     Dictionary dict = new Hashtable();
-
+    int booksize;
+    SearchView searchView;
+    ArrayList<String> namesBook = new ArrayList<String>();
 
 
     @Override
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         setContentView(R.layout.activity_main);
 
 
+        searchView = findViewById(R.id.serchView);
         fragmentManager = this.getSupportFragmentManager();
         lfrag = (ListFrag) fragmentManager.findFragmentById(R.id.list);
         dfrag = (DialogFragment) fragmentManager.findFragmentById(R.id.Dialog);
@@ -61,12 +66,35 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
 
 
-
                 //callDate(datebutton);
                 //createBook(name);
 
 
 
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                //Toast.makeText(MainActivity.this, "Ok",Toast.LENGTH_SHORT).show();
+
+                if(namesBook.contains(s))
+                {
+                    Toast.makeText(MainActivity.this, "Found Element" + namesBook,Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "No Results Matched" +namesBook,Toast.LENGTH_SHORT).show();
+
+                }
+                return false;
+
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
 
@@ -77,13 +105,18 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     @Override
     public void onItemClicked(int index) {
 
-        //Toast.makeText(MainActivity.this, ApplicationClass.mBook.get(index).getNetBalance(),Toast.LENGTH_SHORT).show();
-        ApplicationClass.mBook.add(new MaintainFinalBalance(0, 0, 0, index));
-        if(ApplicationClass.mBook.get(index).getItemIndex() != index && ApplicationClass.mBook.isEmpty()) {
-            ApplicationClass.mBook.add(new MaintainFinalBalance(0, 0, 0, index));
+
+        booksize = ApplicationClass.book.size();
+        ApplicationClass.setBooksize(booksize);
+        for(int i = 0;i<booksize;i++)
+        {
+            ApplicationClass.mBook.add(new MaintainFinalBalance(0,0,0,0));
         }
+
+        //Toast.makeText(MainActivity.this, ApplicationClass.mBook.get(index).getNetBalance(),Toast.LENGTH_SHORT).show();
+
         Intent intent = new Intent(MainActivity.this, NoteBookDetails.class);
-        intent.putExtra("Index", index);
+        intent.putExtra("index",String.valueOf(index));
         //Toast.makeText(MainActivity.this, "Click"+ ApplicationClass.book.get(index).getName(), Toast.LENGTH_SHORT).show();
         startActivity(intent);
 
@@ -107,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         Dialog dialogView = dialog.getDialog();
         EditText et = (EditText) dialogView.findViewById(R.id.etText);
         name = (String) et.getText().toString();
-
+        namesBook.add(name);
         //Add Create NoteBook Here oftherwise it will be created after clicking Add Notebook twice
         // also add notifyDatachange in createBook after data being added for the same reason
         if(name != null && setDate != null)
@@ -156,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
     public void createBook(String name, String tag)
     {
+
         Books b1 = new Books(name, tag);
         ApplicationClass.book.add(b1);
         lfrag.notifyChange();

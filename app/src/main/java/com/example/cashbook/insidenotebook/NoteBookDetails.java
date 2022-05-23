@@ -15,12 +15,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.cashbook.DialogFragment;
 import com.example.cashbook.R;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class NoteBookDetails extends AppCompatActivity  implements DialogInsideFragment.dialogInsideClicked, DatePickerDialog.OnDateSetListener, BalanceFragment.mainBalance{
@@ -62,7 +64,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         bf = (BalanceFragment) fragmentManager.findFragmentById(R.id.fragmentContainerView);
 
         //eBook = new ArrayList<expenseBook>();
-        index = getIntent().getIntExtra("index", 0);
+        index = Integer.parseInt(getIntent().getStringExtra("index"));
 
         cashButtonIn = findViewById(R.id.cashInButton);
         cashButtonOut = findViewById(R.id.cashOutButton);
@@ -83,6 +85,8 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         //setText that was written in saveClick and OtherClick as well
 
 
+        eAdapter = new NoteBookDetailsAdapter(ApplicationClass.lol2.get(index));
+        recyclerView.setAdapter(eAdapter);
 
         //As we can have only one application class in android.manifest file. Therefore to
         //App will stop running when we implement another application class. Therefore,
@@ -90,8 +94,8 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         // and then use it. Another way to do is to extent one ApplicationClass from another
         //Such as ApplictionClassExpenseBook extends ApplicationClass But as this is not working
         // Therefore we stick to first method
-        eAdapter = new NoteBookDetailsAdapter(ApplicationClass.ebook);
-        recyclerView.setAdapter(eAdapter);
+        //eAdapter = new NoteBookDetailsAdapter(ApplicationClass.ebook);
+        //recyclerView.setAdapter(eAdapter);
 
         cashButtonIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +151,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             aI = Integer.parseInt(amountInOut.getText().toString());
             currentin = ApplicationClass.mBook.get(index).getAmountIn();
             currentin = currentin + aI;
+            Toast.makeText(NoteBookDetails.this, "Index"+index, Toast.LENGTH_SHORT).show();
             ApplicationClass.mBook.get(index).setAmountIn(currentin);
             //Use this Method or below line to set the text live rather clicking back and forth again
             //And don't use the interface method of Balance Fragment that was Created if
@@ -193,9 +198,12 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
 
     public void createExpense(String amount, String tag)
     {
-        expenseBook e1 = new expenseBook(tag,amount,selectedDate,"");
-        ApplicationClass.ebook.add(e1);
+
+        ArrayList<expenseBook> ebook = new ArrayList<expenseBook>();
+        expenseBook e1 = new expenseBook(tag, amount, selectedDate, "");
+        ApplicationClass.lol2.get(index).add(e1);
         eAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -224,6 +232,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         int in = currentin;
         int out = currentout;
         currentNet = in + out;
+        Toast.makeText(NoteBookDetails.this,"current" + currentNet,Toast.LENGTH_SHORT).show();
         ApplicationClass.mBook.get(index).setNetBalance(currentNet);
         bf.netBalance.setText(String.valueOf(ApplicationClass.mBook.get(index).getNetBalance()));
 
