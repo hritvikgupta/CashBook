@@ -1,15 +1,20 @@
 package com.example.cashbook;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,34 +31,48 @@ import java.util.Calendar;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class MainActivity extends AppCompatActivity implements cashBookAdapter.ItemClicked, DialogFragment.dialogClicked, DatePickerDialog.OnDateSetListener {
+public class MainActivity extends AppCompatActivity implements cashBookAdapter.ItemClicked, DialogFragment.dialogClicked, DatePickerDialog.OnDateSetListener, BottomFragment.options {
 
     Button btnAddBook;
     FragmentManager fragmentManager;
     ListFrag lfrag;
     DialogFragment dfrag;
+    BottomFragment bfrag;
     String name;
     String tag;
+    FragmentTransaction ft;
     Button datebutton;
+    int hide_pos;
     TextView setDate;
     ArrayList<Books>book;
     Dictionary dict = new Hashtable();
     int booksize;
     SearchView searchView;
     ArrayList<String> namesBook = new ArrayList<String>();
+    LinearLayout l1,l2,l3;
+    ImageView imageView2, imageView3, imageView4;
+    ListFrag list_frag;
+    HelpFragment helpFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        list_frag = (ListFrag) getSupportFragmentManager().findFragmentById(R.id.list);
+        //helpFragment = (HelpFragment) getSupportFragmentManager().findFragmentById(R.id.helpList);
 
 
         searchView = findViewById(R.id.serchView);
         fragmentManager = this.getSupportFragmentManager();
+        ft = fragmentManager.beginTransaction();
         lfrag = (ListFrag) fragmentManager.findFragmentById(R.id.list);
         dfrag = (DialogFragment) fragmentManager.findFragmentById(R.id.Dialog);
+        bfrag = (BottomFragment) fragmentManager.findFragmentById(R.id.fragmentContainerView4);
+
         book = new ArrayList<Books>();
+
 
         btnAddBook = findViewById(R.id.btnAddBook);
         btnAddBook.setOnClickListener(new View.OnClickListener() {
@@ -207,5 +226,45 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mcalender.getTime());
         setDate.setText(selectedDate);
 
+    }
+
+    @Override
+    public void OnOptionClicked(ImageView iv1,ImageView iv2, ImageView iv3) {
+        iv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnAddBook.setVisibility(View.VISIBLE);
+                searchView.setVisibility(View.VISIBLE);
+                hide_pos = 1;
+                getSupportFragmentManager().beginTransaction()
+                        .show(list_frag).commit();
+                setTitle("Cash Book");
+
+            }
+        });
+        iv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                   btnAddBook.setVisibility(View.GONE);
+                   searchView.setVisibility(View.GONE);
+                   hide_pos=2;
+                getSupportFragmentManager().beginTransaction()
+                        .hide(list_frag).commit();
+                setTitle("Help & Support");
+            }
+        });
+        iv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnAddBook.setVisibility(View.GONE);
+                searchView.setVisibility(View.GONE);
+                hide_pos=2;
+                getSupportFragmentManager().beginTransaction()
+                        .hide(list_frag).commit();
+                setTitle("Settings");
+
+
+            }
+        });
     }
 }

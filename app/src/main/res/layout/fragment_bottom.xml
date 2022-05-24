@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
+    android:background="#FFFFFF"
     android:orientation="horizontal"
     tools:context=".BottomFragment">
 
     <LinearLayout
+        android:id="@+id/l1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -20,12 +22,15 @@
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/book" />
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:gravity="center_horizontal"
             android:text="Cashbooks"
             android:textSize="18sp"
@@ -34,6 +39,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/l2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -45,12 +51,15 @@
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/help" />
 
         <TextView
             android:id="@+id/textView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:gravity="center_horizontal"
             android:text="Help"
             android:textSize="18sp"
@@ -58,6 +67,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/l3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -69,12 +79,15 @@
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_settings_24" />
+            android:clickable="true"
+            android:src="@drawable/ic_baseline_settings_24"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:gravity="center_horizontal"
             android:text="Settings"
             android:textSize="18sp"
