@@ -2,8 +2,11 @@ package com.example.cashbook;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -11,10 +14,12 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -31,7 +36,7 @@ import java.util.Calendar;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class MainActivity extends AppCompatActivity implements cashBookAdapter.ItemClicked, DialogFragment.dialogClicked, DatePickerDialog.OnDateSetListener, BottomFragment.options {
+public class MainActivity extends AppCompatActivity implements cashBookAdapter.ItemClicked, DialogFragment.dialogClicked, DatePickerDialog.OnDateSetListener, BottomFragment.options{
 
     Button btnAddBook;
     FragmentManager fragmentManager;
@@ -39,10 +44,11 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     DialogFragment dfrag;
     BottomFragment bfrag;
     String name;
+    RecyclerView.Adapter hAdapter;
     String tag;
     FragmentTransaction ft;
     Button datebutton;
-    int hide_pos;
+    int hide_pos = 0;
     TextView setDate;
     ArrayList<Books>book;
     Dictionary dict = new Hashtable();
@@ -52,7 +58,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     LinearLayout l1,l2,l3;
     ImageView imageView2, imageView3, imageView4;
     ListFrag list_frag;
-    HelpFragment helpFragment;
+
+
 
 
     @Override
@@ -61,8 +68,6 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         setContentView(R.layout.activity_main);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         list_frag = (ListFrag) getSupportFragmentManager().findFragmentById(R.id.list);
-        //helpFragment = (HelpFragment) getSupportFragmentManager().findFragmentById(R.id.helpList);
-
 
         searchView = findViewById(R.id.serchView);
         fragmentManager = this.getSupportFragmentManager();
@@ -245,12 +250,11 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         iv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                   btnAddBook.setVisibility(View.GONE);
-                   searchView.setVisibility(View.GONE);
                    hide_pos=2;
-                getSupportFragmentManager().beginTransaction()
-                        .hide(list_frag).commit();
-                setTitle("Help & Support");
+                   //getSupportFragmentManager().beginTransaction().hide(list_frag).commit();
+                   Intent intent = new Intent(MainActivity.this, com.example.cashbook.HelpActivity.class);
+                   startActivity(intent);
+                   setTitle("Cash Book");
             }
         });
         iv3.setOnClickListener(new View.OnClickListener() {
@@ -267,4 +271,19 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             }
         });
     }
+
+
+    public void onHelpClicked(ListView helpList) {
+        /*
+        getSupportFragmentManager().beginTransaction()
+                .show(helpFragment).hide(list_frag).commit();
+        ArrayList<String> descriptions = new ArrayList<String>();
+        descriptions.add("List 1");
+        descriptions.add("List 2");
+        ArrayAdapter ad = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1,descriptions);
+        helpList.setAdapter(ad);
+
+         */
+    }
+
 }

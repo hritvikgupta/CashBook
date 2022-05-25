@@ -151,7 +151,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             aI = Integer.parseInt(amountInOut.getText().toString());
             currentin = ApplicationClass.mBook.get(index).getAmountIn();
             currentin = currentin + aI;
-            Toast.makeText(NoteBookDetails.this, "Index"+index, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(NoteBookDetails.this, "Index"+index, Toast.LENGTH_SHORT).show();
             ApplicationClass.mBook.get(index).setAmountIn(currentin);
             //Use this Method or below line to set the text live rather clicking back and forth again
             //And don't use the interface method of Balance Fragment that was Created if
@@ -232,7 +232,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         int in = currentin;
         int out = currentout;
         currentNet = in + out;
-        Toast.makeText(NoteBookDetails.this,"current" + currentNet,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(NoteBookDetails.this,"current" + currentNet,Toast.LENGTH_SHORT).show();
         ApplicationClass.mBook.get(index).setNetBalance(currentNet);
         bf.netBalance.setText(String.valueOf(ApplicationClass.mBook.get(index).getNetBalance()));
 
@@ -245,7 +245,6 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         super.onSaveInstanceState(outState);
         outState.putString("Net",String.valueOf(currentNet));
     }
-
 
 
 }

@@ -106,7 +106,6 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment impleme
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         pos = 1;
-                        Toast.makeText(getActivity(),"Clicked"+etText.getText().toString(),Toast.LENGTH_SHORT).show();
                         activity.onDialogPositiveClick(DialogFragment.this,etText);
 
 

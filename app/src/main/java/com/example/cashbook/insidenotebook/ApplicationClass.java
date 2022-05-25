@@ -3,6 +3,7 @@ package com.example.cashbook.insidenotebook;
 import android.app.Application;
 
 import com.example.cashbook.Books;
+import com.example.cashbook.Help;
 import com.example.cashbook.MainActivity;
 import com.example.cashbook.insidenotebook.expenseBook;
 
@@ -16,6 +17,7 @@ public class ApplicationClass extends Application {
     public static ArrayList<com.example.cashbook.insidenotebook.expenseBook> ebook;
     public static ArrayList<com.example.cashbook.insidenotebook.MaintainFinalBalance> mBook;
     public static ArrayList<Integer> in;
+    public static ArrayList<Help> helpBook;
     //public static List<ArrayList<expenseBook>> lol;
     public static HashMap<Integer,ArrayList<expenseBook>> lol2;
     public static int bs;
@@ -32,6 +34,8 @@ public class ApplicationClass extends Application {
     public void onCreate() {
         super.onCreate();
 
+        helpBook = new ArrayList<Help>();
+        helpBook.add(new Help("Need Help"));
         book = new ArrayList<Books>();
         lol2 = new HashMap<Integer, ArrayList<expenseBook>>();
         //ebook = new ArrayList<com.example.cashbook.insidenotebook.expenseBook>();

@@ -11,6 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CashBook">
         <activity
+            android:name=".Setting"
+            android:exported="false" />
+        <activity
+            android:name=".HelpActivity"
+            android:exported="false" />
+        <activity
             android:name=".insidenotebook.NoteBookDetails"
             android:exported="false" />
         <activity
