@@ -260,12 +260,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         iv3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnAddBook.setVisibility(View.GONE);
-                searchView.setVisibility(View.GONE);
-                hide_pos=2;
-                getSupportFragmentManager().beginTransaction()
-                        .hide(list_frag).commit();
-                setTitle("Settings");
+                Intent intent = new Intent(MainActivity.this, com.example.cashbook.Setting.class);
+                startActivity(intent);
 
 
             }
