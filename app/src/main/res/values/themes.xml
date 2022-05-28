@@ -13,4 +13,16 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="dartTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+        <item name="colorPrimary">#000</item>
+        <item name="colorPrimaryDark">#000</item>
+        <item name="colorAccent">@color/colorPrimaryAscent</item>
+        <item name="background_color">#131313</item>
+        <item name="text_color">#ffff</item>
+        <item name="button_color">#ffff</item>
+
+    </style>
+
 </resources>
