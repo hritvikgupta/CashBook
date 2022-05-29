@@ -1,19 +1,29 @@
 package com.example.cashbook;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.time.temporal.Temporal;
-
+//
 public class Setting extends AppCompatActivity implements BottomFragment.options {
 
+    //https://www.youtube.com/watch?v=hynFpLR5S34
     ImageView personImage, editUser, night;
     TextView nameId, numId;
+    Switch s4;
+    Boolean darkon;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor myEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +31,17 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         setContentView(R.layout.activity_setting);
         setTitle("Settings");
 
+
         personImage = findViewById(R.id.personImage);
         nameId = findViewById(R.id.nameId);
+        s4 = findViewById(R.id.switch4);
         numId = findViewById(R.id.numId);
         editUser = findViewById(R.id.editUser);
         night = findViewById(R.id.night);
+        sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
+        myEdit = sharedPreferences.edit();
+        darkon = sharedPreferences.getBoolean("darkon",false);
+        checkDarkMode();
         editUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -33,10 +49,21 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
                 numId.setText("954534534");
             }
         });
-        night.setOnClickListener(new View.OnClickListener() {
+        s4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                setTheme(R.style.dartTheme);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b)
+                {
+                    setDarkOn();
+                    myEdit.putBoolean("darkon",true);
+                    myEdit.apply();
+                }
+                else
+                {
+                    setDarkOff();
+                    myEdit.putBoolean("darkon",false);
+                    myEdit.apply();
+                }
             }
         });
 
@@ -70,5 +97,24 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
             }
         });
 
+    }
+    public void setDarkOn()
+    {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+    }
+    public void setDarkOff()
+    {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+    }
+
+    public void checkDarkMode()
+    {
+        if(darkon)
+        {
+            setDarkOn();
+            s4.setChecked(true);
+        }
     }
 }

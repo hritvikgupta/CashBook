@@ -1,6 +1,7 @@
 package com.example.cashbook.insidenotebook;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,19 @@ public class NoteBookDetailsAdapter extends RecyclerView.Adapter<NoteBookDetails
         holder.eName.setText(localdataset.get(position).geteName());
         holder.eTag.setText(localdataset.get(position).geteTag());
         holder.eAmount.setText(localdataset.get(position).geteAmount());
-        holder.totalbalanceremain.setText(localdataset.get(position).getTotalbalanceremain());
+        if(localdataset.get(position).getTotalbalanceremain().equals("Green"))
+        {
+
+            holder.eAmount.setTextColor(Color.parseColor("#4CAF50"));
+            holder.eTag.setTextColor(Color.parseColor("#4CAF50"));
+            holder.eAmount.setTextColor(Color.parseColor("#4CAF50"));
+        }
+        else
+        {
+            holder.eAmount.setTextColor(Color.RED);
+            holder.eTag.setTextColor(Color.RED);
+            holder.eAmount.setTextColor(Color.RED);
+        }
 
 
 

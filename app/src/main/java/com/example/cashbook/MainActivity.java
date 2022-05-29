@@ -1,6 +1,7 @@
 package com.example.cashbook;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     LinearLayout l1,l2,l3;
     ImageView imageView2, imageView3, imageView4;
     ListFrag list_frag;
-
+    Setting settingActivity;
 
 
 
@@ -66,6 +68,14 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
+        Boolean darkon = sharedPreferences.getBoolean("darkon",false);
+        if(darkon)
+        {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         list_frag = (ListFrag) getSupportFragmentManager().findFragmentById(R.id.list);
 
@@ -77,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         bfrag = (BottomFragment) fragmentManager.findFragmentById(R.id.fragmentContainerView4);
 
         book = new ArrayList<Books>();
-
 
         btnAddBook = findViewById(R.id.btnAddBook);
         btnAddBook.setOnClickListener(new View.OnClickListener() {

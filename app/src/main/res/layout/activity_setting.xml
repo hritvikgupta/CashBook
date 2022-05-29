@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:layout_marginTop="5dp"
     tools:context=".Setting">
 
@@ -13,6 +14,7 @@
         android:name="com.example.cashbook.BottomFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background"
         android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,6 +87,7 @@
 
                             <TextView
                                 android:id="@+id/nameId"
+                                android:textColor="@color/textColor"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="50dp"
@@ -97,6 +100,7 @@
                             <TextView
                                 android:id="@+id/numId"
                                 android:layout_width="match_parent"
+                                android:textColor="@color/textColor"
                                 android:layout_height="20dp"
                                 android:layout_marginLeft="50dp"
                                 android:layout_marginRight="50dp"
@@ -129,7 +133,7 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#C8C6C6"
+                android:textColor="@color/textColor"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Account Settings"
                 android:textSize="16sp"
@@ -164,6 +168,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
+                        android:textColor="@color/textColor"
                         android:gravity="center_vertical"
                         android:text="Notification Widget"
                         android:textSize="18sp"
@@ -213,6 +218,7 @@
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
+                        android:textColor="@color/textColor"
                         android:gravity="center_vertical"
                         android:text="App Lock"
                         android:textSize="18sp"
@@ -248,10 +254,10 @@
                     <ImageView
                         android:id="@+id/night"
                         android:layout_width="0dp"
-                        android:layout_height="48dp"
+                        android:layout_height="30dp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:clickable="true"
+                        android:clickable="false"
                         android:contentDescription="@string/add"
                         app:srcCompat="@drawable/dark" />
 
@@ -260,6 +266,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
+                        android:textColor="@color/textColor"
                         android:gravity="center_vertical"
                         android:text="Dark Theme"
                         android:textSize="18sp"
@@ -303,6 +310,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
+                        android:textColor="@color/textColor"
                         android:gravity="center_vertical"
                         android:text="Change Language"
                         android:textSize="18sp"
@@ -313,6 +321,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textColor="@color/textColor"
                         android:gravity="center_horizontal"
                         android:hint="English" />
 
@@ -325,7 +334,7 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#CAC8C8"
+                android:textColor="@color/textColor"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Others"
                 android:textSize="16dp"
@@ -361,6 +370,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="4"
                         android:gravity="center_vertical"
+                        android:textColor="@color/textColor"
                         android:text="Share with friends"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -398,7 +408,7 @@
                         android:layout_weight="4"
                         android:gravity="center_vertical"
                         android:text="Logout"
-                        android:textColor="#F45656"
+                        android:textColor="@color/textColor"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 

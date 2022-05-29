@@ -147,7 +147,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             Dialog dialogview = dialog.getDialog();
             amountInOut = dialogview.findViewById(R.id.amountInOut);
             Tag = dialogview.findViewById(R.id.insideTag);
-            createExpense(amountInOut.getText().toString(), Tag.getText().toString());
+            createExpense(amountInOut.getText().toString(), Tag.getText().toString(),"Green");
             aI = Integer.parseInt(amountInOut.getText().toString());
             currentin = ApplicationClass.mBook.get(index).getAmountIn();
             currentin = currentin + aI;
@@ -164,7 +164,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             Dialog dV = dialog.getDialog();
             amountInOut = dV.findViewById(R.id.amountInOut);
             Tag = dV.findViewById(R.id.insideTag);
-            createExpense(amountInOut.getText().toString(), Tag.getText().toString());
+            createExpense(amountInOut.getText().toString(), Tag.getText().toString(),"Red");
             aO = Integer.parseInt(amountInOut.getText().toString());
             //currentout = ApplicationClass.mBook.get(index).getAmountout();
             currentout = currentout - aO;
@@ -196,11 +196,11 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
 
     }
 
-    public void createExpense(String amount, String tag)
+    public void createExpense(String amount, String tag,String color)
     {
 
         ArrayList<expenseBook> ebook = new ArrayList<expenseBook>();
-        expenseBook e1 = new expenseBook(tag, amount, selectedDate, "");
+        expenseBook e1 = new expenseBook(tag, amount, selectedDate, color);
         ApplicationClass.lol2.get(index).add(e1);
         eAdapter.notifyDataSetChanged();
 
