@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
         SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
         Boolean darkon = sharedPreferences.getBoolean("darkon",false);
-        if(darkon)
+        if(darkon == true)
         {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
@@ -88,6 +88,13 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
         book = new ArrayList<Books>();
 
+        if(ApplicationClass.book.isEmpty())
+        {
+            startNoteBook();
+
+        }
+        //hideNoteBook();
+
         btnAddBook = findViewById(R.id.btnAddBook);
         btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +102,9 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
                 //showNoticeDialog();
                 //Toast.makeText(MainActivity.this, "Successful",Toast.LENGTH_SHORT).show();
+                //hideNoteBook();
                 showNoticeDialog();
+                //hideNoteBook();
 
 
 
@@ -139,19 +148,28 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     public void onItemClicked(int index) {
 
 
-        booksize = ApplicationClass.book.size();
-        ApplicationClass.setBooksize(booksize);
-        for(int i = 0;i<booksize;i++)
+        if(ApplicationClass.book.get(index).getName().equals("Add NoteBook"))
         {
-            ApplicationClass.mBook.add(new MaintainFinalBalance(0,0,0,0));
+            hideNoteBook();
+            showNoticeDialog();
+            //hideNoteBook();
         }
+        else {
 
-        //Toast.makeText(MainActivity.this, ApplicationClass.mBook.get(index).getNetBalance(),Toast.LENGTH_SHORT).show();
+            booksize = ApplicationClass.book.size();
 
-        Intent intent = new Intent(MainActivity.this, NoteBookDetails.class);
-        intent.putExtra("index",String.valueOf(index));
-        //Toast.makeText(MainActivity.this, "Click"+ ApplicationClass.book.get(index).getName(), Toast.LENGTH_SHORT).show();
-        startActivity(intent);
+            ApplicationClass.setBooksize(booksize);
+            for (int i = 0; i < booksize; i++) {
+                ApplicationClass.mBook.add(new MaintainFinalBalance(0, 0, 0, 0));
+            }
+
+            //Toast.makeText(MainActivity.this, ApplicationClass.mBook.get(index).getNetBalance(),Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(MainActivity.this, NoteBookDetails.class);
+            intent.putExtra("index", String.valueOf(index));
+            //Toast.makeText(MainActivity.this, "Click"+ ApplicationClass.book.get(index).getName(), Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+        }
 
     }
 
@@ -289,6 +307,18 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         helpList.setAdapter(ad);
 
          */
+    }
+
+    public void startNoteBook()
+    {
+        Books bstart = new Books("Add NoteBook", "Select Date");
+        ApplicationClass.book.add(bstart);
+
+    }
+    public void hideNoteBook()
+    {
+        ApplicationClass.book.remove(ApplicationClass.book.remove(0));
+
     }
 
 }

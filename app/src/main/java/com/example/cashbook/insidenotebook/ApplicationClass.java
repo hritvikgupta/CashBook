@@ -36,7 +36,9 @@ public class ApplicationClass extends Application {
 
         helpBook = new ArrayList<Help>();
         helpBook.add(new Help("Need Help"));
+
         book = new ArrayList<Books>();
+
         lol2 = new HashMap<Integer, ArrayList<expenseBook>>();
         //ebook = new ArrayList<com.example.cashbook.insidenotebook.expenseBook>();
         for(int j=0;j<2000;j++){

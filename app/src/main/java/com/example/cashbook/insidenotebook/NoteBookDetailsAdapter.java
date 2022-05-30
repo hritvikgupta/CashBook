@@ -1,13 +1,20 @@
 package com.example.cashbook.insidenotebook;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cashbook.R;
@@ -17,13 +24,16 @@ import java.util.ArrayList;
 public class NoteBookDetailsAdapter extends RecyclerView.Adapter<NoteBookDetailsAdapter.ViewHolder>{
 
     ArrayList<expenseBook> localdataset;
-    //private expenseBook [] localdataset;
+
+
 
     public NoteBookDetailsAdapter( ArrayList<expenseBook> eBook)
     {
         localdataset = eBook;
 
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -42,7 +52,6 @@ public class NoteBookDetailsAdapter extends RecyclerView.Adapter<NoteBookDetails
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                 }
             });
 
@@ -62,6 +71,7 @@ public class NoteBookDetailsAdapter extends RecyclerView.Adapter<NoteBookDetails
         holder.eName.setText(localdataset.get(position).geteName());
         holder.eTag.setText(localdataset.get(position).geteTag());
         holder.eAmount.setText(localdataset.get(position).geteAmount());
+        holder.totalbalanceremain.setText(" ");
         if(localdataset.get(position).getTotalbalanceremain().equals("Green"))
         {
 

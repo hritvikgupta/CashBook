@@ -1,6 +1,7 @@
 package com.example.cashbook.insidenotebook;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -61,4 +62,5 @@ public class BalanceFragment extends Fragment {
         //inAmount.setText(ApplicationClass.mBook.get(index_clicked).getAmountIn());
 
     }
+
 }

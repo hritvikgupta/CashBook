@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +23,11 @@ import com.example.cashbook.DialogFragment;
 import com.example.cashbook.R;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class NoteBookDetails extends AppCompatActivity  implements DialogInsideFragment.dialogInsideClicked, DatePickerDialog.OnDateSetListener, BalanceFragment.mainBalance{
 
@@ -47,6 +51,10 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
     int index;
     Bundle bundle;
     int pos;
+    boolean clicked = false;
+    String date;
+
+
 
 
 
@@ -88,6 +96,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         eAdapter = new NoteBookDetailsAdapter(ApplicationClass.lol2.get(index));
         recyclerView.setAdapter(eAdapter);
 
+
         //As we can have only one application class in android.manifest file. Therefore to
         //App will stop running when we implement another application class. Therefore,
         //for the app to keep running define new details of book or ebook in one class only
@@ -96,7 +105,8 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         // Therefore we stick to first method
         //eAdapter = new NoteBookDetailsAdapter(ApplicationClass.ebook);
         //recyclerView.setAdapter(eAdapter);
-
+        cashButtonIn.setBackgroundColor(Color.parseColor("#388E3C"));
+        cashButtonOut.setBackgroundColor(Color.parseColor("#D32F2F"));
         cashButtonIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +123,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             }
         });
 
+        date = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(new Date());
 
 
 
@@ -134,9 +145,10 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         mcalender.set(Calendar.YEAR, i);
         mcalender.set(Calendar.MONTH, i1);
         mcalender.set(Calendar.DAY_OF_MONTH, i2);
-        selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mcalender.getTime());
         //Toast.makeText(NoteBookDetails.this,"DateSelected"+selectedDate,Toast.LENGTH_SHORT).show();
+        selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mcalender.getTime());
         datebutton2.setText(selectedDate);
+
 
     }
 
@@ -158,6 +170,11 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             //you want to update value live
             bf.inAmount.setText(String.valueOf(currentin));
             setNetBalanceStatement();
+            if(currentin>currentout)
+            {
+                bf.netBalance.setTextColor(Color.parseColor("#4CAF50"));
+            }
+
             //createNetBook();
         }
         else {
@@ -189,6 +206,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         datebutton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clicked = true;
                 com.example.cashbook.DatePicker datePicker = new com.example.cashbook.DatePicker();
                 datePicker.show(getSupportFragmentManager(),"Date");
             }
@@ -200,6 +218,14 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
     {
 
         ArrayList<expenseBook> ebook = new ArrayList<expenseBook>();
+        if(!clicked)
+        {
+            selectedDate = date;
+        }
+        else
+        {
+            clicked = false;
+        }
         expenseBook e1 = new expenseBook(tag, amount, selectedDate, color);
         ApplicationClass.lol2.get(index).add(e1);
         eAdapter.notifyDataSetChanged();
@@ -232,6 +258,10 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         int in = currentin;
         int out = currentout;
         currentNet = in + out;
+        if(currentNet<0)
+        {
+            bf.netBalance.setTextColor(Color.parseColor("#D32F2F"));
+        }
         //Toast.makeText(NoteBookDetails.this,"current" + currentNet,Toast.LENGTH_SHORT).show();
         ApplicationClass.mBook.get(index).setNetBalance(currentNet);
         bf.netBalance.setText(String.valueOf(ApplicationClass.mBook.get(index).getNetBalance()));
