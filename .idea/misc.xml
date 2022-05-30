@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/header_logo.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/lock.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_help.xml" value="0.24924012158054712" />
+        <entry key="app/src/main/res/layout/activity_introduction_splash.xml" value="0.18432971014492755" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2406387329101563" />
         <entry key="app/src/main/res/layout/activity_note_book_details.xml" value="0.2745101928710938" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.23239746093750002" />

@@ -15,7 +15,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,10 +66,13 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
         Boolean darkon = sharedPreferences.getBoolean("darkon",false);
