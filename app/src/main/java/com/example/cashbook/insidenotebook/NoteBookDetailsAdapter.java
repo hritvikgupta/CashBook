@@ -25,11 +25,17 @@ public class NoteBookDetailsAdapter extends RecyclerView.Adapter<NoteBookDetails
 
     ArrayList<expenseBook> localdataset;
 
+    LongClick activity2;
 
+    public interface LongClick
+    {
+        void onLongItemsClicked(int index);
+    }
 
-    public NoteBookDetailsAdapter( ArrayList<expenseBook> eBook)
+    public NoteBookDetailsAdapter( ArrayList<expenseBook> eBook, Context context)
     {
         localdataset = eBook;
+        activity2 = (LongClick) context;
 
     }
 
@@ -55,6 +61,14 @@ public class NoteBookDetailsAdapter extends RecyclerView.Adapter<NoteBookDetails
                 }
             });
 
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    //Toast.makeText(v.getContext(), "Position is " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                    activity2.onLongItemsClicked(getAdapterPosition());
+                    return false;
+                }
+            });
         }
     }
     @NonNull
