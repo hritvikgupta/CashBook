@@ -42,20 +42,20 @@
                 <TextView
                     android:id="@+id/fileNameText"
                     android:layout_width="match_parent"
-                    android:textColor = "@color/textColor"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="TextView"
+                    android:hint="Provide Name "
+                    android:textColor="@color/textColor"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/fileDataText"
                     android:layout_width="match_parent"
-                    android:textColor = "@color/textColor"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="TextView" />
+                    android:hint="Select Date"
+                    android:textColor="@color/textColor" />
             </LinearLayout>
 
         </LinearLayout>

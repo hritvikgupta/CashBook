@@ -34,11 +34,14 @@ import com.example.cashbook.insidenotebook.MaintainFinalBalance;
 import com.example.cashbook.insidenotebook.NoteBookDetails;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements cashBookAdapter.ItemClicked, DialogFragment.dialogClicked, DatePickerDialog.OnDateSetListener, BottomFragment.options{
 
@@ -63,7 +66,12 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     ImageView imageView2, imageView3, imageView4;
     ListFrag list_frag;
     Setting settingActivity;
-
+    String date;
+    boolean dataClicked = false;
+    int flag = 0;
+    int clickedIndex;
+    boolean mainLongClicked = false;
+    int mainLongClickedPosition;
 
 
 
@@ -145,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             }
         });
 
+        date = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(new Date());
 
 
     }
@@ -153,11 +162,13 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     public void onItemClicked(int index) {
 
 
-        if(ApplicationClass.book.get(index).getName().equals("Add NoteBook"))
+        clickedIndex = index;
+        if(ApplicationClass.book.get(index).getName().equals("Add Expense Book"))
         {
-            hideNoteBook();
-            showNoticeDialog();
             //hideNoteBook();
+            //Toast.makeText(MainActivity.this, "Entereed" + flag, Toast.LENGTH_SHORT).show();
+            showNoticeDialog();
+            hideNoteBook();
         }
         else {
 
@@ -178,6 +189,13 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
     }
 
+    @Override
+    public void onLongMainClicked(int index) {
+        mainLongClicked = true;
+        mainLongClickedPosition = index;
+        showNoticeDialog();
+    }
+
     public void showNoticeDialog() {
         // Create an instance of the dialog fragment and show it
         DialogFragment dialog = new DialogFragment();
@@ -193,15 +211,46 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         //Here
 
         //But this one is the best way to do so.
-        Dialog dialogView = dialog.getDialog();
-        EditText et = (EditText) dialogView.findViewById(R.id.etText);
-        name = (String) et.getText().toString();
-        namesBook.add(name);
-        //Add Create NoteBook Here oftherwise it will be created after clicking Add Notebook twice
-        // also add notifyDatachange in createBook after data being added for the same reason
-        if(name != null && setDate != null)
+        if(mainLongClicked == false) {
+            Dialog dialogView = dialog.getDialog();
+            EditText et = (EditText) dialogView.findViewById(R.id.etText);
+            name = (String) et.getText().toString();
+            namesBook.add(name);
+            //Add Create NoteBook Here oftherwise it will be created after clicking Add Notebook twice
+            // also add notifyDatachange in createBook after data being added for the same reason
+            if (name.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please Provide Name", Toast.LENGTH_SHORT).show();
+                showNoticeDialog();
+
+
+            } else {
+                createBook(name, setDate.getText().toString());
+
+            }
+        }
+        else if(mainLongClicked == true)
         {
-            createBook(name, setDate.getText().toString());
+            mainLongClicked = false;
+            Dialog dialogView = dialog.getDialog();
+            EditText et = (EditText) dialogView.findViewById(R.id.etText);
+            name = (String) et.getText().toString();
+            namesBook.add(name);
+            if(!name.isEmpty())
+            {
+                ApplicationClass.book.remove(mainLongClickedPosition);
+                lfrag.notifyChange();
+            }
+            //Add Create NoteBook Here oftherwise it will be created after clicking Add Notebook twice
+            // also add notifyDatachange in createBook after data being added for the same reason
+            if (name.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please Provide Name", Toast.LENGTH_SHORT).show();
+                showNoticeDialog();
+
+
+            } else {
+                createBook(name, setDate.getText().toString());
+
+            }
         }
         //Here we have used the setDate parameter to set the date of what we taken input from the date
 
@@ -231,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             @Override
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, "Yes", Toast.LENGTH_SHORT).show();
+                dataClicked = true;
                 com.example.cashbook.DatePicker mdate = new com.example.cashbook.DatePicker();
                 mdate.show(getSupportFragmentManager(),"Select Date");
 
@@ -245,6 +295,14 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
     public void createBook(String name, String tag)
     {
+        if(!dataClicked)
+        {
+            tag = date;
+        }
+        else
+        {
+            dataClicked = false;
+        }
 
         Books b1 = new Books(name, tag);
         ApplicationClass.book.add(b1);
@@ -316,8 +374,17 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
     public void startNoteBook()
     {
-        Books bstart = new Books("Add NoteBook", "Select Date");
-        ApplicationClass.book.add(bstart);
+        if(!dataClicked)
+        {
+            Books bstart = new Books("Add Expense Book", date);
+            ApplicationClass.book.add(bstart);
+        }
+        else{
+            dataClicked = false;
+            Books bstart = new Books("Add Expense Book", "Select Date");
+            ApplicationClass.book.add(bstart);
+        }
+
 
     }
     public void hideNoteBook()

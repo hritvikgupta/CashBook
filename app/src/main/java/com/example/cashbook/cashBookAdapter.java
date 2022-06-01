@@ -20,7 +20,9 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
     public interface ItemClicked
     {
         void onItemClicked(int index);
+        void onLongMainClicked(int index);
     }
+
 
 
     public cashBookAdapter(Context context, ArrayList<Books> book)
@@ -47,6 +49,13 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
                 public void onClick(View view) {
                             activity.onItemClicked(book.indexOf((Books)view.getTag()));
 
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    activity.onLongMainClicked(getAdapterPosition());
+                    return false;
                 }
             });
 
