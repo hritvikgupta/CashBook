@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,20 +25,22 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     Boolean darkon;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor myEdit;
+    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.new_user_login);
         setTitle("Settings");
 
 
         personImage = findViewById(R.id.personImage);
-        nameId = findViewById(R.id.nameId);
+        nameId = findViewById(R.id.nameID);
         s4 = findViewById(R.id.switch4);
-        numId = findViewById(R.id.numId);
-        editUser = findViewById(R.id.editUser);
+        numId = findViewById(R.id.numID);
+        editUser = findViewById(R.id.editButtonNew);
         night = findViewById(R.id.night);
+        relativeLayout = findViewById(R.id.relativeScroll);
         sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
         darkon = sharedPreferences.getBoolean("darkon",false);
@@ -49,6 +52,16 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
                 numId.setText("954534534");
             }
         });
+        if(darkon)
+        {
+            relativeLayout.setBackgroundResource(R.drawable.backgroundnight);
+
+        }
+        else
+        {
+            relativeLayout.setBackgroundResource(R.drawable.background);
+
+        }
         s4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -63,6 +76,7 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
                     setDarkOff();
                     myEdit.putBoolean("darkon",false);
                     myEdit.apply();
+
                 }
             }
         });

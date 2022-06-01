@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/backgroundnight.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/header_logo.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/lock.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_help.xml" value="0.24924012158054712" />
         <entry key="app/src/main/res/layout/activity_introduction_splash.xml" value="0.18432971014492755" />
@@ -17,10 +20,13 @@
         <entry key="app/src/main/res/layout/fragment_dialog_inside.xml" value="0.1750796363467262" />
         <entry key="app/src/main/res/layout/fragment_help.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_list.xml" value="0.182518115942029" />
+        <entry key="app/src/main/res/layout/new_user_login.xml" value="0.2336456839919936" />
         <entry key="app/src/main/res/layout/raw_layout.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/raw_layout2.xml" value="0.15534420289855072" />
         <entry key="app/src/main/res/layout/raw_layout_notebook_details.xml" value="0.27884615384615385" />
         <entry key="app/src/main/res/layout/setting2.xml" value="0.30651554157910255" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
   </component>
