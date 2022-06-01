@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             booksize = ApplicationClass.book.size();
 
             ApplicationClass.setBooksize(booksize);
+
             for (int i = 0; i < booksize; i++) {
                 ApplicationClass.mBook.add(new MaintainFinalBalance(0, 0, 0, 0));
             }
@@ -237,20 +238,12 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             namesBook.add(name);
             if(!name.isEmpty())
             {
-                ApplicationClass.book.remove(mainLongClickedPosition);
+                ApplicationClass.book.get(mainLongClickedPosition).setName(name);
                 lfrag.notifyChange();
             }
             //Add Create NoteBook Here oftherwise it will be created after clicking Add Notebook twice
             // also add notifyDatachange in createBook after data being added for the same reason
-            if (name.isEmpty()) {
-                Toast.makeText(MainActivity.this, "Please Provide Name", Toast.LENGTH_SHORT).show();
-                showNoticeDialog();
 
-
-            } else {
-                createBook(name, setDate.getText().toString());
-
-            }
         }
         //Here we have used the setDate parameter to set the date of what we taken input from the date
 
