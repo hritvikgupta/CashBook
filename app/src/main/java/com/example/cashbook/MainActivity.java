@@ -13,6 +13,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
@@ -33,6 +35,9 @@ import android.widget.Toast;
 import com.example.cashbook.insidenotebook.ApplicationClass;
 import com.example.cashbook.insidenotebook.MaintainFinalBalance;
 import com.example.cashbook.insidenotebook.NoteBookDetails;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -73,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     int clickedIndex;
     boolean mainLongClicked = false;
     int mainLongClickedPosition;
+    FloatingActionButton fab;
+    Boolean btnVisible = true;
+    ExtendedFloatingActionButton efab;
 
 
 
@@ -95,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
         searchView = findViewById(R.id.serchView);
         fragmentManager = this.getSupportFragmentManager();
+        efab = findViewById(R.id.add_fab);
         ft = fragmentManager.beginTransaction();
         lfrag = (ListFrag) fragmentManager.findFragmentById(R.id.list);
         dfrag = (DialogFragment) fragmentManager.findFragmentById(R.id.Dialog);
@@ -108,7 +117,10 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
         }
         //hideNoteBook();
+        btnAddBook = findViewById(R.id.btnAddBook);
+        btnAddBook.setVisibility(View.GONE);
 
+/*
         btnAddBook = findViewById(R.id.btnAddBook);
         btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +141,35 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
             }
         });
+
+ */
+
+        efab.shrink();
+        efab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Snackbar.make(view, "Add a Expense Book",Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                if(!efab.isExtended()) {
+                    efab.extend();
+                    showNoticeDialog();
+
+                }
+                else
+                {
+                    efab.shrink();
+                }
+
+
+            }
+        });
+        if(darkon ==  true)
+        {
+            efab.setBackgroundColor(Color.WHITE);
+            efab.setIconTint(ColorStateList.valueOf(Color.BLACK));
+        }
+
+
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -327,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
                 hide_pos = 1;
                 getSupportFragmentManager().beginTransaction()
                         .show(list_frag).commit();
-                setTitle("Cash Book");
+                setTitle("Expense Book");
 
             }
         });
@@ -338,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
                    //getSupportFragmentManager().beginTransaction().hide(list_frag).commit();
                    Intent intent = new Intent(MainActivity.this, com.example.cashbook.HelpActivity.class);
                    startActivity(intent);
-                   setTitle("Cash Book");
+                   setTitle("Expense Book");
             }
         });
         iv3.setOnClickListener(new View.OnClickListener() {
