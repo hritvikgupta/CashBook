@@ -117,8 +117,6 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
         }
         //hideNoteBook();
-        btnAddBook = findViewById(R.id.btnAddBook);
-        btnAddBook.setVisibility(View.GONE);
 
 /*
         btnAddBook = findViewById(R.id.btnAddBook);
@@ -152,6 +150,10 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
                 if(!efab.isExtended()) {
                     efab.extend();
                     showNoticeDialog();
+                    if(ApplicationClass.book.get(0).getName().equals("Add Expense Book"))
+                    {
+                        hideNoteBook();
+                    }
 
                 }
                 else

@@ -29,17 +29,6 @@
             app:layout_constraintVertical_bias="0.0"
             tools:layout="@layout/fragment_list" />
 
-        <Button
-            android:id="@+id/btnAddBook"
-            android:layout_width="210dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="36dp"
-            android:text="Add New NoteBook + "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.89" />
-
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/add_fab"
             android:layout_width="wrap_content"
