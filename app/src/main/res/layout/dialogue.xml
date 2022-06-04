@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Add Note Book"
+        android:text="Add Book"
         android:textSize="22dp" />
 
     <EditText
