@@ -1,5 +1,6 @@
 package com.example.cashbook;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -21,12 +22,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
-public class DialogFragment extends androidx.fragment.app.DialogFragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener {
+public class DialogFragment extends BottomSheetDialogFragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener {
 
 
     //DatePicker Dialog is Used here to implement DatePicker Dlalog but as we are note Currently using Date picker here
@@ -38,7 +42,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment impleme
     String name;
     String selectedDate;
     TextView dateText;
-    Button dateBut;
+    Button dateBut, save;
 
 
 
@@ -52,8 +56,8 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment impleme
 
     public interface dialogClicked
     {
-        public void onDialogPositiveClick(DialogFragment dialog, EditText etText);
-        public void onDialogNegativeClick(DialogFragment dialog);
+        public void onDialogPositiveClick(BottomSheetDialog dialog, EditText etText);
+        public void onDialogNegativeClick(BottomSheetDialog dialog);
         public void onDateset(Button btn, TextView setDate);
 
     }
@@ -87,20 +91,44 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment impleme
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        BottomSheetDialog builder = new BottomSheetDialog(getActivity());
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 
         View inflatedView = layoutInflater.inflate(R.layout.dialogue,null);
+        builder.setContentView(inflatedView);
         //etText = (TextView) inflatedView.findViewById(R.id.etText);
         etText = (EditText) inflatedView.findViewById(R.id.etText);
         dateBut = inflatedView.findViewById(R.id.dataButton);
         dateText = inflatedView.findViewById(R.id.password);
+        Button save = builder.findViewById(R.id.Save);
 
         //It this builder.setView couldnot be used then we are unable to use anyitems on
         //the view and all they return is null or empty
-        builder.setView(inflatedView);
-        activity.onDateset(dateBut, dateText);
+        builder.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                BottomSheetDialog d = (BottomSheetDialog) dialogInterface;
+                activity.onDateset(d.findViewById(R.id.dataButton), d.findViewById(R.id.password));
+                d.findViewById(R.id.Save).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        pos =1;
+                        activity.onDialogPositiveClick(builder,etText);
+                        dismiss();
+                    }
+                });
+                d.findViewById(R.id.Cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        activity.onDialogNegativeClick(builder);
+                        dismiss();
+                    }
+                });
+            }
+        });
 
+
+/*
         builder.setCancelable(false)
                 .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
                     @Override
@@ -120,15 +148,15 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment impleme
             }
 
         });
+
         //getDialog().findViewById(R.id.etText);
         //Toast.makeText(getActivity(),getDialog().findViewById(R.id.etText),Toast.LENGTH_SHORT).show();
         //Books b1 = new Books(etText.getText().toString(), "dated");
         //ApplicationClass.book.add(b1);
 
+ */
 
-        return builder.create();
-
-
+            return builder;
 
     }
 

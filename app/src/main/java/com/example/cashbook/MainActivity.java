@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.example.cashbook.insidenotebook.ApplicationClass;
 import com.example.cashbook.insidenotebook.MaintainFinalBalance;
 import com.example.cashbook.insidenotebook.NoteBookDetails;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     FloatingActionButton fab;
     Boolean btnVisible = true;
     ExtendedFloatingActionButton efab;
+    int canceled = 0;
 
 
 
@@ -150,10 +152,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
                 if(!efab.isExtended()) {
                     efab.extend();
                     showNoticeDialog();
-                    if(ApplicationClass.book.get(0).getName().equals("Add Expense Book"))
-                    {
-                        hideNoteBook();
-                    }
+
 
                 }
                 else
@@ -212,8 +211,10 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             //hideNoteBook();
             //Toast.makeText(MainActivity.this, "Entereed" + flag, Toast.LENGTH_SHORT).show();
             showNoticeDialog();
-            hideNoteBook();
+
         }
+
+
         else {
 
             booksize = ApplicationClass.book.size();
@@ -248,16 +249,17 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog, EditText etText) {
+    public void onDialogPositiveClick(BottomSheetDialog dialog, EditText etText) {
         //One Way to get the dialog values is to use this Dialog.getDialog where dialog is an instance
         //of dialog fragment we have created and passed to from there only.
 
         //Second method is to pass the text which was written there and use it here by passing as
         //Here
 
+
         //But this one is the best way to do so.
         if(mainLongClicked == false) {
-            Dialog dialogView = dialog.getDialog();
+            BottomSheetDialog dialogView = dialog;
             EditText et = (EditText) dialogView.findViewById(R.id.etText);
             name = (String) et.getText().toString();
             namesBook.add(name);
@@ -270,19 +272,27 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
             } else {
                 createBook(name, setDate.getText().toString());
+                if(ApplicationClass.book.get(clickedIndex).getName().equals("Add Expense Book")){
+                hideNoteBook();
+                }
 
             }
         }
         else if(mainLongClicked == true)
         {
             mainLongClicked = false;
-            Dialog dialogView = dialog.getDialog();
+            BottomSheetDialog dialogView = dialog;
             EditText et = (EditText) dialogView.findViewById(R.id.etText);
             name = (String) et.getText().toString();
             namesBook.add(name);
             if(!name.isEmpty())
             {
                 ApplicationClass.book.get(mainLongClickedPosition).setName(name);
+                lfrag.notifyChange();
+            }
+            else if(!setDate.getText().toString().isEmpty())
+            {
+                ApplicationClass.book.get(mainLongClickedPosition).setDate(setDate.getText().toString());
                 lfrag.notifyChange();
             }
             //Add Create NoteBook Here oftherwise it will be created after clicking Add Notebook twice
@@ -296,7 +306,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
+    public void onDialogNegativeClick(BottomSheetDialog dialog) {
+        canceled =1;
 
     }
 
@@ -365,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         iv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnAddBook.setVisibility(View.VISIBLE);
+                //btnAddBook.setVisibility(View.VISIBLE);
                 searchView.setVisibility(View.VISIBLE);
                 hide_pos = 1;
                 getSupportFragmentManager().beginTransaction()
@@ -426,8 +437,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     }
     public void hideNoteBook()
     {
-        ApplicationClass.book.remove(ApplicationClass.book.remove(0));
-
+            ApplicationClass.book.remove(ApplicationClass.book.remove(0));
     }
 
 }
