@@ -17,6 +17,7 @@ public class ApplicationClass extends Application {
     public static ArrayList<Books> book;
     public static ArrayList<com.example.cashbook.insidenotebook.expenseBook> ebook;
     public static ArrayList<com.example.cashbook.insidenotebook.MaintainFinalBalance> mBook;
+    public static HashMap<Integer,MaintainFinalBalance> mBook_new;
     public static ArrayList<Integer> in;
     public static ArrayList<Help> helpBook;
     public static ArrayList<UserIdentity> userIdentity;
@@ -53,6 +54,11 @@ public class ApplicationClass extends Application {
         //lol.add(new ArrayList<com.example.cashbook.insidenotebook.expenseBook>());
 
         mBook = new ArrayList<MaintainFinalBalance>(bs);
+        mBook_new = new HashMap<Integer,MaintainFinalBalance>();
+        for(int j=0;j<2000;j++){
+            mBook_new.put(j,new MaintainFinalBalance(0,0,0,0,""));
+        }
+
         /*
         for(int i = 0;i<bs;i++)
         {

@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_balance" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/enteriesText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        app:layout_constraintTop_toBottomOf="@+id/enteriesText">
 
     </androidx.recyclerview.widget.RecyclerView>
 

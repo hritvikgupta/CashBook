@@ -5,13 +5,23 @@ public class MaintainFinalBalance {
     private int amountIn;
     private int amountout;
     private int itemIndex;
+    private String uID;
 
-    public MaintainFinalBalance(int netBalance, int amountIn, int amountout, int itemIndex) {
+    public MaintainFinalBalance(int netBalance, int amountIn, int amountout, int itemIndex, String uID) {
         this.netBalance = netBalance;
         this.amountIn = amountIn;
         this.amountout = amountout;
         this.itemIndex = itemIndex;
+        this.uID = uID;
 
+    }
+
+    public String getuID() {
+        return uID;
+    }
+
+    public void setuID(String uID) {
+        this.uID = uID;
     }
 
     public int getNetBalance() {

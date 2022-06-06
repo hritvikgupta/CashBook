@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.hardware.camera2.TotalCaptureResult;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     Boolean btnVisible = true;
     ExtendedFloatingActionButton efab;
     int canceled = 0;
+    Button Delete;
+    Boolean val = false;
 
 
 
@@ -90,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
@@ -142,7 +144,9 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             }
         });
 
+
  */
+
 
         efab.shrink();
         efab.setOnClickListener(new View.OnClickListener() {
@@ -204,12 +208,13 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     @Override
     public void onItemClicked(int index) {
 
-
+        val = false;
         clickedIndex = index;
         if(ApplicationClass.book.get(index).getName().equals("Add Expense Book"))
         {
             //hideNoteBook();
             //Toast.makeText(MainActivity.this, "Entereed" + flag, Toast.LENGTH_SHORT).show();
+
             showNoticeDialog();
 
         }
@@ -218,13 +223,16 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         else {
 
             booksize = ApplicationClass.book.size();
-
             ApplicationClass.setBooksize(booksize);
+/*
+            This One without Hash Mapping
 
             for (int i = 0; i < booksize; i++) {
-                ApplicationClass.mBook.add(new MaintainFinalBalance(0, 0, 0, 0));
+                ApplicationClass.mBook.add(new MaintainFinalBalance(0, 0, 0, 0,ApplicationClass.book.get(index).getName()));
             }
 
+ */
+            //Toast.makeText(MainActivity.this, "Size" + ApplicationClass.mBook.size(),Toast.LENGTH_SHORT).show();
             //Toast.makeText(MainActivity.this, ApplicationClass.mBook.get(index).getNetBalance(),Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(MainActivity.this, NoteBookDetails.class);
@@ -238,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     @Override
     public void onLongMainClicked(int index) {
         mainLongClicked = true;
+        val = true;
         mainLongClickedPosition = index;
         showNoticeDialog();
     }
@@ -246,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         // Create an instance of the dialog fragment and show it
         DialogFragment dialog = new DialogFragment();
         dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+
     }
 
     @Override
@@ -255,8 +265,6 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
         //Second method is to pass the text which was written there and use it here by passing as
         //Here
-
-
         //But this one is the best way to do so.
         if(mainLongClicked == false) {
             BottomSheetDialog dialogView = dialog;
@@ -272,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
             } else {
                 createBook(name, setDate.getText().toString());
+
                 if(ApplicationClass.book.get(clickedIndex).getName().equals("Add Expense Book")){
                 hideNoteBook();
                 }
@@ -338,6 +347,21 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         });
 
 
+    }
+
+    @Override
+    public void onDialogDeleteClick(BottomSheetDialog dialog) {
+        //Toast.makeText(MainActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
+        //ApplicationClass.lol2.remove(mainLongClickedPosition);
+        val = false;
+        mainLongClicked = false;
+        ApplicationClass.book.remove(mainLongClickedPosition);
+        lfrag.notifyChange();
+    }
+
+    public boolean hideDeleteButton()
+    {
+        return val;
     }
 
 

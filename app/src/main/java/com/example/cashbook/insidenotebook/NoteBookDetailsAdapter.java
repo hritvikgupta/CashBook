@@ -54,7 +54,6 @@ public class NoteBookDetailsAdapter extends RecyclerView.Adapter<NoteBookDetails
             totalbalanceremain = itemView.findViewById(R.id.totalBalanceRemain);
 
 
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

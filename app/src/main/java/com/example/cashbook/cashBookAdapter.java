@@ -1,6 +1,7 @@
 package com.example.cashbook;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                            //view.setBackgroundColor(Color.GREEN);
                             activity.onItemClicked(book.indexOf((Books)view.getTag()));
 
                 }

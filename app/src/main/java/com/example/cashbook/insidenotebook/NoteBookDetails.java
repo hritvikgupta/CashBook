@@ -1,6 +1,7 @@
 package com.example.cashbook.insidenotebook;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,7 +11,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -68,6 +72,9 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_book_details);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         if(savedInstanceState != null)
         {
             currentNet = Integer.parseInt(savedInstanceState.getString("Net"));
@@ -78,6 +85,8 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
 
         //eBook = new ArrayList<expenseBook>();
         index = Integer.parseInt(getIntent().getStringExtra("index"));
+        actionBar.setTitle(ApplicationClass.book.get(index).getName());
+        //Toast.makeText(NoteBookDetails.this, "Clicked" + ApplicationClass.mBook.get(index).getuID(),Toast.LENGTH_SHORT).show();
 
         cashButtonIn = findViewById(R.id.cashInButton);
         cashButtonOut = findViewById(R.id.cashOutButton);
@@ -167,10 +176,10 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             Tag = dialogview.findViewById(R.id.insideTag);
             createExpense(amountInOut.getText().toString(), Tag.getText().toString(),"Green");
             aI = Integer.parseInt(amountInOut.getText().toString());
-            currentin = ApplicationClass.mBook.get(index).getAmountIn();
+            currentin = ApplicationClass.mBook_new.get(index).getAmountIn();
             currentin = currentin + aI;
             //Toast.makeText(NoteBookDetails.this, "Index"+index, Toast.LENGTH_SHORT).show();
-            ApplicationClass.mBook.get(index).setAmountIn(currentin);
+            ApplicationClass.mBook_new.get(index).setAmountIn(currentin);
             //Use this Method or below line to set the text live rather clicking back and forth again
             //And don't use the interface method of Balance Fragment that was Created if
             //you want to update value live
@@ -192,7 +201,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             aO = Integer.parseInt(amountInOut.getText().toString());
             //currentout = ApplicationClass.mBook.get(index).getAmountout();
             currentout = currentout - aO;
-            ApplicationClass.mBook.get(index).setAmountout(currentout);
+            ApplicationClass.mBook_new.get(index).setAmountout(currentout);
             bf.outAmount.setText(String.valueOf(currentout));
             setNetBalanceStatement();
             //createNetBook();
@@ -219,11 +228,11 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             {
                 createExpense(amountInOut.getText().toString(), Tag.getText().toString(),itemC);
                 aI = Integer.parseInt(amountInOut.getText().toString());
-                currentin = ApplicationClass.mBook.get(index).getAmountIn();
+                currentin = ApplicationClass.mBook_new.get(index).getAmountIn();
                 new_in = currentin-removingCash;
                 new_in = new_in + aI;
                 //Toast.makeText(NoteBookDetails.this, "Index"+index, Toast.LENGTH_SHORT).show();
-                ApplicationClass.mBook.get(index).setAmountIn(new_in);
+                ApplicationClass.mBook_new.get(index).setAmountIn(new_in);
                 //Use this Method or below line to set the text live rather clicking back and forth again
                 //And don't use the interface method of Balance Fragment that was Created if
                 //you want to update value live
@@ -240,10 +249,10 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
                 createExpense(amountInOut.getText().toString(), Tag.getText().toString(),"Red");
                 aO = Integer.parseInt(amountInOut.getText().toString());
                 //currentout = ApplicationClass.mBook.get(index).getAmountout();
-                currentout = ApplicationClass.mBook.get(index).getAmountout();
+                currentout = ApplicationClass.mBook_new.get(index).getAmountout();
                 new_out = currentout+removingCash;
                 new_out = new_out - aO;
-                ApplicationClass.mBook.get(index).setAmountout(new_out);
+                ApplicationClass.mBook_new.get(index).setAmountout(new_out);
                 bf.outAmount.setText(String.valueOf(new_out));
                 setNetBalanceStatement();
             }
@@ -309,9 +318,9 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         //varibles values that has been set earlier
         //Therefore to display those values when backPressed Also use this along with
         //setText that was written in saveClick and OtherClick as well
-        nb.setText(String.valueOf(ApplicationClass.mBook.get(index).getNetBalance()));
-        iA.setText(String.valueOf(ApplicationClass.mBook.get(index).getAmountIn()));
-        oA.setText(String.valueOf(ApplicationClass.mBook.get(index).getAmountout()));
+        nb.setText(String.valueOf(ApplicationClass.mBook_new.get(index).getNetBalance()));
+        iA.setText(String.valueOf(ApplicationClass.mBook_new.get(index).getAmountIn()));
+        oA.setText(String.valueOf(ApplicationClass.mBook_new.get(index).getAmountout()));
 
     }
 
@@ -321,8 +330,8 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         int out;
         //currentNet = ApplicationClass.mBook.get(index).getNetBalance();
 
-        in = ApplicationClass.mBook.get(index).getAmountIn();
-        out = ApplicationClass.mBook.get(index).getAmountout();
+        in = ApplicationClass.mBook_new.get(index).getAmountIn();
+        out = ApplicationClass.mBook_new.get(index).getAmountout();
 
         currentNet = in+out;
         if(currentNet<0)
@@ -331,8 +340,8 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         }
 
         Toast.makeText(NoteBookDetails.this,"current" + currentout,Toast.LENGTH_SHORT).show();
-        ApplicationClass.mBook.get(index).setNetBalance(currentNet);
-        bf.netBalance.setText(String.valueOf(ApplicationClass.mBook.get(index).getNetBalance()));
+        ApplicationClass.mBook_new.get(index).setNetBalance(currentNet);
+        bf.netBalance.setText(String.valueOf(ApplicationClass.mBook_new.get(index).getNetBalance()));
 
 
     }
@@ -352,4 +361,20 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         removePosition = index;
         showInsideDialog();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
+
+
+    }
+
+
 }

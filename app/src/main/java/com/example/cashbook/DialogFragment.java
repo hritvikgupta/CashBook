@@ -43,6 +43,7 @@ public class DialogFragment extends BottomSheetDialogFragment implements DatePic
     String selectedDate;
     TextView dateText;
     Button dateBut, save;
+    boolean val;
 
 
 
@@ -59,6 +60,7 @@ public class DialogFragment extends BottomSheetDialogFragment implements DatePic
         public void onDialogPositiveClick(BottomSheetDialog dialog, EditText etText);
         public void onDialogNegativeClick(BottomSheetDialog dialog);
         public void onDateset(Button btn, TextView setDate);
+        public void onDialogDeleteClick(BottomSheetDialog dialog);
 
     }
 
@@ -73,6 +75,8 @@ public class DialogFragment extends BottomSheetDialogFragment implements DatePic
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.dialogue, container, false);
+        MainActivity activity_main = (MainActivity) getActivity();
+        val = activity_main.hideDeleteButton();
         return view;
 
     }
@@ -122,6 +126,20 @@ public class DialogFragment extends BottomSheetDialogFragment implements DatePic
                     public void onClick(View view) {
                         activity.onDialogNegativeClick(builder);
                         dismiss();
+                    }
+                });
+                if(val) {
+                    d.findViewById(R.id.Delete).setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    d.findViewById(R.id.Delete).setVisibility(View.GONE);
+
+                }
+                d.findViewById(R.id.Delete).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        activity.onDialogDeleteClick(builder);
                     }
                 });
             }
