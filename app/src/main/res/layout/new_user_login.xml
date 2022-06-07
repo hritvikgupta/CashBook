@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="650dp"
         android:contentDescription="@string/add"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,16 +36,17 @@
             <RelativeLayout
                 android:id="@+id/relativeScroll"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="228dp"
                 android:background="@drawable/background">
 
                 <ImageView
                     android:id="@+id/editButtonNew"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginLeft="350dp"
                     android:layout_marginTop="10dp"
                     android:clickable="true"
+                    android:contentDescription="@string/account_settings"
                     app:srcCompat="@drawable/d" />
 
                 <ImageView
@@ -115,7 +117,7 @@
                         app:srcCompat="@drawable/notification" />
 
                     <TextView
-                        android:id="@+id/textView19"
+                        android:id="@+id/notification"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
@@ -166,7 +168,7 @@
                         app:srcCompat="@drawable/lock" />
 
                     <TextView
-                        android:id="@+id/textView18"
+                        android:id="@+id/applock"
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
@@ -214,7 +216,7 @@
                         app:srcCompat="@drawable/dark" />
 
                     <TextView
-                        android:id="@+id/textView22"
+                        android:id="@+id/theme"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
@@ -258,7 +260,7 @@
                         app:srcCompat="@drawable/language" />
 
                     <TextView
-                        android:id="@+id/textView20"
+                        android:id="@+id/language"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
@@ -269,7 +271,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView21"
+                        android:id="@+id/languageText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -317,7 +319,7 @@
                         app:srcCompat="@drawable/invite" />
 
                     <TextView
-                        android:id="@+id/textView24"
+                        android:id="@+id/share"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
@@ -354,7 +356,7 @@
                         app:srcCompat="@drawable/ic_baseline_login_24" />
 
                     <TextView
-                        android:id="@+id/textView27"
+                        android:id="@+id/logout"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="4"

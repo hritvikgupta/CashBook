@@ -6,4 +6,16 @@
     <string name="username" />
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
+    <string name="selected_language">English</string>
+    <string name="language">English</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_number">Enter Number</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="notification_widget">Notification Widget</string>
+    <string name="app_lock">App Lock</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="change_language">Change Language</string>
+    <string name="english">English</string>
+    <string name="share_with_friends">Share with friends</string>
+    <string name="logout">Logout</string>
 </resources>

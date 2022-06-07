@@ -4,11 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Message;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -24,6 +30,8 @@ import com.example.cashbook.insidenotebook.ApplicationClass;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.time.temporal.Temporal;
+import java.util.Locale;
+
 //
 public class Setting extends AppCompatActivity implements BottomFragment.options {
 
@@ -31,13 +39,19 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     ImageView personImage, editUser, night;
     TextView nameId, numId;
     Switch s4;
-    Boolean darkon;
+    Boolean darkon, langHind;
     SharedPreferences sharedPreferences;
-    SharedPreferences.Editor myEdit;
+    SharedPreferences.Editor myEdit, langEdit;
     RelativeLayout relativeLayout;
     ImageView editButtonNew;
     EditText editNumber, editName;
     Button saveEdit, CancelEdit;
+    TextView languageText;
+    Context context;
+    Resources resources;
+    TextView notification, applock,theme,language,share, logout;
+    TextView English, Hindi, btmViewLang;
+
 
 
     @Override
@@ -51,7 +65,14 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         nameId = findViewById(R.id.nameID);
         s4 = findViewById(R.id.switch4);
         numId = findViewById(R.id.numID);
+        languageText = findViewById(R.id.languageText);
         editUser = findViewById(R.id.editButtonNew);
+        notification = findViewById(R.id.notification);
+        applock = findViewById(R.id.applock);
+        theme = findViewById(R.id.theme);
+        language = findViewById(R.id.language);
+        share= findViewById(R.id.share);
+        logout= findViewById(R.id.logout);
         night = findViewById(R.id.night);
         relativeLayout = findViewById(R.id.relativeScroll);
         sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
@@ -59,6 +80,19 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         darkon = sharedPreferences.getBoolean("darkon",false);
         checkDarkMode();
         setIdentity();
+
+        langEdit = sharedPreferences.edit();
+        langHind = sharedPreferences.getBoolean("langHind", false);
+        checkLanguage();
+
+        if(langHind)
+        {
+            setLanguage("hi");
+        }
+        else{
+            setLanguage("en");
+        }
+
         if(darkon)
         {
             relativeLayout.setBackgroundResource(R.drawable.backgroundnight);
@@ -97,6 +131,15 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
 
 
             }
+        });
+
+        languageText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                languageBottomDialog();
+            }
+
+
         });
 
     }
@@ -146,6 +189,65 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
             setDarkOn();
             s4.setChecked(true);
         }
+    }
+
+
+
+    public void setLanguage(String lang)
+    {
+        context = LocaleHelper.setLocale(Setting.this,lang );
+        resources = context.getResources();
+        nameId.setText(resources.getString(R.string.enter_name));
+        numId.setText(resources.getString(R.string.enter_number));
+        nameId.setText(resources.getString(R.string.enter_name));
+        notification.setText(resources.getString(R.string.notification_widget));
+        applock.setText(resources.getString(R.string.app_lock));
+        theme.setText(resources.getString(R.string.dark_theme));
+        language.setText(resources.getString(R.string.change_language));
+        share.setText(resources.getString(R.string.share_with_friends));
+        logout.setText(resources.getString(R.string.logout));
+        languageText.setText(resources.getString(R.string.selected_language));
+
+    }
+
+    public void checkLanguage()
+    {
+        if(langHind)
+        {
+            setLanguage("hi");
+        }
+        else
+        {
+            setLanguage("en");
+        }
+    }
+
+    private void languageBottomDialog()
+    {
+        final BottomSheetDialog bottomSheetDialog2 = new BottomSheetDialog(Setting.this);
+        bottomSheetDialog2.setContentView(R.layout.language_dialogue);
+        English = bottomSheetDialog2.findViewById(R.id.English);
+        Hindi = bottomSheetDialog2.findViewById(R.id.Hindi);
+        btmViewLang = bottomSheetDialog2.findViewById(R.id.languageChangeBottom);
+        English.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLanguage("en");
+                langEdit.putBoolean("langHind", false);
+                btmViewLang.setText("Change Language");
+                langEdit.apply();
+            }
+        });
+        Hindi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLanguage("hi");
+                langEdit.putBoolean("langHind", true);
+                langEdit.apply();
+                btmViewLang.setText("भाषा बदलो");
+            }
+        });
+        bottomSheetDialog2.show();
     }
 
     private void showBottomSheetDialog() {

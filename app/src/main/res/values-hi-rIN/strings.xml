@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Expense book</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="password" />
+    <string name="username" />
+    <string name="selected_language">हिन्दी</string>
+    <string name="language">हिन्दी</string>
+    <string name="add">जोड़ें</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_name">नाम दर्ज</string>
+    <string name="enter_number">नंबर डालें</string>
+    <string name="account_settings">अकाउंट सेटिंग</string>
+    <string name="notification_widget">अधिसूचना विज</string>
+    <string name="app_lock">एप्लिकेशन का ताला</string>
+    <string name="dark_theme">डार्क थीम</string>
+    <string name="change_language">भाषा बदलो</string>
+    <string name="english">अंग्रेज़ी</string>
+    <string name="share_with_friends">दोस्तों के साथ बांटें</string>
+    <string name="logout">लॉग आउट</string>
+
+</resources>
