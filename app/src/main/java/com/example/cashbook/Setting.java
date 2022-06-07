@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     TextView nameId, numId;
     Switch s4;
     Boolean darkon, langHind;
+    Boolean b = false,b2 = false;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor myEdit, langEdit;
     RelativeLayout relativeLayout;
@@ -95,6 +97,7 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
 
         if(darkon)
         {
+
             relativeLayout.setBackgroundResource(R.drawable.backgroundnight);
 
         }
@@ -136,6 +139,13 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         languageText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(b){
+                    English.setBackgroundColor(Color.GREEN);
+                }
+                else if(b2)
+                {
+                    Hindi.setBackgroundColor(Color.GREEN);
+                }
                 languageBottomDialog();
             }
 
@@ -228,11 +238,27 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         bottomSheetDialog2.setContentView(R.layout.language_dialogue);
         English = bottomSheetDialog2.findViewById(R.id.English);
         Hindi = bottomSheetDialog2.findViewById(R.id.Hindi);
+        if(b)
+        {
+            English.setBackgroundColor(Color.GREEN);
+        }
+        else if(b2)
+        {
+            Hindi.setBackgroundColor(Color.GREEN);
+        }
         btmViewLang = bottomSheetDialog2.findViewById(R.id.languageChangeBottom);
         English.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setLanguage("en");
+                b = true;
+                b2 = false;
+                English.setBackgroundColor(Color.GREEN);
+                if(darkon){
+                    b = true;
+                    Hindi.setBackgroundColor(Color.BLACK);}
+                else
+                    Hindi.setBackgroundColor(Color.WHITE);
                 langEdit.putBoolean("langHind", false);
                 btmViewLang.setText("Change Language");
                 langEdit.apply();
@@ -242,7 +268,15 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
             @Override
             public void onClick(View view) {
                 setLanguage("hi");
+                b2 = true;
+                b = false;
                 langEdit.putBoolean("langHind", true);
+                if(darkon){
+                    b2 = true;
+                    English.setBackgroundColor(Color.BLACK);}
+                else{
+                    English.setBackgroundColor(Color.WHITE);}
+                Hindi.setBackgroundColor(Color.GREEN);
                 langEdit.apply();
                 btmViewLang.setText("भाषा बदलो");
             }
