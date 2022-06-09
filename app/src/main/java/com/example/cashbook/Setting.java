@@ -3,6 +3,7 @@ package com.example.cashbook;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -40,10 +41,10 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     ImageView personImage, editUser, night;
     TextView nameId, numId;
     Switch s4;
-    Boolean darkon, langHind;
-    Boolean b = false,b2 = false;
+    Boolean darkon, langHind, colorEng, colorHind;
+    Boolean b ,b2;
     SharedPreferences sharedPreferences;
-    SharedPreferences.Editor myEdit, langEdit;
+    SharedPreferences.Editor myEdit, langEdit, colorEdit;
     RelativeLayout relativeLayout;
     ImageView editButtonNew;
     EditText editNumber, editName;
@@ -53,7 +54,8 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     Resources resources;
     TextView notification, applock,theme,language,share, logout;
     TextView English, Hindi, btmViewLang;
-
+    BottomFragment btmFragment;
+    TextView bookFragInst, helpFragInst, settingFragInst;
 
 
     @Override
@@ -77,35 +79,46 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         logout= findViewById(R.id.logout);
         night = findViewById(R.id.night);
         relativeLayout = findViewById(R.id.relativeScroll);
+
+        FragmentManager fm = getSupportFragmentManager();
+        btmFragment = (com.example.cashbook.BottomFragment) fm.findFragmentById(R.id.fragmentContainerView2);
+
+
         sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
         darkon = sharedPreferences.getBoolean("darkon",false);
         checkDarkMode();
-        setIdentity();
+        //setIdentity();
 
         langEdit = sharedPreferences.edit();
         langHind = sharedPreferences.getBoolean("langHind", false);
         checkLanguage();
 
+        colorEdit = sharedPreferences.edit();
+        b2 = sharedPreferences.getBoolean("colorHind", false);
+        b = sharedPreferences.getBoolean("colorEng", false);
+
+
         if(langHind)
         {
             setLanguage("hi");
+            setIdentity();
         }
         else{
             setLanguage("en");
+            setIdentity();
         }
 
         if(darkon)
         {
-
             relativeLayout.setBackgroundResource(R.drawable.backgroundnight);
-
         }
+
         else
         {
             relativeLayout.setBackgroundResource(R.drawable.background);
-
         }
+
         s4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -139,18 +152,15 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         languageText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(b){
-                    English.setBackgroundColor(Color.GREEN);
-                }
-                else if(b2)
-                {
-                    Hindi.setBackgroundColor(Color.GREEN);
-                }
+
                 languageBottomDialog();
+
             }
 
 
         });
+
+
 
     }
 
@@ -181,6 +191,12 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         });
 
     }
+
+    @Override
+    public void changeTextLang(TextView book, TextView help, TextView setting) {
+        book.setText(resources.getString(R.string.books));
+    }
+
     public void setDarkOn()
     {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -217,6 +233,9 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         share.setText(resources.getString(R.string.share_with_friends));
         logout.setText(resources.getString(R.string.logout));
         languageText.setText(resources.getString(R.string.selected_language));
+        //btmFragment.bookLang.setText(resources.getString(R.string.books));
+        //btmFragment.setLanguageBottomFragment(resources.getString(R.string.books));
+
 
     }
 
@@ -238,6 +257,8 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         bottomSheetDialog2.setContentView(R.layout.language_dialogue);
         English = bottomSheetDialog2.findViewById(R.id.English);
         Hindi = bottomSheetDialog2.findViewById(R.id.Hindi);
+
+        //Toast.makeText(Setting.this, ""+b+b2,Toast.LENGTH_SHORT).show();
         if(b)
         {
             English.setBackgroundColor(Color.GREEN);
@@ -253,6 +274,9 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
                 setLanguage("en");
                 b = true;
                 b2 = false;
+                colorEdit.putBoolean("colorEng", b);
+                colorEdit.putBoolean("colorHind", b2);
+                colorEdit.apply();
                 English.setBackgroundColor(Color.GREEN);
                 if(darkon){
                     b = true;
@@ -270,6 +294,9 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
                 setLanguage("hi");
                 b2 = true;
                 b = false;
+                colorEdit.putBoolean("colorEng", b);
+                colorEdit.putBoolean("colorHind", b2);
+                colorEdit.apply();
                 langEdit.putBoolean("langHind", true);
                 if(darkon){
                     b2 = true;
@@ -330,8 +357,8 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         }
        else
         {
-            nameId.setText(ApplicationClass.userIdentity.get(1).getUserName());
-            numId.setText(ApplicationClass.userIdentity.get(1).getUserNumber());
+            nameId.setText(ApplicationClass.userIdentity.get(ApplicationClass.userIdentity.size()-1).getUserName());
+            numId.setText(ApplicationClass.userIdentity.get(ApplicationClass.userIdentity.size()-1).getUserNumber());
         }
     }
 }

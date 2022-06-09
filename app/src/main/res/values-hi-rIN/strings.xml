@@ -19,5 +19,8 @@
     <string name="english">अंग्रेज़ी</string>
     <string name="share_with_friends">दोस्तों के साथ बांटें</string>
     <string name="logout">लॉग आउट</string>
+    <string name="books">पुस्तकें</string>
+    <string name="help">मदद</string>
+    <string name="settings">समायोजन</string>
 
 </resources>

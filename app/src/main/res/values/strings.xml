@@ -18,4 +18,8 @@
     <string name="english">English</string>
     <string name="share_with_friends">Share with friends</string>
     <string name="logout">Logout</string>
+    <string name="books">Books</string>
+    <string name="help">Help</string>
+    <string name="settings">Settings</string>
+
 </resources>

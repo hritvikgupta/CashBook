@@ -430,6 +430,11 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         });
     }
 
+    @Override
+    public void changeTextLang(TextView book, TextView help, TextView setting) {
+
+    }
+
 
     public void onHelpClicked(ListView helpList) {
         /*
