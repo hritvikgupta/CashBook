@@ -42,6 +42,7 @@ public class DialogFragment extends BottomSheetDialogFragment implements DatePic
     String name;
     String selectedDate;
     TextView dateText;
+    TextView AddBookTag;
     Button dateBut, save;
     boolean val;
 
@@ -61,6 +62,7 @@ public class DialogFragment extends BottomSheetDialogFragment implements DatePic
         public void onDialogNegativeClick(BottomSheetDialog dialog);
         public void onDateset(Button btn, TextView setDate);
         public void onDialogDeleteClick(BottomSheetDialog dialog);
+        public void onDialogLangSet(BottomSheetDialog dialog);
 
     }
 
@@ -104,6 +106,7 @@ public class DialogFragment extends BottomSheetDialogFragment implements DatePic
         etText = (EditText) inflatedView.findViewById(R.id.etText);
         dateBut = inflatedView.findViewById(R.id.dataButton);
         dateText = inflatedView.findViewById(R.id.password);
+        AddBookTag = inflatedView.findViewById(R.id.AddBookTag);
         Button save = builder.findViewById(R.id.Save);
 
         //It this builder.setView couldnot be used then we are unable to use anyitems on
@@ -112,6 +115,7 @@ public class DialogFragment extends BottomSheetDialogFragment implements DatePic
             @Override
             public void onShow(DialogInterface dialogInterface) {
                 BottomSheetDialog d = (BottomSheetDialog) dialogInterface;
+                activity.onDialogLangSet(d);
                 activity.onDateset(d.findViewById(R.id.dataButton), d.findViewById(R.id.password));
                 d.findViewById(R.id.Save).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -188,6 +192,11 @@ public class DialogFragment extends BottomSheetDialogFragment implements DatePic
         mcalender.set(Calendar.DAY_OF_MONTH, i2);
         selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mcalender.getTime());
         dateText.setText(selectedDate);
+    }
+
+    public void setLanguageDialogFragment(String b)
+    {
+        AddBookTag.setText(b);
     }
 
 

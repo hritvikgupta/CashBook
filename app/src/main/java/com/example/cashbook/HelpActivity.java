@@ -42,7 +42,9 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
         iv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            finish();
+                Intent intent = new Intent(HelpActivity.this, com.example.cashbook.MainActivity.class);
+                startActivity(intent);
+                finish();
 
             }
         });
@@ -65,8 +67,5 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
 
     }
 
-    @Override
-    public void changeTextLang(TextView book, TextView help, TextView setting) {
 
-    }
 }

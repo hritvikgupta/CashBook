@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.hardware.camera2.TotalCaptureResult;
@@ -86,17 +88,31 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     int canceled = 0;
     Button Delete;
     Boolean val = false;
-
-
+    com.example.cashbook.BottomFragment bm;
+    Boolean langHind;
+    Context context;
+    Resources resources;
+    String lang;
+    String firstBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bm = new com.example.cashbook.BottomFragment();
+
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
         Boolean darkon = sharedPreferences.getBoolean("darkon",false);
+        langHind = sharedPreferences.getBoolean("langHind", false);
+        if(langHind)
+            lang = "hi";
+        else
+            lang = "en";
+
+        context = LocaleHelper.setLocale(MainActivity.this,lang );
+        resources = context.getResources();
         if(darkon == true)
         {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -114,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         bfrag = (BottomFragment) fragmentManager.findFragmentById(R.id.fragmentContainerView4);
 
         book = new ArrayList<Books>();
-
+        firstBook = resources.getString(R.string.AddExpenseBook);
         if(ApplicationClass.book.isEmpty())
         {
             startNoteBook();
@@ -148,6 +164,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
  */
 
 
+
+        efab.setText(resources.getString(R.string.AddExpenseBook));
         efab.shrink();
         efab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -359,6 +377,26 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         lfrag.notifyChange();
     }
 
+    @Override
+    public void onDialogLangSet(BottomSheetDialog dialog) {
+        TextView t = dialog.findViewById(R.id.AddBookTag);
+        EditText etT = dialog.findViewById(R.id.etText);
+        TextView pas = dialog.findViewById(R.id.password);
+        Button dB = dialog.findViewById(R.id.dataButton);
+        Button cancel = dialog.findViewById(R.id.Cancel);
+        Button save = dialog.findViewById(R.id.Save);
+        Button delete = dialog.findViewById(R.id.Delete);
+        t.setText(resources.getString(R.string.AddBookTag));
+        etT.setHint(resources.getString(R.string.AddNameTag));
+        pas.setText(resources.getString(R.string.SelectDateFirstTag));
+        dB.setText(resources.getString(R.string.selectDateButton));
+        cancel.setText(resources.getString(R.string.CancelButton));
+        save.setText(resources.getString(R.string.SaveButton));
+        delete.setText(resources.getString(R.string.DeleteButton));
+
+
+    }
+
     public boolean hideDeleteButton()
     {
         return val;
@@ -430,10 +468,6 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         });
     }
 
-    @Override
-    public void changeTextLang(TextView book, TextView help, TextView setting) {
-
-    }
 
 
     public void onHelpClicked(ListView helpList) {

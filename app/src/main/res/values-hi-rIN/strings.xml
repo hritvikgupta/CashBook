@@ -22,5 +22,13 @@
     <string name="books">पुस्तकें</string>
     <string name="help">मदद</string>
     <string name="settings">समायोजन</string>
+    <string name="AddBookTag">किताब जोड़ें</string>
+    <string name="AddNameTag">नोटबुक का नाम</string>
+    <string name="SelectDateFirstTag">पहले दिनांक चुनें</string>
+    <string name="selectDateButton">दिनांक</string>
+    <string name="SaveButton">जोड़ें</string>
+    <string name="CancelButton">रद्द</string>
+    <string name="DeleteButton">मिटाना</string>
+    <string name="AddExpenseBook">व्यय पुस्तक जोड़ें</string>
 
 </resources>

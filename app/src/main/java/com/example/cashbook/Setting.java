@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -56,6 +57,9 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     TextView English, Hindi, btmViewLang;
     BottomFragment btmFragment;
     TextView bookFragInst, helpFragInst, settingFragInst;
+    FragmentTransaction fragmentTransaction;
+    com.example.cashbook.BottomFragment bm;
+    com.example.cashbook.DialogFragment df;
 
 
     @Override
@@ -63,6 +67,9 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_user_login);
         setTitle("Settings");
+        bm = new com.example.cashbook.BottomFragment();
+        df = new com.example.cashbook.DialogFragment();
+
 
         editButtonNew = findViewById(R.id.editButtonNew);
         personImage = findViewById(R.id.personImage);
@@ -79,9 +86,6 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         logout= findViewById(R.id.logout);
         night = findViewById(R.id.night);
         relativeLayout = findViewById(R.id.relativeScroll);
-
-        FragmentManager fm = getSupportFragmentManager();
-        btmFragment = (com.example.cashbook.BottomFragment) fm.findFragmentById(R.id.fragmentContainerView2);
 
 
         sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
@@ -112,11 +116,13 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         if(darkon)
         {
             relativeLayout.setBackgroundResource(R.drawable.backgroundnight);
+
         }
 
         else
         {
             relativeLayout.setBackgroundResource(R.drawable.background);
+            checkLanguage();
         }
 
         s4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -169,6 +175,8 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         iv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(Setting.this, com.example.cashbook.MainActivity.class);
+                startActivity(intent);
                 finish();
 
             }
@@ -192,10 +200,6 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
 
     }
 
-    @Override
-    public void changeTextLang(TextView book, TextView help, TextView setting) {
-        book.setText(resources.getString(R.string.books));
-    }
 
     public void setDarkOn()
     {
@@ -233,11 +237,11 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         share.setText(resources.getString(R.string.share_with_friends));
         logout.setText(resources.getString(R.string.logout));
         languageText.setText(resources.getString(R.string.selected_language));
-        //btmFragment.bookLang.setText(resources.getString(R.string.books));
-        //btmFragment.setLanguageBottomFragment(resources.getString(R.string.books));
-
+        bm.setLanguageBottomFragment(resources.getString(R.string.books),resources.getString(R.string.help),resources.getString(R.string.settings));
+        //df.setLanguageDialogFragment(resources.getString(R.string.AddBookTag));
 
     }
+
 
     public void checkLanguage()
     {

@@ -1,6 +1,7 @@
 package com.example.cashbook;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 
@@ -23,16 +24,20 @@ public class BottomFragment extends Fragment {
     ImageView imBook, imHelp, imSettings;
     View view;
     options activity;
-    TextView bookLang, helpLang, settingLang;
+    private static TextView bookLang, helpLang, settingLang;
     Context context;
     Resources resources;
     String lang;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor myEdit;
+
+
 
     public interface options
     {
         void OnOptionClicked(ImageView iv1, ImageView iv2, ImageView iv3);
-        void changeTextLang(TextView book, TextView help, TextView setting)
 ;    }
+
     public BottomFragment() {
         // Required empty public constructor
     }
@@ -55,13 +60,30 @@ public class BottomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         view = inflater.inflate(R.layout.fragment_bottom, container, false);
-        bookLang = (TextView) view.findViewById(R.id.bookLang);
         helpLang = view.findViewById(R.id.helpLang);
+        bookLang = view.findViewById(R.id.bookLang);
         settingLang = view.findViewById(R.id.settingLang);
-        return view;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SP",getContext().MODE_PRIVATE);
+        myEdit = sharedPreferences.edit();
+        Boolean b = sharedPreferences.getBoolean("langHind", false);
+        Boolean dark = sharedPreferences.getBoolean("darkon",false);
+        if(b)
+        {
+            myEdit.putBoolean("langHind", true);
+            setText("hi");
+        }
+        else
+        {
+            myEdit.putBoolean("landHind", false);
+            setText("en");
+        }
+
+         return view;
 
     }
+
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
@@ -74,33 +96,29 @@ public class BottomFragment extends Fragment {
         activity.OnOptionClicked(imBook, imHelp, imSettings);
 
 
-        activity.changeTextLang(bookLang, helpLang,settingLang);
 
 
-        //bookLang.setText(lang);
 
 
 
     }
 
-    public void setLanguageBottomFragment(String lang)
+    public void setText(String lang)
     {
-        TextView btm = (TextView) getView().findViewById(R.id.bookLang);
-        btm.setText(lang);
-        //bookLang = getView().findViewById(R.id.bookLang);
-        /*
-        lang = resources.getString(R.string.books);
-        Toast.makeText(getActivity(), lang, Toast.LENGTH_SHORT).show();
-        bookLang = view.findViewById(R.id.bookLang);
-        bookLang.setText(lang);
-        //bookLang.setText(bookLanguage);
-        //helpLang.setText(resources.getString(R.string.help));
-        //settingLang.setText(resources.getString(R.string.settings));
+        context = LocaleHelper.setLocale(getActivity(),lang );
+        resources = context.getResources();
+        bookLang.setText(resources.getString(R.string.books));
+        helpLang.setText(resources.getString(R.string.help));
+        settingLang.setText(resources.getString(R.string.settings));
+    }
 
 
 
-         */
-
+    public void setLanguageBottomFragment(String b, String h, String s)
+    {
+        bookLang.setText(b);
+        helpLang.setText(h);
+        settingLang.setText(s);
 
 
     }
