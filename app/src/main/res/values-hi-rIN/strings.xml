@@ -30,5 +30,13 @@
     <string name="CancelButton">रद्द</string>
     <string name="DeleteButton">मिटाना</string>
     <string name="AddExpenseBook">व्यय पुस्तक जोड़ें</string>
+    <string name="amountinout">राशि</string>
+    <string name="insidetag">खर्च का नाम</string>
+    <string name="NetBalance">निवल शेष</string>
+    <string name="TotalIn">कुल जोड़ा(+)</string>
+    <string name="TotalOut">कुल घटाया(-)</string>
+    <string name="CashIN"> + कैश जोड़े</string>
+    <string name="CashOut"> - नकद घटाएं</string>
+    <string name="providename">कृपया नाम प्रदान करें</string>
 
 </resources>

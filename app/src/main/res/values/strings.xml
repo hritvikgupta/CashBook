@@ -29,6 +29,15 @@
     <string name="CancelButton">Cancel</string>
     <string name="DeleteButton">Delete</string>
     <string name="AddExpenseBook">Add Expense Book</string>
+    <string name="amountinout">Enter Amount</string>
+    <string name="insidetag">Enter Expense Name</string>
+    <string name="NetBalance">Net Balance</string>
+    <string name="TotalIn">Total In(+)</string>
+    <string name="TotalOut">Total Out(-)</string>
+    <string name="CashIN">+ CASH IN</string>
+    <string name="CashOut">- CASH OUT</string>
+    <string name="providename">Please Provide Name</string>
+
 
 
 </resources>

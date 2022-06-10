@@ -23,11 +23,12 @@ public class BalanceFragment extends Fragment {
     mainBalance activity2;
     int index_clicked;
     int in, out, ner;
-
+    TextView nB,tIn,tOut;
 
     public interface mainBalance
     {
         void onMainBalance(TextView nb, TextView iA, TextView oA);
+        void onMainBalanceLangset(BalanceFragment balance);
     }
     public BalanceFragment() {
         // Required empty public constructor
@@ -56,8 +57,12 @@ public class BalanceFragment extends Fragment {
         netBalance = view.findViewById(R.id.netBalance);
         inAmount = view.findViewById(R.id.inBalance);
         outAmount = view.findViewById(R.id.outBalance);
+        nB = view.findViewById(R.id.nB);
+        tIn = view.findViewById(R.id.tIn);
+        tOut = view.findViewById(R.id.tOut);
 
         activity2.onMainBalance(netBalance,inAmount,outAmount);
+        activity2.onMainBalanceLangset(BalanceFragment.this);
 
         //inAmount.setText(ApplicationClass.mBook.get(index_clicked).getAmountIn());
 

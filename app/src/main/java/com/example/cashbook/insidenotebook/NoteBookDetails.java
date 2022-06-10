@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,6 +27,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.cashbook.DialogFragment;
+import com.example.cashbook.LocaleHelper;
+import com.example.cashbook.MainActivity;
 import com.example.cashbook.R;
 
 import java.text.DateFormat;
@@ -63,15 +68,28 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
     int removingCash = 0;
     String itemC;
     int new_in =0 , new_out =0;
-
-
-
+    Boolean langHind;
+    String lang;
+    Context context;
+    Resources resources;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_book_details);
+        SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
+        langHind = sharedPreferences.getBoolean("langHind", false);
+        if(langHind)
+        {
+            lang = "hi";
+        }
+        else
+        {
+            lang = "en";
+        }
+        context = LocaleHelper.setLocale(NoteBookDetails.this,lang);
+        resources = context.getResources();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -121,6 +139,9 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         //recyclerView.setAdapter(eAdapter);
         cashButtonIn.setBackgroundColor(Color.parseColor("#388E3C"));
         cashButtonOut.setBackgroundColor(Color.parseColor("#D32F2F"));
+
+        cashButtonIn.setText(resources.getString(R.string.CashIN));
+        cashButtonOut.setText(resources.getString(R.string.CashOut));
         cashButtonIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,7 +158,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             }
         });
 
-        date = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(new Date());
+        date = new SimpleDateFormat("EEE, MMMM d, yyyy", Locale.getDefault()).format(new Date());
 
 
 
@@ -286,6 +307,15 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
 
     }
 
+    @Override
+    public void onDialogInsideLangSet(DialogInsideFragment dialog) {
+
+        DialogInsideFragment dialogInsideFragment = dialog;
+        dialogInsideFragment.dateButton2.setText(resources.getString(R.string.selectDateButton));
+        dialogInsideFragment.amountInOut.setHint(resources.getString(R.string.amountinout));
+        dialogInsideFragment.insideTag.setHint(resources.getString(R.string.insidetag));
+    }
+
     public void createExpense(String amount, String tag,String color)
     {
 
@@ -324,6 +354,14 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
 
     }
 
+    @Override
+    public void onMainBalanceLangset(BalanceFragment balance) {
+            balance.nB.setText(resources.getString(R.string.NetBalance));
+            balance.tIn.setText(resources.getString(R.string.TotalIn));
+            balance.tOut.setText(resources.getString(R.string.TotalOut));
+
+    }
+
     public void setNetBalanceStatement()
     {
         int in;
@@ -339,7 +377,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             bf.netBalance.setTextColor(Color.parseColor("#D32F2F"));
         }
 
-        Toast.makeText(NoteBookDetails.this,"current" + currentout,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(NoteBookDetails.this,"current" + currentout,Toast.LENGTH_SHORT).show();
         ApplicationClass.mBook_new.get(index).setNetBalance(currentNet);
         bf.netBalance.setText(String.valueOf(ApplicationClass.mBook_new.get(index).getNetBalance()));
 

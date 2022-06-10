@@ -36,6 +36,7 @@ public class DialogInsideFragment extends DialogFragment {
         public void onSaveClicked(DialogInsideFragment dialog);
         public void onCancelClicked(DialogInsideFragment dialog);
         public void dateSetting(Button dateButton2);
+        public void onDialogInsideLangSet(DialogInsideFragment dialog);
     }
 
 
@@ -66,7 +67,7 @@ public class DialogInsideFragment extends DialogFragment {
 
         b.setView(inflatedView);
         activity.dateSetting(dateButton2);
-
+        activity.onDialogInsideLangSet(DialogInsideFragment.this);
 
         b.setCancelable(false)
                 .setPositiveButton("save", new DialogInterface.OnClickListener() {

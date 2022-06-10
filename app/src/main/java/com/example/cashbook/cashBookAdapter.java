@@ -33,6 +33,10 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
 
 
     }
+    public void updateList(ArrayList<Books> list){
+       this.book= list;
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 

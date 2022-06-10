@@ -1,5 +1,6 @@
 package com.example.cashbook;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,6 +23,9 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -53,7 +57,7 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements cashBookAdapter.ItemClicked, DialogFragment.dialogClicked, DatePickerDialog.OnDateSetListener, BottomFragment.options{
+public class MainActivity extends AppCompatActivity implements cashBookAdapter.ItemClicked, DialogFragment.dialogClicked, DatePickerDialog.OnDateSetListener, BottomFragment.options, ListFrag.searchList{
 
     Button btnAddBook;
     FragmentManager fragmentManager;
@@ -99,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         bm = new com.example.cashbook.BottomFragment();
 
 
@@ -121,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         list_frag = (ListFrag) getSupportFragmentManager().findFragmentById(R.id.list);
 
-        searchView = findViewById(R.id.serchView);
+        //searchView = findViewById(R.id.serchView);
         fragmentManager = this.getSupportFragmentManager();
         efab = findViewById(R.id.add_fab);
         ft = fragmentManager.beginTransaction();
@@ -131,11 +136,19 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
         book = new ArrayList<Books>();
         firstBook = resources.getString(R.string.AddExpenseBook);
-        if(ApplicationClass.book.isEmpty())
-        {
-            startNoteBook();
+
+        if(ApplicationClass.book.isEmpty()){
+          startNoteBook();
 
         }
+
+        else if(ApplicationClass.book.get(0).getName().equals("Add Expense Book") || ApplicationClass.book.get(0).getName().equals("व्यय पुस्तक जोड़ें"))
+        {
+            hideNoteBook();
+            startNoteBook();
+        }
+
+
         //hideNoteBook();
 
 /*
@@ -193,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
 
 
-
+/*
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -201,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
                 if(namesBook.contains(s))
                 {
+
                     Toast.makeText(MainActivity.this, "Found Element" + namesBook,Toast.LENGTH_SHORT).show();
                 }
                 else
@@ -218,6 +232,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             }
         });
 
+ */
+
         date = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(new Date());
 
 
@@ -228,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
         val = false;
         clickedIndex = index;
-        if(ApplicationClass.book.get(index).getName().equals("Add Expense Book"))
+        if(ApplicationClass.book.get(index).getName().equals(resources.getString(R.string.AddExpenseBook)))
         {
             //hideNoteBook();
             //Toast.makeText(MainActivity.this, "Entereed" + flag, Toast.LENGTH_SHORT).show();
@@ -292,14 +308,14 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             //Add Create NoteBook Here oftherwise it will be created after clicking Add Notebook twice
             // also add notifyDatachange in createBook after data being added for the same reason
             if (name.isEmpty()) {
-                Toast.makeText(MainActivity.this, "Please Provide Name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, resources.getString(R.string.providename), Toast.LENGTH_SHORT).show();
                 showNoticeDialog();
 
 
             } else {
                 createBook(name, setDate.getText().toString());
 
-                if(ApplicationClass.book.get(clickedIndex).getName().equals("Add Expense Book")){
+                if(ApplicationClass.book.get(clickedIndex).getName().equals(firstBook)){
                 hideNoteBook();
                 }
 
@@ -428,8 +444,9 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         mcalender.set(Calendar.YEAR, i);
         mcalender.set(Calendar.MONTH, i1);
         mcalender.set(Calendar.DAY_OF_MONTH, i2);
-        String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mcalender.getTime());
-        setDate.setText(selectedDate);
+        //String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mcalender.getTime());
+        String date = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(mcalender.getTime());
+        setDate.setText(date);
 
     }
 
@@ -439,7 +456,6 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             @Override
             public void onClick(View view) {
                 //btnAddBook.setVisibility(View.VISIBLE);
-                searchView.setVisibility(View.VISIBLE);
                 hide_pos = 1;
                 getSupportFragmentManager().beginTransaction()
                         .show(list_frag).commit();
@@ -487,12 +503,12 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     {
         if(!dataClicked)
         {
-            Books bstart = new Books("Add Expense Book", date);
+            Books bstart = new Books(resources.getString(R.string.AddExpenseBook), date);
             ApplicationClass.book.add(bstart);
         }
         else{
             dataClicked = false;
-            Books bstart = new Books("Add Expense Book", "Select Date");
+            Books bstart = new Books(resources.getString(R.string.AddExpenseBook), "Select Date");
             ApplicationClass.book.add(bstart);
         }
 
@@ -502,5 +518,16 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     {
             ApplicationClass.book.remove(ApplicationClass.book.remove(0));
     }
+
+    @Override
+    public void onSearchList(RecyclerView.Adapter adapter) {
+    }
+
+    public void filter(String text)
+    {
+
+    }
+
+
 
 }

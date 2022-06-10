@@ -21,6 +21,7 @@ public class ApplicationClass extends Application {
     public static ArrayList<Integer> in;
     public static ArrayList<Help> helpBook;
     public static ArrayList<UserIdentity> userIdentity;
+    public static ArrayList<Books> filteredBooks;
     //public static List<ArrayList<expenseBook>> lol;
     public static HashMap<Integer,ArrayList<expenseBook>> lol2;
     public static int bs;
@@ -37,6 +38,7 @@ public class ApplicationClass extends Application {
     public void onCreate() {
         super.onCreate();
 
+        filteredBooks = new ArrayList<Books>();
         userIdentity = new ArrayList<UserIdentity>();
         userIdentity.add(new UserIdentity("Enter Name", "Enter Number"));
         helpBook = new ArrayList<Help>();
