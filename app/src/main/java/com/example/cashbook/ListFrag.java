@@ -82,6 +82,10 @@ public class ListFrag extends Fragment {
             myadapter = new cashBookAdapter(this.getActivity(), ApplicationClass.book);
             list.setAdapter(myadapter);
 
+            activity.onSearchList(myadapter);
+            searchView.setVisibility(View.GONE);
+/*
+
             searchView.setOnTouchListener(new View.OnTouchListener() {
                  @Override
                  public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -114,6 +118,8 @@ public class ListFrag extends Fragment {
                 }
             });
 
+
+ */
 
 
 
@@ -152,7 +158,6 @@ public class ListFrag extends Fragment {
 
 
     }
-
 
     public void notifyChange()
     {

@@ -8,10 +8,11 @@
 
     <!--item for our search view with its id-->
     <item
-        android:id="@+id/actionSearch"
+        android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="Search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
 
 </menu>
+

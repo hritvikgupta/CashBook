@@ -1,6 +1,7 @@
 package com.example.cashbook;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -98,11 +99,15 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     Resources resources;
     String lang;
     String firstBook;
+    RecyclerView.Adapter myadapter;
+    cashBookAdapter adapter_cash;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+         actionBar = getSupportActionBar();
 
         bm = new com.example.cashbook.BottomFragment();
 
@@ -523,11 +528,86 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     public void onSearchList(RecyclerView.Adapter adapter) {
     }
 
-    public void filter(String text)
-    {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //https://www.geeksforgeeks.org/searchview-in-android-with-recyclerview/
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu,menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView sc = (SearchView) menuItem.getActionView();
+        sc.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                //actionBar.setDisplayHomeAsUpEnabled(true);
+                filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        sc.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                startActivity(getIntent());
+                return false;
+            }
+        });
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                startActivity(getIntent());
+                return false;
+            }
+        });
+
+
+
+
+        return  true;
 
     }
 
+    private void filter(String text) {
+
+        ArrayList<Books> filteredBooks =  new ArrayList<>();
 
 
+        for (Books item : ApplicationClass.book) {
+            // checking if the entered string matched with any item of our recycler view.
+            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+
+                //Toast.makeText(getActivity(),""+item.getName(),Toast.LENGTH_SHORT).show();
+                filteredBooks.add(item);
+                //Toast.makeText(getActivity(),"Hola",Toast.LENGTH_SHORT).show();
+            }
+            myadapter = new cashBookAdapter(MainActivity.this, filteredBooks);
+            lfrag.list.setAdapter(myadapter);
+
+
+        }
+
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                startActivity(getIntent());
+                return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
+
+
+    }
 }
