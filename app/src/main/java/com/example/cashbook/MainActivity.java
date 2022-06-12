@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,11 +22,17 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.hardware.camera2.TotalCaptureResult;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,6 +49,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.cashbook.insidenotebook.ApplicationClass;
 import com.example.cashbook.insidenotebook.MaintainFinalBalance;
@@ -104,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     RecyclerView.Adapter myadapter;
     cashBookAdapter adapter_cash;
     ActionBar actionBar;
+    Boolean darkon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +124,11 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         bm = new com.example.cashbook.BottomFragment();
 
 
+        //actionBar.setTitle(HtmlCompat.fromHtml("<font color='#0000000'>"+resources.getString(R.string.ExpenseBook)+"</font>", HtmlCompat.FROM_HTML_MODE_LEGACY));
+
 
         SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
-        Boolean darkon = sharedPreferences.getBoolean("darkon",false);
+        darkon = sharedPreferences.getBoolean("darkon",false);
         langHind = sharedPreferences.getBoolean("langHind", false);
         if(langHind)
             lang = "hi";
@@ -125,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
         context = LocaleHelper.setLocale(MainActivity.this,lang );
         resources = context.getResources();
+        setTitle(resources.getString(R.string.ExpenseBook));
         if(darkon == true)
         {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -242,12 +255,14 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
  */
 
         date = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(new Date());
+        //setTitle(resources.getString(R.string.ExpenseBook));
+        setActionBarColors();
 
 
     }
 
     @Override
-    public void onItemClicked(int index, CardView mainCardView) {
+    public void onItemClicked(int index, LinearLayout linearAll, LinearLayout linearOut) {
 
         val = false;
         clickedIndex = index;
@@ -538,6 +553,9 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         inflater.inflate(R.menu.search_menu,menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView sc = (SearchView) menuItem.getActionView();
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.black));
         sc.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -561,6 +579,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                actionBar.setBackgroundDrawable(colorDrawable);
+
                 return true;
             }
 
@@ -570,6 +590,13 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
                 return false;
             }
         });
+        if(!darkon){
+        Drawable yourdrawable = menu.getItem(0).getIcon(); // change 0 with 1,2 ...
+        yourdrawable.mutate();
+        yourdrawable.setColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN);}
+//change icon color
+
+
 
 
 
@@ -610,6 +637,16 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
         return super.onOptionsItemSelected(item);
 
+
+    }
+    public void setActionBarColors()
+    {
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.colorPrimary));
+        ColorDrawable textDrawable = new ColorDrawable(getColor(R.color.textColor));
+        actionBar.setBackgroundDrawable(colorDrawable);
+        actionBar.setTitle(HtmlCompat.fromHtml("<font color="+getColor(R.color.textColor)+">"+resources.getString(R.string.ExpenseBook)+"</font>", HtmlCompat.FROM_HTML_MODE_LEGACY));
 
     }
 }

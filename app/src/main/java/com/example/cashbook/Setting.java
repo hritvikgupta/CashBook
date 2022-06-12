@@ -1,9 +1,11 @@
 package com.example.cashbook;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -16,6 +18,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -212,9 +215,10 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
 
 
         setCardViewColor();
+        setTitle(resources.getString(R.string.Settings));
+        setActionBarColors();
 
         //ColorStateList s = cardView3.getCardBackgroundColor();
-
         //Toast.makeText(Setting.this, ""+cardView3.getCardBackgroundColor(),Toast.LENGTH_SHORT).show();
     }
 
@@ -288,6 +292,7 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         generalSetting.setText(resources.getString(R.string.generalSetting));
         otherSetting.setText(resources.getString(R.string.otherSetting));
         bm.setLanguageBottomFragment(resources.getString(R.string.books),resources.getString(R.string.help),resources.getString(R.string.settings));
+
         //df.setLanguageDialogFragment(resources.getString(R.string.AddBookTag));
 
     }
@@ -310,6 +315,15 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         rbBussiness = (RadioButton) bottomSheetDialog3.findViewById(R.id.rbBussiness);
         rbPersonal = bottomSheetDialog3.findViewById(R.id.rbPersonal);
         rbBoth = bottomSheetDialog3.findViewById(R.id.rbBoth);
+        TextView bA, pA, bT, acType;
+        bA = bottomSheetDialog3.findViewById(R.id.bA);
+        pA = bottomSheetDialog3.findViewById(R.id.pA);
+        bT= bottomSheetDialog3.findViewById(R.id.bT);
+        acType = bottomSheetDialog3.findViewById(R.id.acType);
+        bA.setText(resources.getString(R.string.BussinessAccount));
+        pA.setText(resources.getString(R.string.PersonalAccount));
+        bT.setText(resources.getString(R.string.Bothtypes));
+        acType.setText(resources.getString(R.string.AccountType));
         /*
         if(rbBus)
         {
@@ -387,19 +401,19 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     {
         if(rbBus)
         {
-            bussiness.setText("Bussiness");
+            bussiness.setText(resources.getString(R.string.Bussiness));
         }
         else if(rbPer)
         {
-            bussiness.setText("Personal");
+            bussiness.setText(resources.getString(R.string.Personal));
         }
         else if(rbBo)
         {
-            bussiness.setText("Both");
+            bussiness.setText(resources.getString(R.string.Both));
         }
         else
         {
-            bussiness.setText("Account");
+            bussiness.setText(resources.getString(R.string.Account));
         }
     }
     public void checkType()
@@ -434,23 +448,25 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         //Toast.makeText(Setting.this, ""+b+b2,Toast.LENGTH_SHORT).show();
         if(b)
         {
-            English.setBackgroundColor(Color.GREEN);
+            English.setBackgroundColor(Color.parseColor("#00a300"));
         }
         else if(b2)
         {
-            Hindi.setBackgroundColor(Color.GREEN);
+            Hindi.setBackgroundColor(Color.parseColor("#00a300"));
         }
         btmViewLang = bottomSheetDialog2.findViewById(R.id.languageChangeBottom);
         English.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setLanguage("en");
+                setTitle(resources.getString(R.string.Settings));
                 b = true;
                 b2 = false;
+                setBussinessTypeText();
                 colorEdit.putBoolean("colorEng", b);
                 colorEdit.putBoolean("colorHind", b2);
                 colorEdit.apply();
-                English.setBackgroundColor(Color.GREEN);
+                English.setBackgroundColor(Color.parseColor("#00a300"));
                 if(darkon){
                     b = true;
                     Hindi.setBackgroundColor(Color.BLACK);}
@@ -465,8 +481,10 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
             @Override
             public void onClick(View view) {
                 setLanguage("hi");
+                setTitle(resources.getString(R.string.Settings));
                 b2 = true;
                 b = false;
+                setBussinessTypeText();
                 colorEdit.putBoolean("colorEng", b);
                 colorEdit.putBoolean("colorHind", b2);
                 colorEdit.apply();
@@ -476,7 +494,7 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
                     English.setBackgroundColor(Color.BLACK);}
                 else{
                     English.setBackgroundColor(Color.WHITE);}
-                Hindi.setBackgroundColor(Color.GREEN);
+                Hindi.setBackgroundColor(Color.parseColor("#00a300"));
                 langEdit.apply();
                 btmViewLang.setText("भाषा बदलो");
             }
@@ -493,6 +511,10 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         Button sEdit = bottomSheetDialog.findViewById(R.id.sEdit);
         Button cancel = bottomSheetDialog.findViewById(R.id.CancelEdit);
         ImageView img = bottomSheetDialog.findViewById(R.id.editImage);
+        editNumber.setHint(resources.getString(R.string.enter_number));
+        editName.setHint(resources.getString(R.string.enter_name));
+        sEdit.setText(resources.getString(R.string.SaveButton));
+        cancel.setText(resources.getString(R.string.CancelButton));
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -704,5 +726,16 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
                 return false;
             }
         });
+    }
+
+    public void setActionBarColors()
+    {
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.colorPrimary));
+        ColorDrawable textDrawable = new ColorDrawable(getColor(R.color.textColor));
+        actionBar.setBackgroundDrawable(colorDrawable);
+        actionBar.setTitle(HtmlCompat.fromHtml("<font color="+getColor(R.color.textColor)+">"+resources.getString(R.string.Settings)+"</font>", HtmlCompat.FROM_HTML_MODE_LEGACY));
+
     }
 }

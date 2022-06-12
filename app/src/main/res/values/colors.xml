@@ -11,13 +11,14 @@
     <color name="colorPrimaryGreen">#388E3C</color>
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorPrimaryLight">#BBDEFB</color>
-    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryAscent">#03A9F4</color>
     <color name="background">#FFFFFF</color>
     <color name="textColor">#000000</color>
     <color name="DarkGreen">#388E3C</color>
     <color name = "buttonPressed">#D64214</color>
     <color name="dimGrey">#696969</color>
+
 
 
 </resources>

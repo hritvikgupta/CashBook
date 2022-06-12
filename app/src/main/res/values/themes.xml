@@ -5,6 +5,8 @@
         <item name="colorPrimary">#121212</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/black</item>
+
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>r
@@ -26,5 +28,6 @@
         <item name="button_color">#ffff</item>
 
     </style>
+
 
 </resources>

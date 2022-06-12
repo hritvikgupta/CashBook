@@ -39,7 +39,17 @@
     <string name="providename">Please Provide Name</string>
     <string name="generalSetting">General Setting</string>
     <string name="otherSetting">Other Setting</string>
-
+    <string name="BussinessAccount">Bussiness Account</string>
+    <string name="PersonalAccount">Personal Account</string>
+    <string name="Bothtypes">Both Types</string>
+    <string name="AccountType">Account Type</string>
+    <string name="Bussiness">Bussiness</string>
+    <string name="Personal">Personal</string>
+    <string name="Both">Both</string>
+    <string name="Account">Account</string>
+    <string name="Settings">Settings</string>
+    <string name="HelpandSupport">Help and Support</string>
+    <string name="ExpenseBook">Expense Book</string>
 
 
 </resources>

@@ -1,12 +1,14 @@
 package com.example.cashbook;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +22,11 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
 
     ArrayList<Books> book;
     ItemClicked activity;
+    Boolean darkon;
+
     public interface ItemClicked
     {
-        void onItemClicked(int index, CardView cardView);
+        void onItemClicked(int index, LinearLayout linearAll, LinearLayout linearLayoutOut);
         void onLongMainClicked(int index);
     }
 
@@ -44,19 +48,24 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
 
         TextView fileNameText, fileDateText;
         CardView mainCardView;;
+        LinearLayout linearAll, LinearOut;
+        SharedPreferences sharedPreferences;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-
+            sharedPreferences = itemView.getContext().getSharedPreferences("SP",Context.MODE_PRIVATE);
+            darkon  =sharedPreferences.getBoolean("darkon",false);
             fileNameText = itemView.findViewById(R.id.fileNameText);
             fileDateText = itemView.findViewById(R.id.fileDataText);
             mainCardView = itemView.findViewById(R.id.mainCardView);
+            linearAll = itemView.findViewById(R.id.linearAll);
+            LinearOut  = itemView.findViewById(R.id.linearOUt);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                             //view.setBackgroundColor(Color.GREEN);
-                            activity.onItemClicked(book.indexOf((Books)view.getTag()),mainCardView);
+                            activity.onItemClicked(book.indexOf((Books)view.getTag()),linearAll,LinearOut);
 
                 }
             });
@@ -82,6 +91,14 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull cashBookAdapter.ViewHolder holder, int position) {
+        if(darkon)
+        {
+            holder.linearAll.setBackgroundColor(Color.parseColor("#363636"));
+            holder.LinearOut.setBackgroundColor(Color.parseColor("#363636"));
+        }
+        else{
+        holder.linearAll.setBackgroundColor(Color.parseColor("#ebedee"));
+        holder.LinearOut.setBackgroundColor(Color.parseColor("#ebedee"));}
         holder.itemView.setTag(book.get(position));
         holder.fileDateText.setText(book.get(position).getDate());
         holder.fileNameText.setText(book.get(position).getName());

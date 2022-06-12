@@ -40,5 +40,17 @@
     <string name="providename">कृपया नाम प्रदान करें</string>
     <string name="generalSetting">सामान्य सेटिंग</string>
     <string name="otherSetting">अन्य सेटिंग</string>
+    <string name="BussinessAccount">व्यापार खाता</string>
+    <string name="PersonalAccount">व्यक्तिगत खाता</string>
+    <string name="Bothtypes">दोनों प्रकार के</string>
+    <string name="AccountType">खाते का प्रकार</string>
+    <string name="Bussiness">व्यापार</string>
+    <string name="Personal">व्यक्तिगत</string>
+    <string name="Both">दोनों प्रकार</string>
+    <string name="Account">खाते प्रकार</string>
+    <string name="Settings">समायोजन</string>
+    <string name="HelpandSupport">सहायता और समर्थन</string>
+    <string name="ExpenseBook">व्यय पुस्तक</string>
+
 
 </resources>
