@@ -12,8 +12,8 @@
     <string name="enter_name">नाम दर्ज</string>
     <string name="enter_number">नंबर डालें</string>
     <string name="account_settings">अकाउंट सेटिंग</string>
-    <string name="notification_widget">अधिसूचना विज</string>
-    <string name="app_lock">एप्लिकेशन का ताला</string>
+    <string name="notification_widget">अधिसूचना विज(जल्द आ रहा है)</string>
+    <string name="app_lock">खाते का प्रकारा</string>
     <string name="dark_theme">डार्क थीम</string>
     <string name="change_language">भाषा बदलो</string>
     <string name="english">अंग्रेज़ी</string>
@@ -38,5 +38,7 @@
     <string name="CashIN"> + कैश जोड़े</string>
     <string name="CashOut"> - नकद घटाएं</string>
     <string name="providename">कृपया नाम प्रदान करें</string>
+    <string name="generalSetting">सामान्य सेटिंग</string>
+    <string name="otherSetting">अन्य सेटिंग</string>
 
 </resources>

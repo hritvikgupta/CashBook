@@ -3,6 +3,7 @@ package com.example.cashbook;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
     ItemClicked activity;
     public interface ItemClicked
     {
-        void onItemClicked(int index);
+        void onItemClicked(int index, CardView cardView);
         void onLongMainClicked(int index);
     }
 
@@ -41,6 +43,7 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView fileNameText, fileDateText;
+        CardView mainCardView;;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -48,12 +51,12 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
 
             fileNameText = itemView.findViewById(R.id.fileNameText);
             fileDateText = itemView.findViewById(R.id.fileDataText);
-
+            mainCardView = itemView.findViewById(R.id.mainCardView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                             //view.setBackgroundColor(Color.GREEN);
-                            activity.onItemClicked(book.indexOf((Books)view.getTag()));
+                            activity.onItemClicked(book.indexOf((Books)view.getTag()),mainCardView);
 
                 }
             });

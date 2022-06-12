@@ -11,8 +11,8 @@
     <string name="enter_name">Enter Name</string>
     <string name="enter_number">Enter Number</string>
     <string name="account_settings">Account Settings</string>
-    <string name="notification_widget">Notification Widget</string>
-    <string name="app_lock">App Lock</string>
+    <string name="notification_widget">Notification Widget ⁽ᶜᵒᵐᶦⁿᵍ ˢᵒᵒⁿ⁾</string>
+    <string name="app_lock">Account Type</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="change_language">Change Language</string>
     <string name="english">English</string>
@@ -37,6 +37,8 @@
     <string name="CashIN">+ CASH IN</string>
     <string name="CashOut">- CASH OUT</string>
     <string name="providename">Please Provide Name</string>
+    <string name="generalSetting">General Setting</string>
+    <string name="otherSetting">Other Setting</string>
 
 
 

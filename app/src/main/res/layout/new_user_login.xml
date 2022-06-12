@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
         android:name="com.example.cashbook.BottomFragment"
@@ -81,7 +82,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/generalSettings"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
@@ -98,7 +99,8 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:elevation="5dp"
+                android:elevation="20dp"
+                app:cardCornerRadius="20dp"
                 app:cardUseCompatPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -145,6 +147,7 @@
                 android:layout_margin="5dp"
                 android:layout_marginTop="8dp"
                 android:elevation="5dp"
+                app:cardCornerRadius="20dp"
                 app:cardUseCompatPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -164,13 +167,14 @@
                         android:id="@+id/imageView7"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="6dp"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginTop="2dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/lock" />
+                        app:srcCompat="@drawable/info" />
 
                     <TextView
                         android:id="@+id/applock"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
                         android:gravity="center_vertical"
@@ -179,12 +183,18 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <Switch
-                        android:id="@+id/switch1"
+                    <TextView
+                        android:id="@+id/busTypeText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:layout_weight="1"
+                        android:clickable="true"
+                        android:gravity="center_horizontal"
+                        android:text="Account "
+                        android:textStyle="bold"
                         tools:ignore="TouchTargetSizeCheck" />
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -195,6 +205,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:elevation="5dp"
+                app:cardCornerRadius="20dp"
                 app:cardUseCompatPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -242,6 +253,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:elevation="5dp"
+                app:cardCornerRadius="20dp"
                 app:cardUseCompatPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -264,7 +276,8 @@
                         android:id="@+id/language"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="3"
                         android:gravity="center_vertical"
                         android:text="Change Language"
                         android:textColor="@color/textColor"
@@ -284,7 +297,7 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/textView32"
+                android:id="@+id/otherSetting"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
@@ -301,6 +314,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:elevation="5dp"
+                app:cardCornerRadius="20dp"
                 app:cardUseCompatPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -337,6 +351,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
+                app:cardCornerRadius="20dp"
                 android:elevation="5dp"
                 app:cardUseCompatPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -17,6 +17,7 @@
     <color name="textColor">#000000</color>
     <color name="DarkGreen">#388E3C</color>
     <color name = "buttonPressed">#D64214</color>
+    <color name="dimGrey">#696969</color>
 
 
 </resources>

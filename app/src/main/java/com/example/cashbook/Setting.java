@@ -2,13 +2,17 @@ package com.example.cashbook;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -18,21 +22,26 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cashbook.insidenotebook.ApplicationClass;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.time.temporal.Temporal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 //
@@ -45,22 +54,26 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     Boolean darkon, langHind, colorEng, colorHind;
     Boolean b ,b2;
     SharedPreferences sharedPreferences;
-    SharedPreferences.Editor myEdit, langEdit, colorEdit;
+    SharedPreferences.Editor myEdit, langEdit, colorEdit, typeEdit;
     RelativeLayout relativeLayout;
     ImageView editButtonNew;
     EditText editNumber, editName;
     Button saveEdit, CancelEdit;
-    TextView languageText;
+    TextView languageText, bussiness;
     Context context;
     Resources resources;
-    TextView notification, applock,theme,language,share, logout;
+    TextView notification, applock,theme,language,share, logout, generalSetting, otherSetting;
     TextView English, Hindi, btmViewLang;
     BottomFragment btmFragment;
     TextView bookFragInst, helpFragInst, settingFragInst;
     FragmentTransaction fragmentTransaction;
     com.example.cashbook.BottomFragment bm;
     com.example.cashbook.DialogFragment df;
-
+    Switch switch2;
+    RadioButton rbBussiness, rbPersonal,rbBoth;
+    Boolean rbBus, rbPer, rbBo;
+    CardView cardView3, cardView4, cardView5, cardView6, cardView7, cardView2;
+    ColorStateList s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +99,19 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         logout= findViewById(R.id.logout);
         night = findViewById(R.id.night);
         relativeLayout = findViewById(R.id.relativeScroll);
+        switch2 = findViewById(R.id.switch2);
+        switch2.setVisibility(View.GONE);
+        generalSetting= findViewById(R.id.generalSettings);
+        otherSetting = findViewById(R.id.otherSetting);
+        bussiness = findViewById(R.id.busTypeText);
+        cardView3 = findViewById(R.id.cardView3);
+        cardView4 = findViewById(R.id.cardView4);
+        cardView5 = findViewById(R.id.cardView5);
+        cardView6 = findViewById(R.id.cardView6);
+        cardView7 = findViewById(R.id.cardView7);
+        cardView2 = findViewById(R.id.cardView2);
+
+
 
 
         sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
@@ -102,6 +128,15 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         b2 = sharedPreferences.getBoolean("colorHind", false);
         b = sharedPreferences.getBoolean("colorEng", false);
 
+        typeEdit = sharedPreferences.edit();
+        rbBus = sharedPreferences.getBoolean("Bussiness", false);
+        rbPer = sharedPreferences.getBoolean("Personal", false);
+        rbBo = sharedPreferences.getBoolean("Both", false);
+        //checkType();
+
+        setBussinessTypeText();
+
+
 
         if(langHind)
         {
@@ -116,7 +151,7 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         if(darkon)
         {
             relativeLayout.setBackgroundResource(R.drawable.backgroundnight);
-
+            s  = cardView3.getCardBackgroundColor();
         }
 
         else
@@ -165,9 +200,22 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
 
 
         });
+        bussiness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(Setting.this,"Clicked", Toast.LENGTH_SHORT).show();
+                bussinessBottomDialog();
+                checkType();
+
+            }
+        });
 
 
+        setCardViewColor();
 
+        //ColorStateList s = cardView3.getCardBackgroundColor();
+
+        //Toast.makeText(Setting.this, ""+cardView3.getCardBackgroundColor(),Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -237,6 +285,8 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         share.setText(resources.getString(R.string.share_with_friends));
         logout.setText(resources.getString(R.string.logout));
         languageText.setText(resources.getString(R.string.selected_language));
+        generalSetting.setText(resources.getString(R.string.generalSetting));
+        otherSetting.setText(resources.getString(R.string.otherSetting));
         bm.setLanguageBottomFragment(resources.getString(R.string.books),resources.getString(R.string.help),resources.getString(R.string.settings));
         //df.setLanguageDialogFragment(resources.getString(R.string.AddBookTag));
 
@@ -254,8 +304,127 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
             setLanguage("en");
         }
     }
+    private void bussinessBottomDialog() {
+        final BottomSheetDialog bottomSheetDialog3 = new BottomSheetDialog(Setting.this);
+        bottomSheetDialog3.setContentView(R.layout.bus_type);
+        rbBussiness = (RadioButton) bottomSheetDialog3.findViewById(R.id.rbBussiness);
+        rbPersonal = bottomSheetDialog3.findViewById(R.id.rbPersonal);
+        rbBoth = bottomSheetDialog3.findViewById(R.id.rbBoth);
+        /*
+        if(rbBus)
+        {
+            rbBussiness.setChecked(true);
+            rbPersonal.setChecked(false);
+            rbBoth.setChecked(false);
+        }
+        else if(rbPer)
+        {
+            rbBussiness.setChecked(false);
+            rbPersonal.setChecked(true);
+            rbBoth.setChecked(false);
+        }
+        else if(rbBo)
+        {
+            rbBussiness.setChecked(false);
+            rbPersonal.setChecked(false);
+            rbBoth.setChecked(true);
+        }
 
-    private void languageBottomDialog()
+         */
+        //Toast.makeText(Setting.this, ""+rbBus, Toast.LENGTH_SHORT).show();
+        rbBussiness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(Setting.this, "Clicked",Toast.LENGTH_SHORT).show();
+                rbBus = true; rbPer = false;  rbBo = false;
+                typeEdit.putBoolean("Bussiness", true);
+                typeEdit.putBoolean("Personal", false);
+                typeEdit.putBoolean("Both", false);
+                typeEdit.apply();
+                rbBussiness.setChecked(true);
+                rbPersonal.setChecked(false);
+                rbBoth.setChecked(false);
+                setBussinessTypeText();
+
+            }
+        });
+        rbPersonal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(Setting.this, "Clicked",Toast.LENGTH_SHORT).show();
+                rbBus = false; rbPer = true;  rbBo = false;
+                typeEdit.putBoolean("Bussiness", false).apply();
+                typeEdit.putBoolean("Personal", true).apply();
+                typeEdit.putBoolean("Both", false).apply();
+                rbPersonal.setChecked(true);
+                rbBussiness.setChecked(false);
+                rbBoth.setChecked(false);
+                setBussinessTypeText();
+
+            }
+        });
+        rbBoth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(Setting.this, "Clicked",Toast.LENGTH_SHORT).show();
+                rbBus = false; rbPer = false;  rbBo = true;
+                typeEdit.putBoolean("Bussiness", false).apply();
+                typeEdit.putBoolean("Personal", false).apply();
+                typeEdit.putBoolean("Both", true).apply();
+                rbPersonal.setChecked(false);
+                rbBussiness.setChecked(false);
+                rbBoth.setChecked(true);
+                setBussinessTypeText();
+
+            }
+        });
+
+
+
+        bottomSheetDialog3.show();
+    }
+    public void setBussinessTypeText()
+    {
+        if(rbBus)
+        {
+            bussiness.setText("Bussiness");
+        }
+        else if(rbPer)
+        {
+            bussiness.setText("Personal");
+        }
+        else if(rbBo)
+        {
+            bussiness.setText("Both");
+        }
+        else
+        {
+            bussiness.setText("Account");
+        }
+    }
+    public void checkType()
+    {
+        if(rbBus)
+        {
+            rbBussiness.setChecked(true);
+            rbPersonal.setChecked(false);
+            rbBoth.setChecked(false);
+        }
+        else if(rbPer)
+        {
+            rbBussiness.setChecked(false);
+            rbPersonal.setChecked(true);
+            rbBoth.setChecked(false);
+        }
+        else if(rbBo)
+        {
+            rbBussiness.setChecked(false);
+            rbPersonal.setChecked(false);
+            rbBoth.setChecked(true);
+        }
+    }
+
+        private void languageBottomDialog()
     {
         final BottomSheetDialog bottomSheetDialog2 = new BottomSheetDialog(Setting.this);
         bottomSheetDialog2.setContentView(R.layout.language_dialogue);
@@ -364,5 +533,176 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
             nameId.setText(ApplicationClass.userIdentity.get(ApplicationClass.userIdentity.size()-1).getUserName());
             numId.setText(ApplicationClass.userIdentity.get(ApplicationClass.userIdentity.size()-1).getUserNumber());
         }
+    }
+
+    public void myAlarm() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 47);
+        calendar.set(Calendar.SECOND, 0);
+
+        if (calendar.getTime().compareTo(new Date()) < 0)
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        }
+
+    }
+
+    public void setCardViewColor()
+    {
+        cardView3.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(darkon)
+                    {
+                        cardView3.setCardBackgroundColor(Color.parseColor("#696969"));
+                    }
+                    else
+                    {
+                        cardView3.setCardBackgroundColor(Color.parseColor("#B0C4DE"));
+
+                    }
+                    return true;
+                } else {
+                    if(darkon)
+                        cardView3.setCardBackgroundColor(s);
+                    else
+                        cardView3.setCardBackgroundColor(Color.WHITE);
+
+                }
+
+                return false;
+            }
+        });
+        cardView4.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(darkon)
+                    {
+                        cardView4.setCardBackgroundColor(Color.parseColor("#696969"));
+                    }
+                    else
+                    {
+                        cardView4.setCardBackgroundColor(Color.parseColor("#B0C4DE"));
+
+                    }
+                    return true;
+                } else {
+                    if(darkon)
+                        cardView4.setCardBackgroundColor(s);
+                    else
+                        cardView4.setCardBackgroundColor(Color.WHITE);
+
+                }
+
+                return false;
+            }
+        });
+        cardView5.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(darkon)
+                    {
+                        cardView5.setCardBackgroundColor(Color.parseColor("#696969"));
+                    }
+                    else
+                    {
+                        cardView5.setCardBackgroundColor(Color.parseColor("#B0C4DE"));
+
+                    }                    return true;
+                } else {
+                    if(darkon)
+                        cardView5.setCardBackgroundColor(s);
+                    else
+                        cardView5.setCardBackgroundColor(Color.WHITE);
+
+                }
+
+                return false;
+            }
+        });
+        cardView6.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(darkon)
+                    {
+                        cardView6.setCardBackgroundColor(Color.parseColor("#696969"));
+                    }
+                    else
+                    {
+                        cardView6.setCardBackgroundColor(Color.parseColor("#B0C4DE"));
+
+                    }                    return true;
+                } else {
+                    if(darkon)
+                        cardView6.setCardBackgroundColor(s);
+                    else
+                        cardView6.setCardBackgroundColor(Color.WHITE);
+
+                }
+
+                return false;
+            }
+        });
+        cardView7.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(darkon)
+                    {
+                        cardView7.setCardBackgroundColor(Color.parseColor("#696969"));
+                    }
+                    else
+                    {
+                        cardView7.setCardBackgroundColor(Color.parseColor("#B0C4DE"));
+
+                    }                    return true;
+                } else {
+                    if(darkon)
+                        cardView7.setCardBackgroundColor(s);
+                    else
+                        cardView7.setCardBackgroundColor(Color.WHITE);
+
+                }
+
+                return false;
+            }
+        });
+        cardView2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(darkon)
+                    {
+                        cardView2.setCardBackgroundColor(Color.parseColor("#696969"));
+                    }
+                    else
+                    {
+                        cardView2.setCardBackgroundColor(Color.parseColor("#B0C4DE"));
+
+                    }                    return true;
+                } else {
+                    if(darkon)
+                        cardView2.setCardBackgroundColor(s);
+                    else
+                        cardView2.setCardBackgroundColor(Color.WHITE);
+
+                }
+
+                return false;
+            }
+        });
     }
 }
