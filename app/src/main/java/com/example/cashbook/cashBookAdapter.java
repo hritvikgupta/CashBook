@@ -93,8 +93,8 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
     public void onBindViewHolder(@NonNull cashBookAdapter.ViewHolder holder, int position) {
         if(darkon)
         {
-            holder.linearAll.setBackgroundColor(Color.parseColor("#363636"));
-            holder.LinearOut.setBackgroundColor(Color.parseColor("#363636"));
+            holder.linearAll.setBackgroundColor(Color.parseColor("#141e30"));
+            holder.LinearOut.setBackgroundColor(Color.parseColor("#141e30"));
         }
         else{
         holder.linearAll.setBackgroundColor(Color.parseColor("#ebedee"));

@@ -18,6 +18,8 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -75,8 +77,10 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     Switch switch2;
     RadioButton rbBussiness, rbPersonal,rbBoth;
     Boolean rbBus, rbPer, rbBo;
-    CardView cardView3, cardView4, cardView5, cardView6, cardView7, cardView2;
+    CardView cardView3, cardView4, cardView5, cardView6, cardView7, cardView2, cardIdentity;
     ColorStateList s;
+    ImageView imgMain;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +90,9 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         bm = new com.example.cashbook.BottomFragment();
         df = new com.example.cashbook.DialogFragment();
 
-
+        imgMain =findViewById(R.id.imgMain);
+        final PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(getColor(R.color.action), PorterDuff.Mode.SRC_ATOP);
+        imgMain.setColorFilter(colorFilter);
         editButtonNew = findViewById(R.id.editButtonNew);
         personImage = findViewById(R.id.personImage);
         nameId = findViewById(R.id.nameID);
@@ -113,8 +119,8 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         cardView6 = findViewById(R.id.cardView6);
         cardView7 = findViewById(R.id.cardView7);
         cardView2 = findViewById(R.id.cardView2);
-
-
+        cardIdentity = findViewById(R.id.cardIdentity);
+        cardIdentity.setBackgroundColor(getColor(R.color.background));
 
 
         sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
@@ -183,6 +189,7 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         });
 
 
+        editButtonNew.setColorFilter(colorFilter);
         editButtonNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -732,10 +739,10 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     {
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.colorPrimary));
+        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.lightColor));
         ColorDrawable textDrawable = new ColorDrawable(getColor(R.color.textColor));
-        actionBar.setBackgroundDrawable(colorDrawable);
-        actionBar.setTitle(HtmlCompat.fromHtml("<font color="+getColor(R.color.textColor)+">"+resources.getString(R.string.Settings)+"</font>", HtmlCompat.FROM_HTML_MODE_LEGACY));
+        actionBar.setBackgroundDrawable(getDrawable(R.drawable.background));
+        actionBar.setTitle(HtmlCompat.fromHtml("<font color="+getColor(R.color.action)+">"+resources.getString(R.string.Settings)+"</font>", HtmlCompat.FROM_HTML_MODE_LEGACY));
 
     }
 }

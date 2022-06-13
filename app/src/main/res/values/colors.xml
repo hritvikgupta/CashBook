@@ -18,6 +18,8 @@
     <color name="DarkGreen">#388E3C</color>
     <color name = "buttonPressed">#D64214</color>
     <color name="dimGrey">#696969</color>
+    <color name="lightColor">#9dbeb7</color>
+    <color name="action">#FFFFFF</color>
 
 
 

@@ -4,18 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,23 +17,14 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.hardware.camera2.TotalCaptureResult;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,22 +32,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.cashbook.insidenotebook.ApplicationClass;
-import com.example.cashbook.insidenotebook.MaintainFinalBalance;
 import com.example.cashbook.insidenotebook.NoteBookDetails;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Dictionary;
@@ -114,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     cashBookAdapter adapter_cash;
     ActionBar actionBar;
     Boolean darkon;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -555,7 +536,6 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         SearchView sc = (SearchView) menuItem.getActionView();
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.black));
         sc.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -579,7 +559,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
-                actionBar.setBackgroundDrawable(colorDrawable);
+                actionBar.setBackgroundDrawable(getDrawable(R.drawable.background));
 
                 return true;
             }
@@ -590,11 +570,11 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
                 return false;
             }
         });
-        if(!darkon){
         Drawable yourdrawable = menu.getItem(0).getIcon(); // change 0 with 1,2 ...
-        yourdrawable.mutate();
-        yourdrawable.setColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN);}
-//change icon color
+        final PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(getColor(R.color.action), PorterDuff.Mode.SRC_ATOP);
+        yourdrawable.setColorFilter(colorFilter);
+
+
 
 
 
@@ -643,10 +623,12 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     {
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.colorPrimary));
+        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.lightColor));
         ColorDrawable textDrawable = new ColorDrawable(getColor(R.color.textColor));
-        actionBar.setBackgroundDrawable(colorDrawable);
-        actionBar.setTitle(HtmlCompat.fromHtml("<font color="+getColor(R.color.textColor)+">"+resources.getString(R.string.ExpenseBook)+"</font>", HtmlCompat.FROM_HTML_MODE_LEGACY));
+        actionBar.setBackgroundDrawable(getDrawable(R.drawable.background));
+        actionBar.setTitle(HtmlCompat.fromHtml("<font color="+getColor(R.color.action)+">"+resources.getString(R.string.ExpenseBook)+"</font>", HtmlCompat.FROM_HTML_MODE_LEGACY));
 
     }
+
+
 }

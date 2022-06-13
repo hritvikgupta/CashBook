@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -106,10 +107,10 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
     {
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.colorPrimary));
+        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.lightColor));
         ColorDrawable textDrawable = new ColorDrawable(getColor(R.color.textColor));
-        actionBar.setBackgroundDrawable(colorDrawable);
-        actionBar.setTitle(HtmlCompat.fromHtml("<font color="+getColor(R.color.textColor)+">"+resources.getString(R.string.HelpandSupport)+"</font>", HtmlCompat.FROM_HTML_MODE_LEGACY));
+        actionBar.setBackgroundDrawable(getDrawable(R.drawable.background));
+        actionBar.setTitle(HtmlCompat.fromHtml("<font color="+getColor(R.color.action)+">"+resources.getString(R.string.HelpandSupport)+"</font>", HtmlCompat.FROM_HTML_MODE_LEGACY));
 
     }
 

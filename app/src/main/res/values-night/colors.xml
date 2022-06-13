@@ -15,5 +15,6 @@
     <color name="colorPrimaryAscent">#03A9F4</color>
     <color name="background">#000000</color>
     <color name="textColor">#ffffff</color>
+    <color name="action">#FFFFFF</color>
 
 </resources>
