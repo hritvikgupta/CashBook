@@ -59,7 +59,7 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     Boolean darkon, langHind, colorEng, colorHind;
     Boolean b ,b2;
     SharedPreferences sharedPreferences;
-    SharedPreferences.Editor myEdit, langEdit, colorEdit, typeEdit;
+    SharedPreferences.Editor myEdit, langEdit, colorEdit, typeEdit, clickColor;
     RelativeLayout relativeLayout;
     ImageView editButtonNew;
     EditText editNumber, editName;
@@ -80,6 +80,7 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     CardView cardView3, cardView4, cardView5, cardView6, cardView7, cardView2, cardIdentity;
     ColorStateList s;
     ImageView imgMain;
+    Boolean bookClicked, helpClicked, settingClicked;
 
 
     @Override
@@ -119,9 +120,6 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         cardView6 = findViewById(R.id.cardView6);
         cardView7 = findViewById(R.id.cardView7);
         cardView2 = findViewById(R.id.cardView2);
-        cardIdentity = findViewById(R.id.cardIdentity);
-        cardIdentity.setBackgroundColor(getColor(R.color.background));
-
 
         sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
@@ -145,7 +143,7 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
 
         setBussinessTypeText();
 
-
+        clickColor = sharedPreferences.edit();
 
         if(langHind)
         {
@@ -234,6 +232,10 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         iv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clickColor.putBoolean("Book", true);
+                clickColor.putBoolean("Help", false);
+                clickColor.putBoolean("Setting", false);
+                clickColor.apply();
                 Intent intent = new Intent(Setting.this, com.example.cashbook.MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -243,6 +245,10 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         iv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                    clickColor.putBoolean("Book", false);
+                    clickColor.putBoolean("Help", true);
+                    clickColor.putBoolean("Setting", false);
+                    clickColor.apply();
                     Intent intent = new Intent(Setting.this, com.example.cashbook.HelpActivity.class);
                     startActivity(intent);
                     finish();
@@ -252,7 +258,10 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         iv3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                clickColor.putBoolean("Book", false);
+                clickColor.putBoolean("Help", false);
+                clickColor.putBoolean("Setting", true);
+                clickColor.apply();
 
             }
         });

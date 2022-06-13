@@ -3,6 +3,7 @@ package com.example.cashbook;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,8 +30,8 @@ public class BottomFragment extends Fragment {
     Resources resources;
     String lang;
     SharedPreferences sharedPreferences;
-    SharedPreferences.Editor myEdit;
-
+    SharedPreferences.Editor myEdit, colorClicked;
+    Boolean book, help, setting;
 
 
     public interface options
@@ -68,7 +69,7 @@ public class BottomFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SP",getContext().MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
         Boolean b = sharedPreferences.getBoolean("langHind", false);
-        Boolean dark = sharedPreferences.getBoolean("darkon",false);
+        Boolean darkon = sharedPreferences.getBoolean("darkon",false);
         if(b)
         {
             myEdit.putBoolean("langHind", true);
@@ -78,6 +79,55 @@ public class BottomFragment extends Fragment {
         {
             myEdit.putBoolean("landHind", false);
             setText("en");
+        }
+
+        book=sharedPreferences.getBoolean("Book", false);
+        if(darkon){
+        bookLang.setTextColor(Color.parseColor("#FFFFFF"));}
+        else{
+            bookLang.setTextColor(Color.parseColor("#000000"));
+        }
+        help=sharedPreferences.getBoolean("Help", false);
+        setting=sharedPreferences.getBoolean("Setting", false);
+        if(book)
+        {
+            if (darkon){
+            bookLang.setTextColor(Color.parseColor("#FFFFFF"));
+            helpLang.setTextColor(Color.parseColor("#c3c3c3"));
+            settingLang.setTextColor(Color.parseColor("#c3c3c3"));}
+            else
+            {
+                bookLang.setTextColor(Color.parseColor("#000000"));
+                helpLang.setTextColor(Color.parseColor("#151515"));
+                settingLang.setTextColor(Color.parseColor("#151515"));
+            }
+
+        }
+        else if(help)
+        {
+            if(darkon){
+            bookLang.setTextColor(Color.parseColor("#c3c3c3"));
+            helpLang.setTextColor(Color.parseColor("#FFFFFF"));
+            settingLang.setTextColor(Color.parseColor("#c3c3c3"));}
+            else
+            {
+                bookLang.setTextColor(Color.parseColor("#151515"));
+                helpLang.setTextColor(Color.parseColor("#000000"));
+                settingLang.setTextColor(Color.parseColor("#151515"));
+            }
+        }
+        else
+        {
+            if(darkon){
+            bookLang.setTextColor(Color.parseColor("#c3c3c3"));
+            helpLang.setTextColor(Color.parseColor("#c3c3c3"));
+            settingLang.setTextColor(Color.parseColor("#FFFFFF"));}
+            else
+            {
+                bookLang.setTextColor(Color.parseColor("#151515"));
+                helpLang.setTextColor(Color.parseColor("#151515"));
+                settingLang.setTextColor(Color.parseColor("#000000"));
+            }
         }
 
          return view;

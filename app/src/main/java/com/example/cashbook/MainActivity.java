@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     ActionBar actionBar;
     Boolean darkon;
     Toolbar toolbar;
+    SharedPreferences.Editor clickColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
+        clickColor = sharedPreferences.edit();
         darkon = sharedPreferences.getBoolean("darkon",false);
         langHind = sharedPreferences.getBoolean("langHind", false);
         if(langHind)
@@ -178,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
  */
 
 
-
+        efab.setBackgroundColor(Color.parseColor("#243b55"));
         efab.setText(resources.getString(R.string.AddExpenseBook));
         efab.shrink();
         efab.setOnClickListener(new View.OnClickListener() {
@@ -458,6 +460,10 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         iv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clickColor.putBoolean("Book", true);
+                clickColor.putBoolean("Help", false);
+                clickColor.putBoolean("Setting", false);
+                clickColor.apply();
                 //btnAddBook.setVisibility(View.VISIBLE);
                 hide_pos = 1;
                 getSupportFragmentManager().beginTransaction()
@@ -469,6 +475,10 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         iv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                    clickColor.putBoolean("Book", false);
+                    clickColor.putBoolean("Help", true);
+                    clickColor.putBoolean("Setting", false);
+                    clickColor.apply();
                    hide_pos=2;
                    //getSupportFragmentManager().beginTransaction().hide(list_frag).commit();
                    Intent intent = new Intent(MainActivity.this, com.example.cashbook.HelpActivity.class);
@@ -479,6 +489,11 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         iv3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clickColor.putBoolean("Book", false);
+                clickColor.putBoolean("Help", false);
+                clickColor.putBoolean("Setting", true);
+                clickColor.apply();
+
                 Intent intent = new Intent(MainActivity.this, com.example.cashbook.Setting.class);
                 startActivity(intent);
 

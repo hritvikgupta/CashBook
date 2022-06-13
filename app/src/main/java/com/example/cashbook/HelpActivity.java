@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class HelpActivity extends AppCompatActivity implements BottomFragment.options{
@@ -30,6 +31,7 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
     Resources resources;
     Boolean langHind;
     String lang;
+    SharedPreferences.Editor clickColor;
     ArrayList<String> descriptions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
         setContentView(R.layout.activity_help);
 
         SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
+        clickColor = sharedPreferences.edit();
         langHind = sharedPreferences.getBoolean("langHind", false);
         if(langHind)
             lang = "hi";
@@ -69,7 +72,9 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(HelpActivity.this);
         bottomSheetDialog.setContentView(R.layout.helpbottomlayout);
         TextView tvTitle = bottomSheetDialog.findViewById(R.id.tvTitle);
+        TextView tvAns = bottomSheetDialog.findViewById(R.id.tvAns);
         tvTitle.setText(descriptions.get(position));
+        tvAns.setText(R.string.defination);
         bottomSheetDialog.show();
     }
 
@@ -78,6 +83,10 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
         iv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clickColor.putBoolean("Book", true);
+                clickColor.putBoolean("Help", false);
+                clickColor.putBoolean("Setting", false);
+                clickColor.apply();
                 Intent intent = new Intent(HelpActivity.this, com.example.cashbook.MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -87,12 +96,20 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
         iv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clickColor.putBoolean("Book", false);
+                clickColor.putBoolean("Help", true);
+                clickColor.putBoolean("Setting", false);
+                clickColor.apply();
 
             }
         });
         iv3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                    clickColor.putBoolean("Book", false);
+                    clickColor.putBoolean("Help", false);
+                    clickColor.putBoolean("Setting", true);
+                    clickColor.apply();
                     Intent intent = new Intent(HelpActivity.this, com.example.cashbook.Setting.class);
                     startActivity(intent);
                     finish();

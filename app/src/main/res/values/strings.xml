@@ -50,6 +50,7 @@
     <string name="Settings">Settings</string>
     <string name="HelpandSupport">Help and Support</string>
     <string name="ExpenseBook">Expense Book</string>
+    <string name="defination">An expense is the reduction in value of an asset as it is used to generate revenue. If the underlying asset is to be used over a long period </string>
 
 
 </resources>
