@@ -1,9 +1,12 @@
 package com.example.cashbook;
 
+import static java.security.AccessController.getContext;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,14 +14,18 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.InputStream;
@@ -33,6 +40,7 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
     String lang;
     SharedPreferences.Editor clickColor;
     ArrayList<String> descriptions;
+    BottomSheetBehavior behavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,11 +79,43 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
     {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(HelpActivity.this);
         bottomSheetDialog.setContentView(R.layout.helpbottomlayout);
+        setupFullHeight(bottomSheetDialog);
+        ImageView backBottom = bottomSheetDialog.findViewById(R.id.backBottom);
+        backBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
         TextView tvTitle = bottomSheetDialog.findViewById(R.id.tvTitle);
         TextView tvAns = bottomSheetDialog.findViewById(R.id.tvAns);
         tvTitle.setText(descriptions.get(position));
-        tvAns.setText(R.string.defination);
+        tvAns.setText(R.string.edit);
         bottomSheetDialog.show();
+    }
+
+
+
+    private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {
+        FrameLayout bottomSheet = (FrameLayout) bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+        behavior = BottomSheetBehavior.from(bottomSheet);
+        ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
+
+        int windowHeight = getWindowHeight();
+        if (layoutParams != null) {
+            layoutParams.height = windowHeight;
+        }
+        bottomSheet.setLayoutParams(layoutParams);
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+
+    private int getWindowHeight() {
+        // Calculate window height for fullscreen use
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        HelpActivity.this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
     }
 
     @Override
