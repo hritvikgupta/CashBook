@@ -72,14 +72,19 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
     String lang;
     Context context;
     Resources resources;
-
+    SharedPreferences.Editor mainBalColor;
+    Boolean mainColor;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_book_details);
-        SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
+        mainBalColor = sharedPreferences.edit();
         langHind = sharedPreferences.getBoolean("langHind", false);
+        mainColor = sharedPreferences.getBoolean("Green",false);
+
         if(langHind)
         {
             lang = "hi";
@@ -159,8 +164,17 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         });
 
         date = new SimpleDateFormat("EEE, MMMM d, yyyy", Locale.getDefault()).format(new Date());
+/*
+        if(mainColor)
+        {
+            bf.netBalance.setTextColor(Color.parseColor("#4CAF50"));
+        }
+        else
+        {
+            bf.netBalance.setTextColor(Color.parseColor("#D32F2F"));
+        }
 
-
+ */
 
 
 
@@ -189,13 +203,22 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
 
     @Override
     public void onSaveClicked(DialogInsideFragment dialog) {
+        Dialog dvDismiss = dialog.getDialog();
+        amountInOut = dvDismiss.findViewById(R.id.amountInOut);
+        Tag = dvDismiss.findViewById(R.id.insideTag);
 
-        if(pos ==1 && longClick == false) {
+        if (amountInOut.getText().toString().isEmpty() && Tag.getText().toString().isEmpty()) {
+            Toast.makeText(NoteBookDetails.this, "Clicked", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        }
+        else {
+
+        if (pos == 1 && longClick == false) {
             itemColor = "Green";
             Dialog dialogview = dialog.getDialog();
             amountInOut = dialogview.findViewById(R.id.amountInOut);
             Tag = dialogview.findViewById(R.id.insideTag);
-            createExpense(amountInOut.getText().toString(), Tag.getText().toString(),"Green");
+            createExpense(amountInOut.getText().toString(), Tag.getText().toString(), "Green");
             aI = Integer.parseInt(amountInOut.getText().toString());
             currentin = ApplicationClass.mBook_new.get(index).getAmountIn();
             currentin = currentin + aI;
@@ -206,19 +229,18 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             //you want to update value live
             bf.inAmount.setText(String.valueOf(currentin));
             setNetBalanceStatement();
-            if(currentin>currentout)
-            {
+            if (currentin > currentout) {
+                mainBalColor.putBoolean("Green", true);
                 bf.netBalance.setTextColor(Color.parseColor("#4CAF50"));
             }
 
             //createNetBook();
-        }
-        else if(pos ==2 && longClick == false){
+        } else if (pos == 2 && longClick == false) {
             itemColor = "Red";
             Dialog dV = dialog.getDialog();
             amountInOut = dV.findViewById(R.id.amountInOut);
             Tag = dV.findViewById(R.id.insideTag);
-            createExpense(amountInOut.getText().toString(), Tag.getText().toString(),"Red");
+            createExpense(amountInOut.getText().toString(), Tag.getText().toString(), "Red");
             aO = Integer.parseInt(amountInOut.getText().toString());
             //currentout = ApplicationClass.mBook.get(index).getAmountout();
             currentout = currentout - aO;
@@ -227,17 +249,14 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             setNetBalanceStatement();
             //createNetBook();
 
-        }
-
-        else if(longClick == true)
-        {
+        } else if (longClick == true) {
 
             longClick = false;
             itemC = ApplicationClass.lol2.get(index).get(removePosition).getTotalbalanceremain();
             Dialog dv2 = dialog.getDialog();
             amountInOut = dv2.findViewById(R.id.amountInOut);
             Tag = dv2.findViewById(R.id.insideTag);
-            if(!amountInOut.getText().toString().isEmpty() || !Tag.getText().toString().isEmpty()) {
+            if (!amountInOut.getText().toString().isEmpty() || !Tag.getText().toString().isEmpty()) {
                 removingCash = Integer.parseInt(ApplicationClass.lol2.get(index).get(removePosition).geteAmount());
                 //Toast.makeText(NoteBookDetails.this, "val"+removingCash,Toast.LENGTH_SHORT).show();
                 ApplicationClass.lol2.get(index).remove(removePosition);
@@ -245,12 +264,11 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
                 eAdapter.notifyDataSetChanged();
 
             }
-            if(itemC.equals("Green"))
-            {
-                createExpense(amountInOut.getText().toString(), Tag.getText().toString(),itemC);
+            if (itemC.equals("Green")) {
+                createExpense(amountInOut.getText().toString(), Tag.getText().toString(), itemC);
                 aI = Integer.parseInt(amountInOut.getText().toString());
                 currentin = ApplicationClass.mBook_new.get(index).getAmountIn();
-                new_in = currentin-removingCash;
+                new_in = currentin - removingCash;
                 new_in = new_in + aI;
                 //Toast.makeText(NoteBookDetails.this, "Index"+index, Toast.LENGTH_SHORT).show();
                 ApplicationClass.mBook_new.get(index).setAmountIn(new_in);
@@ -259,19 +277,17 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
                 //you want to update value live
                 bf.inAmount.setText(String.valueOf(new_in));
                 setNetBalanceStatement();
-                if(currentin>currentout)
-                {
+                if (currentin > currentout) {
                     bf.netBalance.setTextColor(Color.parseColor("#4CAF50"));
+
                 }
 
-            }
-            else if(itemC.equals("Red"))
-            {
-                createExpense(amountInOut.getText().toString(), Tag.getText().toString(),"Red");
+            } else if (itemC.equals("Red")) {
+                createExpense(amountInOut.getText().toString(), Tag.getText().toString(), "Red");
                 aO = Integer.parseInt(amountInOut.getText().toString());
                 //currentout = ApplicationClass.mBook.get(index).getAmountout();
                 currentout = ApplicationClass.mBook_new.get(index).getAmountout();
-                new_out = currentout+removingCash;
+                new_out = currentout + removingCash;
                 new_out = new_out - aO;
                 ApplicationClass.mBook_new.get(index).setAmountout(new_out);
                 bf.outAmount.setText(String.valueOf(new_out));
@@ -280,15 +296,14 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             //Toast.makeText(NoteBookDetails.this, "Pos" + ApplicationClass.lol2.get(index).get(removePosition).getTotalbalanceremain(),Toast.LENGTH_SHORT).show();
 
 
-
         }
-
+    }
 
     }
 
     @Override
     public void onCancelClicked(DialogInsideFragment dialog) {
-
+        dialog.dismiss();
 
 
     }
@@ -374,6 +389,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         currentNet = in+out;
         if(currentNet<0)
         {
+            mainBalColor.putBoolean("Green",false);
             bf.netBalance.setTextColor(Color.parseColor("#D32F2F"));
         }
 

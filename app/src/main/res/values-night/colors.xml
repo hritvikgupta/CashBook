@@ -16,5 +16,6 @@
     <color name="background">#000000</color>
     <color name="textColor">#ffffff</color>
     <color name="action">#FFFFFF</color>
+    <color name="linearOUtColor">#141e30</color>
 
 </resources>

@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     ActionBar actionBar;
     Boolean darkon;
     Toolbar toolbar;
-    SharedPreferences.Editor clickColor;
+    SharedPreferences.Editor clickColor, mainBalColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -120,12 +120,12 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         cardView6 = findViewById(R.id.cardView6);
         cardView7 = findViewById(R.id.cardView7);
         cardView2 = findViewById(R.id.cardView2);
-
+        //setIdentity();
         sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
         darkon = sharedPreferences.getBoolean("darkon",false);
         checkDarkMode();
-        //setIdentity();
+
 
         langEdit = sharedPreferences.edit();
         langHind = sharedPreferences.getBoolean("langHind", false);
