@@ -28,6 +28,7 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
     {
         void onItemClicked(int index, LinearLayout linearAll, LinearLayout linearLayoutOut);
         void onLongMainClicked(int index);
+        void itemsPassedfromadapter(TextView textView);
     }
 
 
@@ -46,7 +47,7 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView fileNameText, fileDateText;
+        TextView fileNameText, fileDateText, frontBalance;
         CardView mainCardView;;
         LinearLayout linearAll, LinearOut;
         SharedPreferences sharedPreferences;
@@ -61,6 +62,8 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
             mainCardView = itemView.findViewById(R.id.mainCardView);
             linearAll = itemView.findViewById(R.id.linearAll);
             LinearOut  = itemView.findViewById(R.id.linearOUt);
+            frontBalance = itemView.findViewById(R.id.frontBalance);
+            activity.itemsPassedfromadapter(frontBalance);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -102,6 +105,11 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
         holder.itemView.setTag(book.get(position));
         holder.fileDateText.setText(book.get(position).getDate());
         holder.fileNameText.setText(book.get(position).getName());
+        if(book.get(position).getAmount()<0)
+        {
+            holder.frontBalance.setTextColor(Color.parseColor("#D32F2F"));
+        }
+        holder.frontBalance.setText(String.valueOf(book.get(position).getAmount()));
         }
 
     @Override

@@ -30,6 +30,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HelpActivity extends AppCompatActivity implements BottomFragment.options{
 
@@ -41,6 +42,7 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
     SharedPreferences.Editor clickColor;
     ArrayList<String> descriptions;
     BottomSheetBehavior behavior;
+    private int[] answers = {R.string.defination,R.string.create, R.string.edit, R.string.deleterename,R.string.search, R.string.changeLanguage};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +62,19 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
         helpList = findViewById(R.id.helplist);
         descriptions = new ArrayList<String>();
         descriptions.add("What is Expense Book?");
-        descriptions.add("How to BackDated Entries ?");
+        descriptions.add("How to create a new expense book");
+        descriptions.add("How to edit entries inside expense book ?");
+        descriptions.add("How to delete or rename notebook");
+        descriptions.add("How to search added expense books");
+        descriptions.add("How to change language inside application");
+
         ArrayAdapter ad = new ArrayAdapter(HelpActivity.this, android.R.layout.simple_list_item_1,descriptions);
         helpList.setAdapter(ad);
 
         helpList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(HelpActivity.this, "Help" + i, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(HelpActivity.this, "Help" + i, Toast.LENGTH_SHORT).show();
                 createBottomSheetDialogHelp(i);
             }
         });
@@ -91,7 +98,7 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
         TextView tvTitle = bottomSheetDialog.findViewById(R.id.tvTitle);
         TextView tvAns = bottomSheetDialog.findViewById(R.id.tvAns);
         tvTitle.setText(descriptions.get(position));
-        tvAns.setText(R.string.edit);
+        tvAns.setText(answers[position]);
         bottomSheetDialog.show();
     }
 

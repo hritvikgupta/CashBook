@@ -11,6 +11,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -19,9 +20,11 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ import com.example.cashbook.DialogFragment;
 import com.example.cashbook.LocaleHelper;
 import com.example.cashbook.MainActivity;
 import com.example.cashbook.R;
+import com.example.cashbook.cashBookAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -391,13 +395,13 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         {
             mainBalColor.putBoolean("Green",false);
             bf.netBalance.setTextColor(Color.parseColor("#D32F2F"));
+
         }
 
         //Toast.makeText(NoteBookDetails.this,"current" + currentout,Toast.LENGTH_SHORT).show();
         ApplicationClass.mBook_new.get(index).setNetBalance(currentNet);
         bf.netBalance.setText(String.valueOf(ApplicationClass.mBook_new.get(index).getNetBalance()));
-
-
+        ApplicationClass.book.get(index).setAmount(currentNet);
     }
 
 
@@ -421,6 +425,8 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                Intent pass = new Intent(NoteBookDetails.this,MainActivity.class);
+                startActivity(pass);
                 return true;
         }
 
@@ -431,4 +437,10 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent back = new Intent(NoteBookDetails.this, MainActivity.class);
+        startActivity(back);
+    }
 }

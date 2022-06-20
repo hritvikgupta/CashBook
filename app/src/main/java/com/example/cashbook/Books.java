@@ -4,11 +4,21 @@ public class Books
 {
     private String name;
     private String date;
+    private int amount;
 
 
-    public Books(String name, String date) {
+    public Books(String name, String date, int amount) {
         this.name = name;
         this.date = date;
+        this.amount = amount;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getName() {

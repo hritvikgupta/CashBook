@@ -96,7 +96,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     Boolean darkon;
     Toolbar toolbar;
     SharedPreferences.Editor clickColor, mainBalColor;
-
+    Boolean condition, newBook;
+    int amount =0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             startNoteBook();
         }
 
+        condition = ApplicationClass.book.get(0).getName().equals("Add Expense Book") || ApplicationClass.book.get(0).getName().equals("व्यय पुस्तक जोड़ें");
 
         //hideNoteBook();
 
@@ -189,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
                 //Snackbar.make(view, "Add a Expense Book",Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 if(!efab.isExtended()) {
                     efab.extend();
+                    newBook = true;
                     showNoticeDialog();
 
 
@@ -248,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     public void onItemClicked(int index, LinearLayout linearAll, LinearLayout linearOut) {
 
         val = false;
+        newBook=false;
         clickedIndex = index;
         if(ApplicationClass.book.get(index).getName().equals(resources.getString(R.string.AddExpenseBook)))
         {
@@ -290,6 +294,20 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         showNoticeDialog();
     }
 
+    @Override
+    public void itemsPassedfromadapter(TextView textView) {
+/*
+        if(condition)
+            textView.setText("0");
+        else{
+        int i = ApplicationClass.mBook_new.get(clickedIndex).getNetBalance();
+        textView.setText(String.valueOf(i));}
+
+
+ */
+
+    }
+
     public void showNoticeDialog() {
         // Create an instance of the dialog fragment and show it
         DialogFragment dialog = new DialogFragment();
@@ -318,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
 
             } else {
-                createBook(name, setDate.getText().toString());
+                createBook(name, setDate.getText().toString(), amount);
 
                 if(ApplicationClass.book.get(clickedIndex).getName().equals(firstBook)){
                 hideNoteBook();
@@ -424,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     }
 
 
-    public void createBook(String name, String tag)
+    public void createBook(String name, String tag, int amount)
     {
         if(!dataClicked)
         {
@@ -435,7 +453,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
             dataClicked = false;
         }
 
-        Books b1 = new Books(name, tag);
+        Books b1 = new Books(name, tag, amount);
         ApplicationClass.book.add(b1);
         lfrag.notifyChange();
 
@@ -521,12 +539,12 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     {
         if(!dataClicked)
         {
-            Books bstart = new Books(resources.getString(R.string.AddExpenseBook), date);
+            Books bstart = new Books(resources.getString(R.string.AddExpenseBook), date,amount);
             ApplicationClass.book.add(bstart);
         }
         else{
             dataClicked = false;
-            Books bstart = new Books(resources.getString(R.string.AddExpenseBook), "Select Date");
+            Books bstart = new Books(resources.getString(R.string.AddExpenseBook), "Select Date", amount);
             ApplicationClass.book.add(bstart);
         }
 

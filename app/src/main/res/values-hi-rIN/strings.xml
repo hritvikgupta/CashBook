@@ -54,6 +54,29 @@
     <string name="defination">An expense is the reduction in value of an asset as it is used to generate revenue. If the underlying asset is to be used over a long period </string>
     <string name="edit"> Step 1. long press the entry, you want to edit
                         Step 2. Enter the new Fields such as amount and tag of expense</string>
+    <string name="create">"To create a new expense book follows the following steps:- \n
+    Step 1. To create a notebook first click on "+" sign on the bottom right hand side to add a new notebook\n
+    Step 2. A dialog open up from the bottom then add notebook name and select date\n
+    Note :- Notebook name is mandatory, without name notebook could not be created\n
+    Step 3. Click the save button to save the notebook and notebook will be created</string>
+
+    <string name="deleterename">To delete or rename Expense Book follows the following steps:-\n
+    Step 1. Long press the book you wish to delete or rename\n
+    Step 2. add the new name or date you wish to add\n
+    Step 3. If you wish to delete expense book then press delete button\n
+    Step 4. Otherwise, select save if you want to rename it.</string>
+
+    <string name="search">To search for the expense book follow given steps:-\n
+    Step 1. Press the search button on the top right hand side of the books page\n
+    Step 2. Press Type the name of the notebook you want to search\n
+    Step 3. Return to the home book page by clicking back button\n
+    Note:- Search results will be empty if notebook doesn't exist in the database</string>
+
+    <string name="changeLanguage">To change language of the whole application follow the following steps:-\n
+    Step 1. Go to the setting page using the bottom navigation\n
+    Step 2. click the "Change Language" button on the setting page\n
+    Step 3. Select the language you want to use, currently only two language options are available "Hindi" and "English"\n
+    </string>
 
 
 
