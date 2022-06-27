@@ -32,7 +32,7 @@ class NotificationHelper {
 
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL_ID);
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher1);
         mBuilder.setContentTitle("Title")
                 .setContentText("Content")
                 .setAutoCancel(false)

@@ -68,6 +68,7 @@ public class NoteBookDetailsAdapter extends RecyclerView.Adapter<NoteBookDetails
                     return false;
                 }
             });
+
         }
     }
     @NonNull

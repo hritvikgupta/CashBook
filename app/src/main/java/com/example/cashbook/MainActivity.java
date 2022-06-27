@@ -10,10 +10,12 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -32,11 +34,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.cashbook.insidenotebook.ApplicationClass;
+import com.example.cashbook.insidenotebook.MaintainFinalBalance;
 import com.example.cashbook.insidenotebook.NoteBookDetails;
+import com.example.cashbook.insidenotebook.expenseBook;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -95,24 +100,55 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     ActionBar actionBar;
     Boolean darkon;
     Toolbar toolbar;
-    SharedPreferences.Editor clickColor, mainBalColor;
+    SharedPreferences.Editor clickColor, mainBalColor, logEdit;
     Boolean condition, newBook;
+    SharedPreferences sp;
+    private UiModeManager uiModeManager;
+    cashBookAdapter.ViewHolder holder;
+    NoteBookDetails notebook;
     int amount =0;
+    String number;
+    int replace = 0;
+
+
+    SharedPreferences sharedPreferencesBooks;
+    SharedPreferences.Editor booksEdit;
+    Boolean stored;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
          actionBar = getSupportActionBar();
-
-        bm = new com.example.cashbook.BottomFragment();
-
+         bm = new com.example.cashbook.BottomFragment();
+         sharedPreferencesBooks = getSharedPreferences("booksLog", MODE_PRIVATE);
+         booksEdit = sharedPreferencesBooks.edit();
+         //number = getIntent().getStringExtra("number");
+         //ApplicationClass.userIdentity.get(0).setUserNumber(number);
+         //Toast.makeText(MainActivity.this, ApplicationClass.userIdentity.get(0).getUserNumber(),Toast.LENGTH_SHORT).show();
 
         //actionBar.setTitle(HtmlCompat.fromHtml("<font color='#0000000'>"+resources.getString(R.string.ExpenseBook)+"</font>", HtmlCompat.FROM_HTML_MODE_LEGACY));
-
 
         SharedPreferences sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
         clickColor = sharedPreferences.edit();
         darkon = sharedPreferences.getBoolean("darkon",false);
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        if(nightModeFlags == Configuration.UI_MODE_NIGHT_YES &&!darkon)
+        {
+            //Toast.makeText(MainActivity.this, "hola",Toast.LENGTH_SHORT).show();
+
+            //clickColor.putBoolean("darkon", true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        }
+        else if(nightModeFlags != Configuration.UI_MODE_NIGHT_YES && darkon)
+        {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+
         langHind = sharedPreferences.getBoolean("langHind", false);
         if(langHind)
             lang = "hi";
@@ -122,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         context = LocaleHelper.setLocale(MainActivity.this,lang );
         resources = context.getResources();
         setTitle(resources.getString(R.string.ExpenseBook));
-        if(darkon == true)
+        if(darkon == true &&nightModeFlags == Configuration.UI_MODE_NIGHT_YES )
         {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
@@ -150,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         {
             hideNoteBook();
             startNoteBook();
+
+
         }
 
         condition = ApplicationClass.book.get(0).getName().equals("Add Expense Book") || ApplicationClass.book.get(0).getName().equals("व्यय पुस्तक जोड़ें");
@@ -243,6 +281,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         date = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(new Date());
         //setTitle(resources.getString(R.string.ExpenseBook));
         setActionBarColors();
+        //Toast.makeText(MainActivity.this, "Hola" + ApplicationClass.book.get(0).getName(), Toast.LENGTH_SHORT).show();
+
 
 
     }
@@ -410,10 +450,28 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     public void onDialogDeleteClick(BottomSheetDialog dialog) {
         //Toast.makeText(MainActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
         //ApplicationClass.lol2.remove(mainLongClickedPosition);
+
         val = false;
         mainLongClicked = false;
         ApplicationClass.book.remove(mainLongClickedPosition);
-        lfrag.notifyChange();
+        lfrag.removeItem(mainLongClickedPosition);
+        //notebook.removeInsideNotebook(mainLongClickedPosition);
+        //ApplicationClass.mBook_new.remove(mainLongClickedPosition);
+        Toast.makeText(MainActivity.this, "size"+ApplicationClass.book.size(),Toast.LENGTH_SHORT).show();
+        //ApplicationClass.mBook_new.replace(mainLongClickedPosition,new MaintainFinalBalance(0,0,0,0,"0"));
+        //ApplicationClass.mBook_new.replace(mainLongClickedPosition,ApplicationClass.mBook_new.get(mainLongClickedPosition+1));
+        //ApplicationClass.lol2.replace(mainLongClickedPosition, ApplicationClass.lol2.get(mainLongClickedPosition+1));
+
+
+        for(replace=0;replace<ApplicationClass.book.size(); replace++)
+        {
+            ApplicationClass.mBook_new.replace(mainLongClickedPosition,ApplicationClass.mBook_new.get(mainLongClickedPosition+1));
+            ApplicationClass.lol2.replace(mainLongClickedPosition, ApplicationClass.lol2.get(mainLongClickedPosition+1));
+        }
+        ApplicationClass.mBook_new.replace(ApplicationClass.book.size(),new MaintainFinalBalance(0,0,0,0,"0"));
+        ApplicationClass.lol2.replace(ApplicationClass.book.size(),  ApplicationClass.lol2.get(1999));
+
+
     }
 
     @Override
@@ -456,6 +514,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         Books b1 = new Books(name, tag, amount);
         ApplicationClass.book.add(b1);
         lfrag.notifyChange();
+        storeBookLog();
+
 
     }
 
@@ -488,6 +548,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
                         .show(list_frag).commit();
                 setTitle("Expense Book");
 
+
             }
         });
         iv2.setOnClickListener(new View.OnClickListener() {
@@ -502,6 +563,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
                    Intent intent = new Intent(MainActivity.this, com.example.cashbook.HelpActivity.class);
                    startActivity(intent);
                    setTitle("Expense Book");
+                   //finish();
             }
         });
         iv3.setOnClickListener(new View.OnClickListener() {
@@ -514,7 +576,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
                 Intent intent = new Intent(MainActivity.this, com.example.cashbook.Setting.class);
                 startActivity(intent);
-
+                //finish();
 
             }
         });
@@ -663,5 +725,42 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
     }
 
+    public void storeBookLog()
+    {
 
+
+        booksEdit.putBoolean("Stored", true);
+        booksEdit.apply();
+        for(int i =0; i<ApplicationClass.book.size();i++){
+        booksEdit.putString("Book"+String.valueOf(i),ApplicationClass.book.get(i).getName());
+        booksEdit.apply();
+        }
+
+
+
+    }
+
+    public void getBookLog()
+    {
+        String bookName;
+        for(int i =0; i<ApplicationClass.book.size();i++){
+            bookName = sharedPreferencesBooks.getString("Book"+String.valueOf(i),"Null");
+            createBook(bookName,"",0);
+
+        }
+        lfrag.notifyChange();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //getBookLog();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        //getBookLog();
+    }
 }

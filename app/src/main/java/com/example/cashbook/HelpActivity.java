@@ -62,11 +62,13 @@ public class HelpActivity extends AppCompatActivity implements BottomFragment.op
         helpList = findViewById(R.id.helplist);
         descriptions = new ArrayList<String>();
         descriptions.add("What is Expense Book?");
-        descriptions.add("How to create a new expense book");
-        descriptions.add("How to edit entries inside expense book ?");
-        descriptions.add("How to delete or rename notebook");
-        descriptions.add("How to search added expense books");
-        descriptions.add("How to change language inside application");
+        descriptions.add("How to create a new expense book?");
+        descriptions.add("How to edit entries inside expense book?");
+        descriptions.add("How to delete or rename notebook?");
+        descriptions.add("How to search added expense books?");
+        descriptions.add("How to change language inside application?");
+
+
 
         ArrayAdapter ad = new ArrayAdapter(HelpActivity.this, android.R.layout.simple_list_item_1,descriptions);
         helpList.setAdapter(ad);

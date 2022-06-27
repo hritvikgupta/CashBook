@@ -40,9 +40,9 @@ public class ApplicationClass extends Application {
 
         filteredBooks = new ArrayList<Books>();
         userIdentity = new ArrayList<UserIdentity>();
-        userIdentity.add(new UserIdentity("Enter Name", "Enter Number"));
         helpBook = new ArrayList<Help>();
         helpBook.add(new Help("Need Help"));
+        ApplicationClass.userIdentity.add(new UserIdentity("Enter Name", "Enter Number"));
 
         book = new ArrayList<Books>();
 

@@ -113,7 +113,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         //eBook = new ArrayList<expenseBook>();
         index = Integer.parseInt(getIntent().getStringExtra("index"));
         actionBar.setTitle(ApplicationClass.book.get(index).getName());
-        //Toast.makeText(NoteBookDetails.this, "Clicked" + ApplicationClass.mBook.get(index).getuID(),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(NoteBookDetails.this, "Clicked" + index,Toast.LENGTH_SHORT).show();
 
         cashButtonIn = findViewById(R.id.cashInButton);
         cashButtonOut = findViewById(R.id.cashOutButton);
@@ -418,6 +418,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         longClick =true;
         removePosition = index;
         showInsideDialog();
+
     }
 
     @Override
@@ -442,5 +443,12 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         super.onBackPressed();
         Intent back = new Intent(NoteBookDetails.this, MainActivity.class);
         startActivity(back);
+    }
+
+    public void removeInsideNotebook(int position)
+    {
+        //ApplicationClass.lol2.remove(position);
+        Toast.makeText(NoteBookDetails.this, "Click", Toast.LENGTH_SHORT).show();
+        //ApplicationClass.mBook_new.replace(position,ApplicationClass.mBook_new.get(position+1));
     }
 }

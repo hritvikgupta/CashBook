@@ -60,17 +60,14 @@
     Note :- Notebook name is mandatory, without name notebook could not be created\n
     Step 3. Click the save button to save the notebook and notebook will be created</string>
 
+
     <string name="deleterename">To delete or rename Expense Book follows the following steps:-\n
     Step 1. Long press the book you wish to delete or rename\n
     Step 2. add the new name or date you wish to add\n
     Step 3. If you wish to delete expense book then press delete button\n
     Step 4. Otherwise, select save if you want to rename it.</string>
 
-    <string name="search">To search for the expense book follow given steps:-\n
-    Step 1. Press the search button on the top right hand side of the books page\n
-    Step 2. Press Type the name of the notebook you want to search\n
-    Step 3. Return to the home book page by clicking back button\n
-    Note:- Search results will be empty if notebook doesn't exist in the database</string>
+
 
     <string name="changeLanguage">To change language of the whole application follow the following steps:-\n
     Step 1. Go to the setting page using the bottom navigation\n
@@ -78,6 +75,14 @@
     Step 3. Select the language you want to use, currently only two language options are available "Hindi" and "English"\n
     </string>
 
+    <string name="search">To search for the expense book follow given steps:-\n
+    Step 1. Press the search button on the top right hand side of the books page\n
+    Step 2. Press Type the name of the notebook you want to search\n
+    Step 3. Return to the home book page by clicking back button\n
+   </string>
+    <string name="code">Code</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="login">Login</string>
 
 
 </resources>

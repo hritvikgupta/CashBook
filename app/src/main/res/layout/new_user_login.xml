@@ -32,7 +32,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -54,45 +53,61 @@
                     android:layout_height="228dp"
                     android:background="@drawable/background">
 
-                    <ImageView
-                        android:id="@+id/editButtonNew"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="340dp"
-                        android:layout_marginTop="10dp"
-                        android:clickable="true"
-                        android:contentDescription="@string/account_settings"
-                        app:srcCompat="@drawable/d" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/imgMain"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginLeft="140dp"
-                        android:layout_marginTop="50dp"
-                        app:srcCompat="@drawable/person" />
+                        <ImageView
+                            android:id="@+id/editButtonNew"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginBottom="180dp"
+                            android:clickable="true"
+                            android:contentDescription="@string/account_settings"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.916"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/d" />
 
-                    <TextView
-                        android:id="@+id/nameID"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="140dp"
-                        android:layout_marginTop="150dp"
-                        android:gravity="center_horizontal"
-                        android:hint="User Name"
-                        android:textColor="@color/action"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        <ImageView
+                            android:id="@+id/imgMain"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="40dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/person" />
 
-                    <TextView
-                        android:id="@+id/numID"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="150dp"
-                        android:layout_marginTop="177dp"
-                        android:gravity="center_horizontal"
-                        android:hint="User Mobile"
-                        android:textColor="@color/action" />
+                        <TextView
+                            android:id="@+id/nameID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:gravity="center_horizontal"
+                            android:hint="User Name"
+                            android:textColor="@color/action"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.501"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imgMain" />
+
+                        <TextView
+                            android:id="@+id/numID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_marginBottom="24dp"
+                            android:gravity="center_horizontal"
+                            android:hint="User Mobile"
+                            android:textColor="@color/action"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.501"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/nameID" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </RelativeLayout>
 
@@ -127,6 +142,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -164,6 +180,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_marginTop="8dp"
+                android:clickable="true"
                 android:elevation="5dp"
                 app:cardCornerRadius="20dp"
                 app:cardUseCompatPadding="false"
@@ -173,9 +190,13 @@
 
 
                 <LinearLayout
+                    android:id="@+id/bus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:clickable="true"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -233,6 +254,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -278,8 +300,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView3">
 
                 <LinearLayout
+                    android:id="@+id/lan"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -341,6 +365,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -377,8 +402,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView6">
 
                 <LinearLayout
+                    android:id="@+id/log"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="true"
                     android:orientation="horizontal">
 
                     <ImageView

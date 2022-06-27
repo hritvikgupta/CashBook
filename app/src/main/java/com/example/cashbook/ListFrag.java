@@ -34,6 +34,8 @@ public class ListFrag extends Fragment {
 
     View view;
     RecyclerView list;
+    int removingitem;
+    Boolean del = false;
     RecyclerView.Adapter myadapter, filterAdapter;
     private cashBookAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
@@ -84,6 +86,7 @@ public class ListFrag extends Fragment {
 
             activity.onSearchList(myadapter);
             searchView.setVisibility(View.GONE);
+
 /*
 
             searchView.setOnTouchListener(new View.OnTouchListener() {
@@ -125,6 +128,7 @@ public class ListFrag extends Fragment {
 
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -164,6 +168,11 @@ public class ListFrag extends Fragment {
         myadapter.notifyDataSetChanged();
     }
 
+    public void removeItem(int actualPosition) {
+        Toast.makeText(getActivity(),"entereed",Toast.LENGTH_SHORT).show();
+        myadapter.notifyItemRemoved(actualPosition);
+        myadapter.notifyItemRangeChanged(actualPosition,1);
+    }
 
 
 }

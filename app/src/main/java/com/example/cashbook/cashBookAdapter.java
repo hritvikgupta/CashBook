@@ -68,6 +68,7 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
                 @Override
                 public void onClick(View view) {
                             //view.setBackgroundColor(Color.GREEN);
+
                             activity.onItemClicked(book.indexOf((Books)view.getTag()),linearAll,LinearOut);
 
                 }
@@ -92,6 +93,11 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
         return new ViewHolder(view);
     }
 
+    public void removeItem(int actualPosition, int size) {
+        notifyItemRemoved(actualPosition);
+        notifyItemRangeChanged(actualPosition,size);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull cashBookAdapter.ViewHolder holder, int position) {
         if(darkon)
@@ -110,6 +116,8 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
             holder.frontBalance.setTextColor(Color.parseColor("#D32F2F"));
         }
         holder.frontBalance.setText(String.valueOf(book.get(position).getAmount()));
+
+
         }
 
     @Override

@@ -81,8 +81,9 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     ColorStateList s;
     ImageView imgMain;
     Boolean bookClicked, helpClicked, settingClicked;
-
-
+    SharedPreferences sp2;
+    Boolean checkLogin;
+    String numLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +121,19 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
         cardView6 = findViewById(R.id.cardView6);
         cardView7 = findViewById(R.id.cardView7);
         cardView2 = findViewById(R.id.cardView2);
+        cardIdentity = findViewById(R.id.cardIdentity);
+        sp2 = getSharedPreferences("sp", MODE_PRIVATE);
+        checkLogin =sp2.getBoolean("checkLog", false);
+        numLogin = sp2.getString("Number", "null");
+
+        if(checkLogin&&!numLogin.isEmpty())
+        {
+            //Toast.makeText(Setting.this, numLogin,Toast.LENGTH_SHORT).show();
+            ApplicationClass.userIdentity.get(0).setUserNumber(numLogin);
+        }
         //setIdentity();
+        //Toast.makeText(Setting.this, "size"+ApplicationClass.userIdentity.get(0).getUserNumber(),Toast.LENGTH_SHORT).show();
+        //numId.setText(ApplicationClass.userIdentity.get(0).getUserNumber());
         sharedPreferences = getSharedPreferences("SP",MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
         darkon = sharedPreferences.getBoolean("darkon",false);
@@ -157,14 +170,16 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
 
         if(darkon)
         {
+            //setIdentity();
             relativeLayout.setBackgroundResource(R.drawable.backgroundnight);
             s  = cardView3.getCardBackgroundColor();
         }
 
         else
         {
+            //setIdentity();
             relativeLayout.setBackgroundResource(R.drawable.background);
-            checkLanguage();
+            //checkLanguage();
         }
 
         s4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -198,7 +213,9 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
             }
         });
 
-        languageText.setOnClickListener(new View.OnClickListener() {
+        LinearLayout lan;
+        lan = findViewById(R.id.lan);
+        lan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -208,7 +225,8 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
 
 
         });
-        bussiness.setOnClickListener(new View.OnClickListener() {
+        LinearLayout bus = findViewById(R.id.bus);
+        bus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(Setting.this,"Clicked", Toast.LENGTH_SHORT).show();
@@ -217,7 +235,15 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
 
             }
         });
-
+        LinearLayout log = findViewById(R.id.log);
+        log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent  =  new Intent(Setting.this, LOGIN.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         setCardViewColor();
         setTitle(resources.getString(R.string.Settings));
@@ -546,7 +572,26 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
             @Override
             public void onClick(View view) {
                     //Toast.makeText(Setting.this, "Clicked", Toast.LENGTH_SHORT).show();
-                ApplicationClass.userIdentity.add(new UserIdentity(editName.getText().toString(),editNumber.getText().toString()));
+                String name_entered = editName.getText().toString();
+                String number_entered = editNumber.getText().toString();
+                if(!name_entered.isEmpty() && number_entered .isEmpty())
+                {
+                    //Toast.makeText(Setting.this, "Here",Toast.LENGTH_SHORT).show();
+
+                    ApplicationClass.userIdentity.add(new UserIdentity(editName.getText().toString(),ApplicationClass.userIdentity.get(0).getUserNumber()));
+                }
+                else if(name_entered.isEmpty() && !number_entered.isEmpty())
+                {
+                    //Toast.makeText(Setting.this, "Here",Toast.LENGTH_SHORT).show();
+
+                    ApplicationClass.userIdentity.add(new UserIdentity(ApplicationClass.userIdentity.get(0).getUserName(),editNumber.getText().toString()));
+
+                }
+                else if(!name_entered.isEmpty() && !number_entered.isEmpty()) {
+                    //Toast.makeText(Setting.this, "Here3"+editNumber,Toast.LENGTH_SHORT).show();
+
+                    ApplicationClass.userIdentity.add(new UserIdentity(editName.getText().toString(), editNumber.getText().toString()));
+                }
                 setIdentity();
                 bottomSheetDialog.dismiss();
             }
@@ -563,11 +608,13 @@ public class Setting extends AppCompatActivity implements BottomFragment.options
     {
         if(ApplicationClass.userIdentity.size() == 1)
         {
+            //Toast.makeText(Setting.this, ApplicationClass.userIdentity.get(0).getUserNumber(), Toast.LENGTH_SHORT).show();
             nameId.setText(ApplicationClass.userIdentity.get(0).getUserName());
             numId.setText(ApplicationClass.userIdentity.get(0).getUserNumber());
         }
        else
         {
+            //Toast.makeText(Setting.this, "I am Here"+ApplicationClass.userIdentity.get(ApplicationClass.userIdentity.size()-1).getUserNumber(),Toast.LENGTH_SHORT).show();
             nameId.setText(ApplicationClass.userIdentity.get(ApplicationClass.userIdentity.size()-1).getUserName());
             numId.setText(ApplicationClass.userIdentity.get(ApplicationClass.userIdentity.size()-1).getUserNumber());
         }
