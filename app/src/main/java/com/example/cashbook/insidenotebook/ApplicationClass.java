@@ -22,6 +22,8 @@ public class ApplicationClass extends Application {
     public static ArrayList<Help> helpBook;
     public static ArrayList<UserIdentity> userIdentity;
     public static ArrayList<Books> filteredBooks;
+    public static Boolean restart;
+    public static ArrayList<Boolean> restart_inside;
     //public static List<ArrayList<expenseBook>> lol;
     public static HashMap<Integer,ArrayList<expenseBook>> lol2;
     public static int bs;
@@ -43,8 +45,8 @@ public class ApplicationClass extends Application {
         helpBook = new ArrayList<Help>();
         helpBook.add(new Help("Need Help"));
         ApplicationClass.userIdentity.add(new UserIdentity("Enter Name", "Enter Number"));
-
         book = new ArrayList<Books>();
+        restart_inside = new ArrayList<Boolean>();
 
         lol2 = new HashMap<Integer, ArrayList<expenseBook>>();
         //ebook = new ArrayList<com.example.cashbook.insidenotebook.expenseBook>();
@@ -60,7 +62,10 @@ public class ApplicationClass extends Application {
         for(int j=0;j<2000;j++){
             mBook_new.put(j,new MaintainFinalBalance(0,0,0,0,""));
         }
-
+        for(int i = 0;i<mBook_new.size();i++)
+        {
+            ApplicationClass.restart_inside.add(i, true);
+        }
         /*
         for(int i = 0;i<bs;i++)
         {

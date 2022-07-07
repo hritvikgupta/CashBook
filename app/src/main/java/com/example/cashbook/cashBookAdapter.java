@@ -1,5 +1,7 @@
 package com.example.cashbook;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -23,7 +25,8 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
     ArrayList<Books> book;
     ItemClicked activity;
     Boolean darkon;
-
+    SharedPreferences sharedPreferencesbooks;
+    Context context;
     public interface ItemClicked
     {
         void onItemClicked(int index, LinearLayout linearAll, LinearLayout linearLayoutOut);
@@ -37,7 +40,7 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
     {
         this.book = book;
         activity = (ItemClicked) context;
-
+        this.context = context;
 
     }
     public void updateList(ArrayList<Books> list){
@@ -55,7 +58,7 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            sharedPreferences = itemView.getContext().getSharedPreferences("SP",Context.MODE_PRIVATE);
+            sharedPreferences = itemView.getContext().getSharedPreferences("SP", MODE_PRIVATE);
             darkon  =sharedPreferences.getBoolean("darkon",false);
             fileNameText = itemView.findViewById(R.id.fileNameText);
             fileDateText = itemView.findViewById(R.id.fileDataText);
@@ -116,6 +119,9 @@ public class cashBookAdapter extends RecyclerView.Adapter<cashBookAdapter.ViewHo
             holder.frontBalance.setTextColor(Color.parseColor("#D32F2F"));
         }
         holder.frontBalance.setText(String.valueOf(book.get(position).getAmount()));
+
+
+
 
 
         }

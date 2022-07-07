@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.example.cashbook.insidenotebook.ApplicationClass;
+import com.example.cashbook.insidenotebook.NoteBookDetails;
+
 public class introductionSplash extends AppCompatActivity {
 
 
@@ -66,6 +69,10 @@ public class introductionSplash extends AppCompatActivity {
                 {
                     //Toast.makeText(introductionSplash.this, "Here"+checkLog, Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(introductionSplash.this,MainActivity.class);
+                    intent.putExtra("restart", true);
+                    ApplicationClass.restart = true;
+                    Intent intent_nb = new Intent(introductionSplash.this, NoteBookDetails.class);
+                    intent_nb.putExtra("restart", true);
                     startActivity(intent);
                     finish();
                 }

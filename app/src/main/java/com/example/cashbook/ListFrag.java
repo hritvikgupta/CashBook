@@ -169,7 +169,7 @@ public class ListFrag extends Fragment {
     }
 
     public void removeItem(int actualPosition) {
-        Toast.makeText(getActivity(),"entereed",Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(),"entereed",Toast.LENGTH_SHORT).show();
         myadapter.notifyItemRemoved(actualPosition);
         myadapter.notifyItemRangeChanged(actualPosition,1);
     }

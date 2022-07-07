@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.cashbook.Books;
 import com.example.cashbook.DialogFragment;
 import com.example.cashbook.LocaleHelper;
 import com.example.cashbook.MainActivity;
@@ -76,10 +77,11 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
     String lang;
     Context context;
     Resources resources;
-    SharedPreferences.Editor mainBalColor;
+    SharedPreferences.Editor mainBalColor, booksEdit;
     Boolean mainColor;
-    SharedPreferences sharedPreferences;
-
+    SharedPreferences sharedPreferences, sharedPreferencesbooks;
+    Boolean stored;
+    Boolean restart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,9 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         mainBalColor = sharedPreferences.edit();
         langHind = sharedPreferences.getBoolean("langHind", false);
         mainColor = sharedPreferences.getBoolean("Green",false);
+
+        restart = getIntent().getBooleanExtra("res",false);
+        //Toast.makeText(NoteBookDetails.this, ""+restart, Toast.LENGTH_SHORT).show();
 
         if(langHind)
         {
@@ -133,8 +138,8 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         //Therefore to display those values when backPressed Also use setText on MainBalance class here along with
         //setText that was written in saveClick and OtherClick as well
 
-
         eAdapter = new NoteBookDetailsAdapter(ApplicationClass.lol2.get(index), this);
+       // Toast.makeText(NoteBookDetails.this, ""+ApplicationClass.lol2.get(index).size(), Toast.LENGTH_SHORT).show();
         recyclerView.setAdapter(eAdapter);
 
 
@@ -168,6 +173,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         });
 
         date = new SimpleDateFormat("EEE, MMMM d, yyyy", Locale.getDefault()).format(new Date());
+
 /*
         if(mainColor)
         {
@@ -178,7 +184,50 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             bf.netBalance.setTextColor(Color.parseColor("#D32F2F"));
         }
 
- */
+ */     //storeBookInsideLog();
+        //int size = sharedPreferencesbooks.getInt("SizeInsideMain", 1);
+
+        //Toast.makeText(NoteBookDetails.this, ""+index, Toast.LENGTH_SHORT).show();
+        sharedPreferencesbooks = getSharedPreferences("booksLog"+index, MODE_PRIVATE);
+        booksEdit = sharedPreferencesbooks.edit();
+        stored = sharedPreferencesbooks.getBoolean("s"+index, false);
+        if(stored && ApplicationClass.restart_inside.get(index))
+        {
+            //getBookLog();
+
+            booksEdit.putBoolean("restartAndStored"+index, true);
+            booksEdit.apply();
+            //Toast.makeText(NoteBookDetails.this, "hola" + index,Toast.LENGTH_SHORT).show();
+            ApplicationClass.restart_inside.set(index,false);
+            int  net = sharedPreferencesbooks.getInt("net"+index,0);
+            int tin = sharedPreferencesbooks.getInt("totalin"+index, 0);
+            int tout = sharedPreferencesbooks.getInt("totalout"+index, 0);
+            ApplicationClass.mBook_new.get(index).setNetBalance(net);
+            ApplicationClass.mBook_new.get(index).setAmountIn(tin);
+            ApplicationClass.mBook_new.get(index).setAmountout(tout);
+            //hideNoteBook();98989
+            int size = sharedPreferencesbooks.getInt("SizeExpenseInside"+index, 0);
+            //Toast.makeText(NoteBookDetails.this, "Clicked" + net,Toast.LENGTH_SHORT).show();
+            for(int i =0 ; i<size;i++) {
+
+                String name = sharedPreferencesbooks.getString("tag" + i, "null");
+                String date_stored = sharedPreferencesbooks.getString("dateInside" + i, "Select Date");
+                String amount_stored = sharedPreferencesbooks.getString("amountInside" + i, "Something");
+                String color = sharedPreferencesbooks.getString("color"+i,"Green");
+                // expenseBook e1 = new expenseBook(tag, amount, selectedDate, color);
+                //createExpense(amount_stored,name,color);
+                ApplicationClass.lol2.get(index).add(new expenseBook(name, amount_stored, date_stored, color));
+
+                //hideNoteBook();98989
+
+            }
+
+
+            // lfrag.notifyChange();
+
+        }
+
+
 
 
 
@@ -212,7 +261,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         Tag = dvDismiss.findViewById(R.id.insideTag);
 
         if (amountInOut.getText().toString().isEmpty() && Tag.getText().toString().isEmpty()) {
-            Toast.makeText(NoteBookDetails.this, "Clicked", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(NoteBookDetails.this, "Clicked", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
         else {
@@ -302,6 +351,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
 
         }
     }
+        storeBookInsideLog();
 
     }
 
@@ -350,6 +400,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         expenseBook e1 = new expenseBook(tag, amount, selectedDate, color);
         ApplicationClass.lol2.get(index).add(e1);
         eAdapter.notifyDataSetChanged();
+        ExpensesLog();
 
     }
 
@@ -379,6 +430,7 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
             balance.tIn.setText(resources.getString(R.string.TotalIn));
             balance.tOut.setText(resources.getString(R.string.TotalOut));
 
+
     }
 
     public void setNetBalanceStatement()
@@ -402,6 +454,9 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
         ApplicationClass.mBook_new.get(index).setNetBalance(currentNet);
         bf.netBalance.setText(String.valueOf(ApplicationClass.mBook_new.get(index).getNetBalance()));
         ApplicationClass.book.get(index).setAmount(currentNet);
+        booksEdit.putInt("currentNet"+index,currentin);
+        booksEdit.putInt("net"+String.valueOf(index),ApplicationClass.mBook_new.get(index).getNetBalance());
+        booksEdit.apply();
     }
 
 
@@ -448,7 +503,42 @@ public class NoteBookDetails extends AppCompatActivity  implements DialogInsideF
     public void removeInsideNotebook(int position)
     {
         //ApplicationClass.lol2.remove(position);
-        Toast.makeText(NoteBookDetails.this, "Click", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(NoteBookDetails.this, "Click", Toast.LENGTH_SHORT).show();
         //ApplicationClass.mBook_new.replace(position,ApplicationClass.mBook_new.get(position+1));
     }
+    public void storeBookInsideLog()
+    {
+        //Toast.makeText(NoteBookDetails.this, "Hola", Toast.LENGTH_SHORT).show();        booksEdit.putInt("SizeInsideMain", ApplicationClass.mBook_new.size());
+        int i = index;
+        booksEdit.putBoolean("s"+index,true);
+        booksEdit.apply();
+        booksEdit.putInt("net"+String.valueOf(i),ApplicationClass.mBook_new.get(i).getNetBalance());
+        booksEdit.putInt("totalin"+String.valueOf(i), ApplicationClass.mBook_new.get(i).getAmountIn());
+        booksEdit.putInt("totalout"+String.valueOf(i), ApplicationClass.mBook_new.get(i).getAmountout());
+        booksEdit.apply();
+
+
+
+
+    }
+
+    public void ExpensesLog()
+    {
+        booksEdit.putInt("SizeExpenseInside"+index, ApplicationClass.lol2.get(index).size());
+        booksEdit.putBoolean("s"+index, true);
+        booksEdit.apply();
+       // expenseBook e1 = new expenseBook(tag, amount, selectedDate, color);
+        //ApplicationClass.lol2.get(index).add(e1);
+        int j = index;
+        for (int i = 0; i < ApplicationClass.lol2.get(index).size(); i++) {
+                booksEdit.putString("amountInside" + String.valueOf(i), ApplicationClass.lol2.get(j).get(i).geteAmount());
+                booksEdit.putString("tag" + String.valueOf(i), ApplicationClass.lol2.get(j).get(i).geteName());
+                booksEdit.putString("dateInside" + String.valueOf(i), ApplicationClass.lol2.get(j).get(i).geteTag());
+                booksEdit.putString("color" + String.valueOf(i), ApplicationClass.lol2.get(j).get(i).getTotalbalanceremain());
+                booksEdit.apply();
+            }
+
+
+    }
+
 }

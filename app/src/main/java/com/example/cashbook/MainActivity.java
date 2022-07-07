@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     Toolbar toolbar;
     SharedPreferences.Editor clickColor, mainBalColor, logEdit;
     Boolean condition, newBook;
-    SharedPreferences sp;
+    SharedPreferences sp, sharedPreferencesbooks;
     private UiModeManager uiModeManager;
     cashBookAdapter.ViewHolder holder;
     NoteBookDetails notebook;
@@ -113,17 +113,22 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
     SharedPreferences sharedPreferencesBooks;
     SharedPreferences.Editor booksEdit;
-    Boolean stored;
+    Boolean stored, res_b, storedn1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
          actionBar = getSupportActionBar();
          bm = new com.example.cashbook.BottomFragment();
          sharedPreferencesBooks = getSharedPreferences("booksLog", MODE_PRIVATE);
          booksEdit = sharedPreferencesBooks.edit();
+         Boolean restart = getIntent().getBooleanExtra("restart", false);
+         res_b = restart;
+         //sharedPreferencesbooks = getSharedPreferences("booksLog", MODE_PRIVATE);
+         //storedn1 = sharedPreferencesbooks.getBoolean("storedin1", false);
          //number = getIntent().getStringExtra("number");
          //ApplicationClass.userIdentity.get(0).setUserNumber(number);
          //Toast.makeText(MainActivity.this, ApplicationClass.userIdentity.get(0).getUserNumber(),Toast.LENGTH_SHORT).show();
@@ -177,20 +182,26 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         book = new ArrayList<Books>();
         firstBook = resources.getString(R.string.AddExpenseBook);
 
-        if(ApplicationClass.book.isEmpty()){
-          startNoteBook();
+        stored = sharedPreferencesBooks.getBoolean("Storedn6", false);
+        //q343Toast.makeText(MainActivity.this, "s" + ApplicationClass.book.get(0).getName(), Toast.LENGTH_SHORT).show();
+            if (ApplicationClass.book.isEmpty()) {
+                //Toast.makeText(MainActivity.this, "s"+ stored, Toast.LENGTH_SHORT).show();
+                startNoteBook();
+                //hideNoteBook();
+
+            }
+            else if(ApplicationClass.book.get(0).getName().equals("Add Expense Book"))
+            {
+                hideNoteBook();
+            }
+            else if (ApplicationClass.book.get(0).getName().equals("Add Expense Book") || ApplicationClass.book.get(0).getName().equals("व्यय पुस्तक जोड़ें")) {
+                hideNoteBook();
+                startNoteBook();
+
 
         }
 
-        else if(ApplicationClass.book.get(0).getName().equals("Add Expense Book") || ApplicationClass.book.get(0).getName().equals("व्यय पुस्तक जोड़ें"))
-        {
-            hideNoteBook();
-            startNoteBook();
-
-
-        }
-
-        condition = ApplicationClass.book.get(0).getName().equals("Add Expense Book") || ApplicationClass.book.get(0).getName().equals("व्यय पुस्तक जोड़ें");
+        //condition = ApplicationClass.book.get(0).getName().equals("Add Expense Book") || ApplicationClass.book.get(0).getName().equals("व्यय पुस्तक जोड़ें");
 
         //hideNoteBook();
 
@@ -281,11 +292,84 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         date = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(new Date());
         //setTitle(resources.getString(R.string.ExpenseBook));
         setActionBarColors();
+        int size = sharedPreferencesBooks.getInt("Size", 1);
+       // hideNoteBook();
+        //Toast.makeText(MainActivity.this, "s"+size+sharedPreferencesBooks.getInt("amount"+2, 1), Toast.LENGTH_SHORT).show();
+        if(stored && restart)
+        {
+            hideNoteBook();
+            int am =0;
+            for(int i =0; i<size;i++){
+                     String name = sharedPreferencesBooks.getString("Book"+i,"null");
+                     String date_stored = sharedPreferencesBooks.getString("date"+i, "Select Date");
+                //int amount_stored = sharedPreferencesBooks.getInt("amount"+i, 0);
+                     sharedPreferencesbooks = getSharedPreferences("booksLog"+i, MODE_PRIVATE);
+                     int  amount = sharedPreferencesbooks.getInt("currentNet"+i,0);
+                     if(i==0)
+                     {
+                         am = amount;
+                     }
+                     ApplicationClass.book.add(new Books(name,date_stored,amount));
+                     //hideNoteBook();
+                //hideNoteBook();98989
+                        //Toast.makeText(MainActivity.this, "Hola"+ApplicationClass.book.get(i).getAmount(), Toast.LENGTH_SHORT).show();
+                }
+            if(ApplicationClass.book.get(0).getName().equals("Add Expense Book")){
+            hideNoteBook();
+            //Toast.makeText(MainActivity.this, "Hola"+am, Toast.LENGTH_SHORT).show();
+            ApplicationClass.book.get(0).setAmount(am);
+            }
+
+
+
+           // lfrag.notifyChange();
+
+
+
+        }
+
+        //getBookLog();323
         //Toast.makeText(MainActivity.this, "Hola" + ApplicationClass.book.get(0).getName(), Toast.LENGTH_SHORT).show();
 
 
 
     }
+    public void restoreBook(int index)
+    {
+        if(storedn1) {
+
+            int amount = sharedPreferencesbooks.getInt("currentNet"+index,1);
+            //ApplicationClass.book.get(index).setAmount(amount);
+            /*
+            ApplicationClass.restart_inside.set(index,false);
+            int net = sharedPreferencesbooks.getInt("net" + index, 0);
+            int tin = sharedPreferencesbooks.getInt("totalin" + index, 0);
+            int tout = sharedPreferencesbooks.getInt("totalout" + index, 0);
+            ApplicationClass.mBook_new.get(index).setNetBalance(net);
+            ApplicationClass.mBook_new.get(index).setAmountIn(tin);
+            ApplicationClass.mBook_new.get(index).setAmountout(tout);
+            //hideNoteBook();98989
+            int size = sharedPreferencesbooks.getInt("SizeExpenseInside", 0);
+            //Toast.makeText(NoteBookDetails.this, "Clicked" + size, Toast.LENGTH_SHORT).show();
+            for (int i = 0; i < size; i++) {
+                String name = sharedPreferencesbooks.getString("tag"+i, "null");
+                String date_stored = sharedPreferencesbooks.getString("dateInside"+i, "Select Date");
+                String amount_stored = sharedPreferencesbooks.getString("amountInside"+i, "Something");
+                String color = sharedPreferencesbooks.getString("color"+i, "Green");
+                // expenseBook e1 = new expenseBook(tag, amount, selectedDate, color);
+                //createExpense(amount_stored,name,color);
+                ApplicationClass.lol2.get(index).add(new expenseBook(name, amount_stored, date_stored, color));
+
+                //hideNoteBook();98989
+
+            }
+
+             */
+        }
+
+
+    }
+
 
     @Override
     public void onItemClicked(int index, LinearLayout linearAll, LinearLayout linearOut) {
@@ -293,6 +377,16 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         val = false;
         newBook=false;
         clickedIndex = index;
+
+        /*
+        if(stored && ApplicationClass.restart_inside.get(index))
+        {
+            restoreBook(index);
+        }
+
+         */
+
+
         if(ApplicationClass.book.get(index).getName().equals(resources.getString(R.string.AddExpenseBook)))
         {
             //hideNoteBook();
@@ -320,6 +414,8 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
             Intent intent = new Intent(MainActivity.this, NoteBookDetails.class);
             intent.putExtra("index", String.valueOf(index));
+            intent.putExtra("res", res_b);
+
             //Toast.makeText(MainActivity.this, "Click"+ ApplicationClass.book.get(index).getName(), Toast.LENGTH_SHORT).show();
             startActivity(intent);
         }
@@ -377,12 +473,12 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
             } else {
                 createBook(name, setDate.getText().toString(), amount);
-
                 if(ApplicationClass.book.get(clickedIndex).getName().equals(firstBook)){
                 hideNoteBook();
                 }
 
             }
+
         }
         else if(mainLongClicked == true)
         {
@@ -401,6 +497,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
                 ApplicationClass.book.get(mainLongClickedPosition).setDate(setDate.getText().toString());
                 lfrag.notifyChange();
             }
+
             //Add Create NoteBook Here oftherwise it will be created after clicking Add Notebook twice
             // also add notifyDatachange in createBook after data being added for the same reason
 
@@ -457,7 +554,7 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
         lfrag.removeItem(mainLongClickedPosition);
         //notebook.removeInsideNotebook(mainLongClickedPosition);
         //ApplicationClass.mBook_new.remove(mainLongClickedPosition);
-        Toast.makeText(MainActivity.this, "size"+ApplicationClass.book.size(),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, "size"+ApplicationClass.book.size(),Toast.LENGTH_SHORT).show();
         //ApplicationClass.mBook_new.replace(mainLongClickedPosition,new MaintainFinalBalance(0,0,0,0,"0"));
         //ApplicationClass.mBook_new.replace(mainLongClickedPosition,ApplicationClass.mBook_new.get(mainLongClickedPosition+1));
         //ApplicationClass.lol2.replace(mainLongClickedPosition, ApplicationClass.lol2.get(mainLongClickedPosition+1));
@@ -599,16 +696,17 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
     public void startNoteBook()
     {
-        if(!dataClicked)
-        {
-            Books bstart = new Books(resources.getString(R.string.AddExpenseBook), date,amount);
-            ApplicationClass.book.add(bstart);
-        }
-        else{
-            dataClicked = false;
-            Books bstart = new Books(resources.getString(R.string.AddExpenseBook), "Select Date", amount);
-            ApplicationClass.book.add(bstart);
-        }
+
+
+            if (!dataClicked) {
+                Books bstart = new Books(resources.getString(R.string.AddExpenseBook), date, amount);
+                ApplicationClass.book.add(bstart);
+            } else {
+                dataClicked = false;
+                Books bstart = new Books(resources.getString(R.string.AddExpenseBook), "Select Date", amount);
+                ApplicationClass.book.add(bstart);
+            }
+
 
 
     }
@@ -727,34 +825,47 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
 
     public void storeBookLog()
     {
-
-
-        booksEdit.putBoolean("Stored", true);
+        //Toast.makeText(MainActivity.this, ""+sharedPreferencesBooks.getInt("amount"+i,1), Toast.LENGTH_SHORT);
+        booksEdit.putInt("Size", ApplicationClass.book.size());
+        booksEdit.putBoolean("Storedn6", true);
         booksEdit.apply();
-        for(int i =0; i<ApplicationClass.book.size();i++){
+        for(int i =0; i<ApplicationClass.book.size();i++)
+        {
         booksEdit.putString("Book"+String.valueOf(i),ApplicationClass.book.get(i).getName());
+        booksEdit.putString("date"+String.valueOf(i), ApplicationClass.book.get(i).getDate());
         booksEdit.apply();
         }
 
 
 
     }
+    public void storeAmount()
+    {
+        for(int i =0; i<ApplicationClass.book.size();i++){
+            booksEdit.putInt("amount"+String.valueOf(i), ApplicationClass.book.get(i).getAmount());
+            booksEdit.apply();
+        }
+    }
 
     public void getBookLog()
     {
-        String bookName;
-        for(int i =0; i<ApplicationClass.book.size();i++){
-            bookName = sharedPreferencesBooks.getString("Book"+String.valueOf(i),"Null");
-            createBook(bookName,"",0);
+        //stored = sharedPreferencesBooks.getBoolean("Stored1", false);
 
-        }
-        lfrag.notifyChange();
+            String bookName;
+            for(int i =1; i<ApplicationClass.book.size();i++){
+                bookName = sharedPreferencesBooks.getString("Book"+i,"Null");
+                createBook(bookName,"",0);
+            }
+            lfrag.notifyChange();
+
+
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         //getBookLog();
     }
 
@@ -762,5 +873,6 @@ public class MainActivity extends AppCompatActivity implements cashBookAdapter.I
     protected void onPostResume() {
         super.onPostResume();
         //getBookLog();
+
     }
 }
